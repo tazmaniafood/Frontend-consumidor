@@ -186,3 +186,11 @@ footer a.sc:active{transform:translateY(3px);box-shadow:0 1px 0 #120303}
  .cartbtn{margin-left:auto;padding:5px 14px;font-size:19px}
 }
 @media(max-width:420px){.cartbtn .ct{display:none}}
+
+/* Header en tablet: el menú va en su propia fila para que no lo tape el carrito */
+@media(max-width:1100px) and (min-width:761px){
+ .top{flex-wrap:wrap;gap:4px 14px;padding:10px 18px}
+ .brand{width:64px;height:64px;margin:-6px 0 -10px}
+ .top nav{order:3;flex:1 0 100%;padding:6px 6px 10px;justify-content:center}
+ .cartbtn{margin-left:auto}
+}
