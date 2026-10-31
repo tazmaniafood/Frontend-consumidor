@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="TAZ Fast Food, hecho en Colombia. Arma tu pizza, burguer, perro caliente, salchipapa o mazorcada y pídela a tu puerta.">
+<meta name="description" content="Arma tu burguer TAZ: elige tu especialidad y tus extras, y pídela a tu puerta.">
 <link rel="icon" href="../IMG/Logo-taz.png" type="image/png">
 <title>Burguer · TAZ Fast Food</title>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../Styles/burger.css?v=5">
+<link rel="stylesheet" href="../Styles/burger.css?v=6">
 </head>
-<body data-page="burger">
+<body>
 <header class="top">
   <a class="brand" href="../index.html" aria-label="TAZ Fast Food, ir al inicio" title="Ir al inicio"><img src="../IMG/Logo-taz-trans.png" alt="TAZ Fast Food, hecho en Colombia"></a>
   <nav aria-label="Menú principal">
@@ -22,7 +22,49 @@
   </nav>
   <button class="cartbtn" id="openCart" aria-label="Abrir carrito">🛒 <span class="ct">Carrito</span> <b id="cnt">0</b></button>
 </header>
-<main id="app"></main>
+<main>
+  <a class="crumb" href="../index.html#menu">‹ Volver al menú</a>
+  <div class="bld">
+    <aside class="pv">
+      <h1>Tu burguer</h1>
+      <div class="stage" id="stage">
+        <div class="pz plato" id="pz">
+          <div class="spin"><img id="pzImg" alt="" decoding="async"><div class="dish-base" aria-hidden="true"><span>🍔</span></div></div>
+          <div class="steam" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+      </div>
+      <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><filter id="humo" x="-50%" y="-50%" width="200%" height="200%"><feTurbulence type="fractalNoise" baseFrequency=".012 .03" numOctaves="3" seed="7"/><feDisplacementMap in="SourceGraphic" scale="38"/></filter></svg>
+      <p class="pvsub" id="pvSub"></p>
+      <div class="tot"><small>Total</small><b id="tot">$0.00</b></div>
+    </aside>
+    <div class="steps">
+    <!-- Precio: data-p · Nombre en el carrito: data-name · Foto: data-img (IMG/Burger/...) -->
+    <section class="step">
+      <h3><i>1</i>Especialidad</h3>
+      <div class="opts opts-base">
+      <button class="op" type="button" data-g="base" data-i="0" data-p="13" data-name="Gran Burguer" data-img="../IMG/Burger/gran-burguer.webp" aria-pressed="false"><em>🍔</em><span class="tx"><b>Gran Burguer</b><small>Carne, pollo apanado, tocineta</small></span><span class="pr">$13.00</span></button>
+      <button class="op" type="button" data-g="base" data-i="1" data-p="10" data-name="Burguer de carne" data-img="../IMG/Burger/carne.webp" aria-pressed="false"><em>🍔</em><span class="tx"><b>De carne</b><small>Carne y papas a la francesa</small></span><span class="pr">$10.00</span></button>
+      <button class="op" type="button" data-g="base" data-i="2" data-p="10" data-name="Burguer de pollo" data-img="../IMG/Burger/pollo.webp" aria-pressed="false"><em>🍔</em><span class="tx"><b>De pollo</b><small>Pollo apanado</small></span><span class="pr">$10.00</span></button>
+      <button class="op" type="button" data-g="base" data-i="3" data-p="16" data-name="Burguer de camarones" data-img="../IMG/Burger/camarones.webp" aria-pressed="false"><em>🍔</em><span class="tx"><b>De camarones</b><small>Camarones molidos</small></span><span class="pr">$16.00</span></button>
+      </div>
+    </section>
+    <section class="step">
+      <h3><i>2</i>Toppings extra <small>Se agregan a tu pedido</small></h3>
+      <div class="opts opts-ex">
+      <button class="op" type="button" data-g="ex" data-i="0" data-p="2" aria-pressed="false"><em>🥓</em><span class="tx"><b>Tocineta</b></span><span class="pr">+$2.00</span></button>
+      <button class="op" type="button" data-g="ex" data-i="1" data-p="1.5" aria-pressed="false"><em>🧀</em><span class="tx"><b>Queso extra</b></span><span class="pr">+$1.50</span></button>
+      <button class="op" type="button" data-g="ex" data-i="2" data-p="1.5" aria-pressed="false"><em>🍳</em><span class="tx"><b>Huevo</b></span><span class="pr">+$1.50</span></button>
+      <button class="op" type="button" data-g="ex" data-i="3" data-p="1.5" aria-pressed="false"><em>🍍</em><span class="tx"><b>Piña</b></span><span class="pr">+$1.50</span></button>
+      <button class="op" type="button" data-g="ex" data-i="4" data-p="3" aria-pressed="false"><em>🍟</em><span class="tx"><b>Papas a la francesa</b></span><span class="pr">+$3.00</span></button>
+      </div>
+    </section>
+      <div class="add">
+        <div class="qty"><button data-q="-1" aria-label="Menos">−</button><span id="q">1</span><button data-q="1" aria-label="Más">+</button></div>
+        <button class="cta" id="addBtn">Agregar al carrito</button>
+      </div>
+    </div>
+  </div>
+</main>
 <footer>
   <span class="stick">¡Hecho en Colombia!</span>
   <p class="fn">TAZ Fast Food</p>
@@ -39,12 +81,13 @@
 </footer>
 <div id="ov"></div>
 <aside id="cart" aria-label="Carrito">
-  <header><h2>Tu pedido</h2><button class="x" id="closeCart" aria-label="Cerrar carrito">Cerrar ✕</button></header>
-  <div class="items" id="items"></div>
+  <div class="chead"><h2>Tu pedido</h2><button class="x" id="closeCart" aria-label="Cerrar carrito">Cerrar ✕</button></div>
+  <div class="items" id="items"><div class="empty" id="empty">Tu carrito está vacío. Arma tu primer plato y aparecerá aquí.</div></div>
   <div class="foot"><div class="row"><span>Total</span><span id="ctot">$0.00</span></div><button class="cta" id="send">Enviar pedido por WhatsApp</button></div>
 </aside>
-<div class="toast" id="toast">Agregado al carrito</div>
-
-<script src="../JS/burger.js?v=5"></script>
+<template id="tpl-item"><div class="it"><div class="row"><b class="nm"></b><span class="pt"></span></div><p class="ln"></p><div class="row"><div class="qty"><button data-c="-1" aria-label="Menos">−</button><span class="qn"></span><button data-c="1" aria-label="Más">+</button></div><button class="x" data-c="del">Quitar</button></div></div></template>
+<div class="toast" id="toast" role="status">Agregado al carrito</div>
+<script src="../JS/cart.js?v=6"></script>
+<script src="../JS/plato.js?v=6"></script>
 </body>
 </html>
