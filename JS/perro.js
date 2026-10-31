@@ -93,8 +93,5 @@ $('#send').onclick=()=>{
   const msg='Hola TAZ, quiero hacer este pedido:\n'+cart.map(i=>`${i.q}x ${i.name} (${i.lines.join('; ')}) - ${fmt(i.q*i.unit)}`).join('\n')+'\nTotal: '+fmt(tot);
   window.open('https://wa.me/16506830906?text='+encodeURIComponent(msg),'_blank');
 };
-$('#hlogo').innerHTML=logo();$('#hlogo').onclick=()=>location.href='../index.html';
-const pg=document.body.dataset.page;
-$('#nav').innerHTML=`<a href="../index.html" class="${pg==='inicio'?'on':''}">Inicio</a>`+KEYS.map(k=>`<a href="${PAGES[k][2]}" class="${pg===k?'on':''}">${PAGES[k][1]} ${PAGES[k][0]}</a>`).join('');
 drawCart();
 st=init('perro');builder();

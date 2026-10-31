@@ -31,7 +31,7 @@ G.base.forEach(o=>{
 let shown='';
 function drawPizza(){
   const z=$('#pz'),img=$('#pzImg'),b=G.base[s.base];
-  z.className='pz s'+s.size+(s.edge?' bocadillo':'')+(b.ok?' has-img':'');
+  z.className='pz'+['',' bocadillo',' queso'][s.edge]+(b.ok?' has-img':'');
   if(b.ok&&shown!==b.img){
     img.src=b.img;img.alt='Pizza '+b.n;shown=b.img;
     img.classList.remove('swap');void img.offsetWidth;img.classList.add('swap');
@@ -47,13 +47,13 @@ function paint(){
   drawPizza();
   const t=price();
   $('#tot').textContent=fmt(t);
-  $('#pvSub').textContent=[G.base[s.base].n,G.size[s.size].n,s.edge?G.edge[s.edge].n:'',s.ex.length?'Extra: '+s.ex.map(i=>G.ex[i].n).join(', '):''].filter(Boolean).join(' · ');
+  $('#pvSub').textContent=[G.base[s.base].n,G.size[s.size].n,s.edge?'Borde de '+G.edge[s.edge].n.toLowerCase():'',s.ex.length?'Extra: '+s.ex.map(i=>G.ex[i].n).join(', '):''].filter(Boolean).join(' · ');
   $('#q').textContent=s.q;
   $('#addBtn').textContent='Agregar al carrito · '+fmt(t*s.q);
 }
 function add(){
   const b=G.base[s.base],lines=[G.size[s.size].n,b.n];
-  if(s.edge)lines.push(G.edge[s.edge].n);
+  if(s.edge)lines.push('Borde de '+G.edge[s.edge].n.toLowerCase());
   if(s.ex.length)lines.push('Extra: '+s.ex.map(i=>G.ex[i].n).join(', '));
   Cart.add({name:'Pizza '+b.n,lines,unit:price(),q:s.q});
   s=fresh();paint();
@@ -70,38 +70,5 @@ document.addEventListener('click',e=>{
   if(e.target.id==='addBtn')add();
 });
 
-/* Carrito (compartido con las demás páginas por localStorage 'taz-cart') */
-if(!window.Cart)window.Cart=(()=>{
-  let cart=[];
-  try{cart=JSON.parse(localStorage.getItem('taz-cart')||'[]')}catch(e){}
-  const save=()=>{try{localStorage.setItem('taz-cart',JSON.stringify(cart))}catch(e){}};
-  const tpl=$('#tpl-item'),items=$('#items'),empty=$('#empty');
-  function draw(){
-    const n=cart.reduce((t,i)=>t+i.q,0),tot=cart.reduce((t,i)=>t+i.q*i.unit,0);
-    $('#cnt').textContent=n;$('#ctot').textContent=fmt(tot);$('#send').disabled=!n;
-    items.replaceChildren(...(n?cart.map((it,i)=>{
-      const c=tpl.content.firstElementChild.cloneNode(true);
-      c.querySelector('.nm').textContent=it.name;c.querySelector('.pt').textContent=fmt(it.unit*it.q);
-      c.querySelector('.ln').textContent=it.lines.join(' · ');c.querySelector('.qn').textContent=it.q;
-      c.querySelectorAll('[data-c]').forEach(b=>b.dataset.i=i);
-      return c;
-    }):[empty]));
-  }
-  const open=o=>{$('#cart').classList.toggle('on',o);$('#ov').classList.toggle('on',o)};
-  $('#openCart').onclick=()=>open(true);$('#closeCart').onclick=$('#ov').onclick=()=>open(false);
-  items.addEventListener('click',e=>{
-    const c=e.target.closest('[data-c]');if(!c)return;
-    const i=+c.dataset.i;
-    if(c.dataset.c==='del')cart.splice(i,1);else{cart[i].q+=+c.dataset.c;if(cart[i].q<1)cart.splice(i,1)}
-    save();draw();
-  });
-  $('#send').onclick=()=>{
-    const tot=cart.reduce((t,i)=>t+i.q*i.unit,0);
-    const msg='Hola TAZ, quiero hacer este pedido:\n'+cart.map(i=>`${i.q}x ${i.name} (${i.lines.join('; ')}) - ${fmt(i.q*i.unit)}`).join('\n')+'\nTotal: '+fmt(tot);
-    window.open('https://wa.me/16506830906?text='+encodeURIComponent(msg),'_blank');
-  };
-  draw();
-  return{add(it){cart.push(it);save();draw();const t=$('#toast');t.classList.add('on');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('on'),1600)}};
-})();
 paint();
 })();

@@ -10,9 +10,16 @@
 <link rel="stylesheet" href="../Styles/burger.css">
 </head>
 <body data-page="burger">
-<header>
-  <span class="lg" id="hlogo" role="img" aria-label="Logo TAZ"></span>
-  <nav id="nav"></nav>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="TAZ Fast Food, ir al inicio" title="Ir al inicio"><img src="../IMG/Logo-taz-trans.png" alt="TAZ Fast Food, hecho en Colombia"></a>
+  <nav aria-label="Menú principal">
+    <a href="pizza.html">🍕 Pizza</a>
+    <a href="burger.html" class="on" aria-current="page">🍔 Burguer</a>
+    <a href="perro.html">🌭 Perro caliente</a>
+    <a href="salchipapas.html">🍟 Salchipapas</a>
+    <a href="mazorcada.html">🌽 Mazorcada</a>
+    <a href="bebidas.html">🥤 Bebidas</a>
+  </nav>
   <button class="cartbtn" id="openCart" aria-label="Abrir carrito">🛒 <span class="ct">Carrito</span> <b id="cnt">0</b></button>
 </header>
 <main id="app"></main>

@@ -18,6 +18,7 @@
     <a href="perro.html">🌭 Perro caliente</a>
     <a href="salchipapas.html">🍟 Salchipapas</a>
     <a href="mazorcada.html">🌽 Mazorcada</a>
+    <a href="bebidas.html">🥤 Bebidas</a>
   </nav>
   <button class="cartbtn" id="openCart" aria-label="Abrir carrito">🛒 <span class="ct">Carrito</span> <b id="cnt">0</b></button>
 </header>
@@ -63,7 +64,8 @@
       <h3><i>3</i>Borde</h3>
       <div class="opts opts-edge">
       <button class="op" type="button" data-g="edge" data-i="0" data-p="0" aria-pressed="false"><em>🍞</em><span class="tx"><b>Normal</b></span><span class="pr"></span></button>
-      <button class="op" type="button" data-g="edge" data-i="1" data-p="3" aria-pressed="false"><em>🍬</em><span class="tx"><b>Borde de bocadillo</b></span><span class="pr">+$3.00</span></button>
+      <button class="op" type="button" data-g="edge" data-i="1" data-p="3" aria-pressed="false"><em>🍬</em><span class="tx"><b>Bocadillo</b></span><span class="pr">+$3.00</span></button>
+      <button class="op" type="button" data-g="edge" data-i="2" data-p="3" aria-pressed="false"><em>🧀</em><span class="tx"><b>Queso</b></span><span class="pr">+$3.00</span></button>
       </div>
     </section>
     <section class="step">
@@ -111,6 +113,7 @@
 </aside>
 <template id="tpl-item"><div class="it"><div class="row"><b class="nm"></b><span class="pt"></span></div><p class="ln"></p><div class="row"><div class="qty"><button data-c="-1" aria-label="Menos">−</button><span class="qn"></span><button data-c="1" aria-label="Más">+</button></div><button class="x" data-c="del">Quitar</button></div></div></template>
 <div class="toast" id="toast" role="status">Agregado al carrito</div>
+<script src="../JS/cart.js"></script>
 <script src="../JS/pizza.js"></script>
 </body>
 </html>

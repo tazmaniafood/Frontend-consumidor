@@ -9,9 +9,8 @@
 .pv h1{font-size:clamp(36px,4vw,48px);color:var(--yel);-webkit-text-stroke:6px var(--ink);paint-order:stroke fill;text-shadow:4px 4px 0 var(--ink);transform:rotate(-2deg);margin-bottom:6px}
 .stage{position:relative;aspect-ratio:1;display:grid;place-items:center;margin:14px 0 16px}
 .stage::before{content:"";position:absolute;inset:2%;border-radius:50%;border:5px solid var(--ink);background:repeating-conic-gradient(var(--org) 0 9deg,var(--yel) 9deg 18deg);opacity:.3}
-/* Pizza: el tamaño (s0/s1/s2) solo cambia el ancho; .spin gira, el humo y la sombra no */
-.pz{position:relative;z-index:1;aspect-ratio:1;transition:width .5s cubic-bezier(.34,1.4,.64,1)}
-.pz.s0{width:62%}.pz.s1{width:76%}.pz.s2{width:90%}
+/* Pizza: siempre del mismo tamaño en la vista; el tamaño elegido se ve en los botones. .spin gira, el humo y la sombra no */
+.pz{position:relative;z-index:1;width:90%;aspect-ratio:1}
 .pz::before{content:"";position:absolute;inset:6% -1% -5% 3%;border-radius:50%;background:radial-gradient(closest-side,#000c 60%,#0000);filter:blur(6px)}
 .spin{position:relative;width:100%;height:100%;border-radius:50%;animation:spin 45s linear infinite}
 .spin img,.pz-base{position:absolute;inset:0;width:100%;height:100%;border-radius:50%;object-fit:contain}
@@ -27,9 +26,10 @@
  radial-gradient(circle at 54% 24%,#e9a23a55 0 3%,#0000 3.5%),radial-gradient(circle at 38% 78%,#e9a23a55 0 3%,#0000 3.5%),radial-gradient(circle at 76% 50%,#e9a23a55 0 2.5%,#0000 3%),
  radial-gradient(closest-side,#ffe28e 0 66%,#f3bb52 72%,#d9451c 74% 79%,#e7a04c 81%,#d4843a 88%,#b8651e 95%,#8f4714 100%);
  box-shadow:0 0 0 3px #6b310c}
-/* Borde de bocadillo: aro rosado alrededor */
+/* Bordes: bocadillo = aro rosado, queso = aro amarillo con hilos de queso */
 .pz::after{content:"";position:absolute;inset:-1.5%;border-radius:50%;border:0 solid #d4406a;box-shadow:0 0 0 0 var(--ink);transition:border-width .3s,box-shadow .3s;pointer-events:none}
-.pz.bocadillo::after{border-width:7px;box-shadow:0 0 0 3px var(--ink),inset 0 0 0 2px var(--ink)}
+.pz.bocadillo::after,.pz.queso::after{border-width:7px;box-shadow:0 0 0 3px var(--ink),inset 0 0 0 2px var(--ink)}
+.pz.queso::after{border-color:#ffd54a;border-style:solid;background:radial-gradient(closest-side,#0000 calc(100% - 9px),#fff3b0aa calc(100% - 6px),#0000 100%)}
 /* Humo: volutas que suben, se deforman con el filtro #humo y se desvanecen */
 .steam{position:absolute;left:12%;right:12%;top:-38%;bottom:30%;z-index:3;pointer-events:none;filter:url(#humo) blur(5px)}
 .steam i{position:absolute;bottom:0;left:var(--x);width:var(--w,20%);height:52%;border-radius:50% 50% 45% 45%;background:radial-gradient(ellipse 50% 50% at 50% 60%,#fff 0,#fffb 35%,#fff0 72%);opacity:0;animation:steam var(--d,5.5s) cubic-bezier(.3,.1,.4,1) var(--dl,0s) infinite;will-change:transform,opacity}
@@ -61,7 +61,7 @@
 .step h3 small{font:600 13px/1.2 var(--bd);color:var(--mut)}
 .opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
 .opts-size{grid-template-columns:repeat(3,1fr)}
-.opts-edge{grid-template-columns:repeat(2,1fr)}
+.opts-edge{grid-template-columns:repeat(3,1fr)}
 .opts-ex{grid-template-columns:repeat(auto-fill,minmax(195px,1fr))}
 .op{position:relative;display:flex;align-items:center;gap:10px;min-height:56px;padding:8px 12px;background:var(--card2);color:var(--cream);border:3px solid var(--ink);border-radius:16px;box-shadow:0 3px 0 var(--ink);text-align:left;transition:transform .12s,background .12s}
 .op:hover{background:#6b1d1d;transform:translateY(-2px)}
@@ -70,7 +70,7 @@
 .op.on::after{content:"✓";position:absolute;top:-9px;right:-7px;display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--ok);border:3px solid var(--ink);color:var(--ink);font-size:13px;font-weight:800;line-height:1}
 .op em{flex:none;display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--cream);border:3px solid var(--ink);font-style:normal;font-size:22px;line-height:1}
 .tx{flex:1;min-width:0}
-.tx b{display:block;font-weight:800;line-height:1.15}
+.tx b{display:block;font-weight:800;line-height:1.15;hyphens:auto;overflow-wrap:break-word}
 .tx small{display:block;font-size:12px;font-weight:600;line-height:1.2;opacity:.85}
 .pr{flex:none;background:var(--ink);color:var(--yel);border-radius:99px;padding:1px 10px;font-size:13px;font-weight:800}
 .pr:empty{display:none}
@@ -92,7 +92,7 @@
  .opts{grid-template-columns:1fr 1fr}
  .op{padding:8px 10px}
 }
-@media(max-width:420px){.opts-base{grid-template-columns:1fr}}
+@media(max-width:420px){.opts-base,.opts-edge{grid-template-columns:1fr}}
 
 /* ============ BASE COMPARTIDA (todas las páginas) ============
    Variables, header, footer, botones, carrito y aviso. */
