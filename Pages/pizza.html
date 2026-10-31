@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Arma tu pizza TAZ: elige tamaño, especialidad, borde y toppings, y pídela a tu puerta.">
+<link rel="icon" href="../IMG/Logo-taz.png" type="image/png">
+<title>Pizza · TAZ Fast Food</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../Styles/pizza.css">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="../../index.html" aria-label="TAZ Fast Food, ir al inicio" title="Ir al inicio"><img src="../IMG/Logo-taz-trans.png" alt="TAZ Fast Food, hecho en Colombia"></a>
+  <nav aria-label="Menú principal">
+    <a href="pizza.html" class="on" aria-current="page">🍕 Pizza</a>
+    <a href="burger.html">🍔 Burguer</a>
+    <a href="perro.html">🌭 Perro caliente</a>
+    <a href="salchipapas.html">🍟 Salchipapas</a>
+    <a href="mazorcada.html">🌽 Mazorcada</a>
+  </nav>
+  <button class="cartbtn" id="openCart" aria-label="Abrir carrito">🛒 <span class="ct">Carrito</span> <b id="cnt">0</b></button>
+</header>
+<main>
+  <a class="crumb" href="../../index.html#menu">‹ Volver al menú</a>
+  <div class="bld">
+    <aside class="pv">
+      <h1>Tu pizza</h1>
+      <div class="stage"><div class="pz s0" id="pz"></div></div>
+      <p class="pvsub" id="pvSub"></p>
+      <div class="tot"><small>Total</small><b id="tot">$13.00</b></div>
+    </aside>
+    <div class="steps">
+    <section class="step">
+      <h3><i>1</i>Tamaño</h3>
+      <div class="opts opts-size">
+      <button class="op" type="button" data-g="size" data-i="0" aria-pressed="false"><em>🍕</em><span class="tx"><b>Personal</b></span><span class="pr"></span></button>
+      <button class="op" type="button" data-g="size" data-i="1" aria-pressed="false"><em>🍕</em><span class="tx"><b>Medium</b></span><span class="pr"></span></button>
+      <button class="op" type="button" data-g="size" data-i="2" aria-pressed="false"><em>🍕</em><span class="tx"><b>Familiar</b></span><span class="pr"></span></button>
+      </div>
+    </section>
+    <section class="step">
+      <h3><i>2</i>Especialidad</h3>
+      <div class="opts opts-base">
+      <button class="op" type="button" data-g="base" data-i="0" data-pz="13,19,24" data-tp="🍍 🧀 🥓" aria-pressed="false"><em>🍕</em><span class="tx"><b>Hawaiana</b><small>Piña, queso, jamón</small></span><span class="pr">$13.00</span></button>
+      <button class="op" type="button" data-g="base" data-i="1" data-pz="13,19,24" data-tp="🔴 🧀 🥓" aria-pressed="false"><em>🍕</em><span class="tx"><b>Pepperoni</b><small>Pepperoni, queso, jamón</small></span><span class="pr">$13.00</span></button>
+      <button class="op" type="button" data-g="base" data-i="2" data-pz="15,22,26" data-tp="🍍 🍒 🍑 🥓 🧀" aria-pressed="false"><em>🍕</em><span class="tx"><b>Tropical</b><small>Piña, cereza, durazno, jamón</small></span><span class="pr">$15.00</span></button>
+      <button class="op" type="button" data-g="base" data-i="3" data-pz="15,22,28" data-tp="🍗 🍄 🧀" aria-pressed="false"><em>🍕</em><span class="tx"><b>Ay Dios Mío</b><small>Pollo, champiñones, queso</small></span><span class="pr">$15.00</span></button>
+      <button class="op" type="button" data-g="base" data-i="4" data-pz="16,24,29" data-tp="🍗 🍄 🦐 🥓 🧀 🌶️" aria-pressed="false"><em>🍕</em><span class="tx"><b>Californiana</b><small>Pollo, camarones, jamón, pimentón</small></span><span class="pr">$16.00</span></button>
+      <button class="op" type="button" data-g="base" data-i="5" data-pz="16,24,29" data-tp="🥩 🥓 🧀 🌶️ 🧅" aria-pressed="false"><em>🍕</em><span class="tx"><b>Mexicana</b><small>Carne, jamón, queso, pimentón</small></span><span class="pr">$16.00</span></button>
+      <button class="op" type="button" data-g="base" data-i="6" data-pz="20,26,32" data-tp="🦐 🥓 🧀 🌶️" aria-pressed="false"><em>🍕</em><span class="tx"><b>Camarones</b><small>Camarones, jamón, queso</small></span><span class="pr">$20.00</span></button>
+      <button class="op" type="button" data-g="base" data-i="7" data-pz="22,28,34" data-tp="🥓 🌭 🧀 🥩" aria-pressed="false"><em>🍕</em><span class="tx"><b>La 4K</b><small>Jamón, carne de res, pollo, chorizo</small></span><span class="pr">$22.00</span></button>
+      <button class="op" type="button" data-g="base" data-i="8" data-pz="16,22,28" data-tp="🥩 🌽 🥓 🌶️ 🧀" aria-pressed="false"><em>🍕</em><span class="tx"><b>Legendaria</b><small>Carne molida, maíz, tocino, pimentón</small></span><span class="pr">$16.00</span></button>
+      </div>
+    </section>
+    <section class="step">
+      <h3><i>3</i>Borde</h3>
+      <div class="opts opts-edge">
+      <button class="op" type="button" data-g="edge" data-i="0" data-p="0" aria-pressed="false"><em>🍞</em><span class="tx"><b>Normal</b></span><span class="pr"></span></button>
+      <button class="op" type="button" data-g="edge" data-i="1" data-p="3" aria-pressed="false"><em>🍬</em><span class="tx"><b>Borde de bocadillo</b></span><span class="pr">+$3.00</span></button>
+      </div>
+    </section>
+    <section class="step">
+      <h3><i>4</i>Toppings extra <small>Se ven sobre tu pizza</small></h3>
+      <div class="opts opts-ex">
+      <button class="op" type="button" data-g="ex" data-i="0" data-p="2" aria-pressed="false"><em>🧀</em><span class="tx"><b>Queso extra</b></span><span class="pr">+$2.00</span></button>
+      <button class="op" type="button" data-g="ex" data-i="1" data-p="2" aria-pressed="false"><em>🥓</em><span class="tx"><b>Tocineta</b></span><span class="pr">+$2.00</span></button>
+      <button class="op" type="button" data-g="ex" data-i="2" data-p="2" aria-pressed="false"><em>🍖</em><span class="tx"><b>Jamón</b></span><span class="pr">+$2.00</span></button>
+      <button class="op" type="button" data-g="ex" data-i="3" data-p="2" aria-pressed="false"><em>🍄</em><span class="tx"><b>Champiñones</b></span><span class="pr">+$2.00</span></button>
+      <button class="op" type="button" data-g="ex" data-i="4" data-p="2" aria-pressed="false"><em>🍍</em><span class="tx"><b>Piña</b></span><span class="pr">+$2.00</span></button>
+      <button class="op" type="button" data-g="ex" data-i="5" data-p="1.5" aria-pressed="false"><em>🌽</em><span class="tx"><b>Maíz</b></span><span class="pr">+$1.50</span></button>
+      <button class="op" type="button" data-g="ex" data-i="6" data-p="1" aria-pressed="false"><em>🧅</em><span class="tx"><b>Cebolla</b></span><span class="pr">+$1.00</span></button>
+      <button class="op" type="button" data-g="ex" data-i="7" data-p="1.5" aria-pressed="false"><em>🌶️</em><span class="tx"><b>Pimentón</b></span><span class="pr">+$1.50</span></button>
+      <button class="op" type="button" data-g="ex" data-i="8" data-p="2.5" aria-pressed="false"><em>🍗</em><span class="tx"><b>Pollo</b></span><span class="pr">+$2.50</span></button>
+      <button class="op" type="button" data-g="ex" data-i="9" data-p="3.5" aria-pressed="false"><em>🦐</em><span class="tx"><b>Camarones</b></span><span class="pr">+$3.50</span></button>
+      </div>
+    </section>
+      <div class="add">
+        <div class="qty"><button data-q="-1" aria-label="Menos">−</button><span id="q">1</span><button data-q="1" aria-label="Más">+</button></div>
+        <button class="cta" id="addBtn">Agregar al carrito · $13.00</button>
+      </div>
+    </div>
+  </div>
+</main>
+<footer>
+  <span class="stick">¡Hecho en Colombia!</span>
+  <p class="fn">TAZ Fast Food</p>
+  <p>Servido en San José, California</p>
+  <p>📍 63 N Keeble Ave, San Jose, CA 95126</p>
+  <p>📞 Delivery <a href="tel:+16506830906">+1 (650) 683-0906</a></p>
+</footer>
+<div id="ov"></div>
+<aside id="cart" aria-label="Carrito">
+  <div class="chead"><h2>Tu pedido</h2><button class="x" id="closeCart" aria-label="Cerrar carrito">Cerrar ✕</button></div>
+  <div class="items" id="items"><div class="empty" id="empty">Tu carrito está vacío. Arma tu primer plato y aparecerá aquí.</div></div>
+  <div class="foot"><div class="row"><span>Total</span><span id="ctot">$0.00</span></div><button class="cta" id="send">Enviar pedido por WhatsApp</button></div>
+</aside>
+<template id="tpl-item"><div class="it"><div class="row"><b class="nm"></b><span class="pt"></span></div><p class="ln"></p><div class="row"><div class="qty"><button data-c="-1" aria-label="Menos">−</button><span class="qn"></span><button data-c="1" aria-label="Más">+</button></div><button class="x" data-c="del">Quitar</button></div></div></template>
+<div class="toast" id="toast" role="status">Agregado al carrito</div>
+<script src="../JS/pizza.js"></script>
+</body>
+</html>
