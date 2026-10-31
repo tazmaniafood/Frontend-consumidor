@@ -11,7 +11,7 @@
 </head>
 <body>
 <header class="top">
-  <a class="brand" href="../../index.html" aria-label="TAZ Fast Food, ir al inicio" title="Ir al inicio"><img src="../IMG/Logo-taz-trans.png" alt="TAZ Fast Food, hecho en Colombia"></a>
+  <a class="brand" href="../index.html" aria-label="TAZ Fast Food, ir al inicio" title="Ir al inicio"><img src="../IMG/Logo-taz-trans.png" alt="TAZ Fast Food, hecho en Colombia"></a>
   <nav aria-label="Menú principal">
     <a href="pizza.html" class="on" aria-current="page">🍕 Pizza</a>
     <a href="burger.html">🍔 Burguer</a>
@@ -22,11 +22,17 @@
   <button class="cartbtn" id="openCart" aria-label="Abrir carrito">🛒 <span class="ct">Carrito</span> <b id="cnt">0</b></button>
 </header>
 <main>
-  <a class="crumb" href="../../index.html#menu">‹ Volver al menú</a>
+  <a class="crumb" href="../index.html#menu">‹ Volver al menú</a>
   <div class="bld">
     <aside class="pv">
       <h1>Tu pizza</h1>
-      <div class="stage"><div class="pz s0" id="pz"></div></div>
+      <div class="stage" id="stage">
+        <div class="pz s0" id="pz">
+          <div class="spin"><img id="pzImg" alt="" decoding="async"><div class="pz-base" aria-hidden="true"></div></div>
+          <div class="steam" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+      </div>
+      <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><filter id="humo" x="-50%" y="-50%" width="200%" height="200%"><feTurbulence type="fractalNoise" baseFrequency=".012 .03" numOctaves="3" seed="7"/><feDisplacementMap in="SourceGraphic" scale="38"/></filter></svg>
       <p class="pvsub" id="pvSub"></p>
       <div class="tot"><small>Total</small><b id="tot">$13.00</b></div>
     </aside>
@@ -42,15 +48,15 @@
     <section class="step">
       <h3><i>2</i>Especialidad</h3>
       <div class="opts opts-base">
-      <button class="op" type="button" data-g="base" data-i="0" data-pz="13,19,24" data-tp="🍍 🧀 🥓" aria-pressed="false"><em>🍕</em><span class="tx"><b>Hawaiana</b><small>Piña, queso, jamón</small></span><span class="pr">$13.00</span></button>
-      <button class="op" type="button" data-g="base" data-i="1" data-pz="13,19,24" data-tp="🔴 🧀 🥓" aria-pressed="false"><em>🍕</em><span class="tx"><b>Pepperoni</b><small>Pepperoni, queso, jamón</small></span><span class="pr">$13.00</span></button>
-      <button class="op" type="button" data-g="base" data-i="2" data-pz="15,22,26" data-tp="🍍 🍒 🍑 🥓 🧀" aria-pressed="false"><em>🍕</em><span class="tx"><b>Tropical</b><small>Piña, cereza, durazno, jamón</small></span><span class="pr">$15.00</span></button>
-      <button class="op" type="button" data-g="base" data-i="3" data-pz="15,22,28" data-tp="🍗 🍄 🧀" aria-pressed="false"><em>🍕</em><span class="tx"><b>Ay Dios Mío</b><small>Pollo, champiñones, queso</small></span><span class="pr">$15.00</span></button>
-      <button class="op" type="button" data-g="base" data-i="4" data-pz="16,24,29" data-tp="🍗 🍄 🦐 🥓 🧀 🌶️" aria-pressed="false"><em>🍕</em><span class="tx"><b>Californiana</b><small>Pollo, camarones, jamón, pimentón</small></span><span class="pr">$16.00</span></button>
-      <button class="op" type="button" data-g="base" data-i="5" data-pz="16,24,29" data-tp="🥩 🥓 🧀 🌶️ 🧅" aria-pressed="false"><em>🍕</em><span class="tx"><b>Mexicana</b><small>Carne, jamón, queso, pimentón</small></span><span class="pr">$16.00</span></button>
-      <button class="op" type="button" data-g="base" data-i="6" data-pz="20,26,32" data-tp="🦐 🥓 🧀 🌶️" aria-pressed="false"><em>🍕</em><span class="tx"><b>Camarones</b><small>Camarones, jamón, queso</small></span><span class="pr">$20.00</span></button>
-      <button class="op" type="button" data-g="base" data-i="7" data-pz="22,28,34" data-tp="🥓 🌭 🧀 🥩" aria-pressed="false"><em>🍕</em><span class="tx"><b>La 4K</b><small>Jamón, carne de res, pollo, chorizo</small></span><span class="pr">$22.00</span></button>
-      <button class="op" type="button" data-g="base" data-i="8" data-pz="16,22,28" data-tp="🥩 🌽 🥓 🌶️ 🧀" aria-pressed="false"><em>🍕</em><span class="tx"><b>Legendaria</b><small>Carne molida, maíz, tocino, pimentón</small></span><span class="pr">$16.00</span></button>
+      <button class="op" type="button" data-g="base" data-i="0" data-img="../IMG/Pizzas/hawaiana.webp" data-pz="13,19,24" data-tp="🍍 🧀 🥓" aria-pressed="false"><em>🍕</em><span class="tx"><b>Hawaiana</b><small>Piña, queso, jamón</small></span><span class="pr">$13.00</span></button>
+      <button class="op" type="button" data-g="base" data-i="1" data-img="../IMG/Pizzas/pepperoni.webp" data-pz="13,19,24" data-tp="🔴 🧀 🥓" aria-pressed="false"><em>🍕</em><span class="tx"><b>Pepperoni</b><small>Pepperoni, queso, jamón</small></span><span class="pr">$13.00</span></button>
+      <button class="op" type="button" data-g="base" data-i="2" data-img="../IMG/Pizzas/tropical.webp" data-pz="15,22,26" data-tp="🍍 🍒 🍑 🥓 🧀" aria-pressed="false"><em>🍕</em><span class="tx"><b>Tropical</b><small>Piña, cereza, durazno, jamón</small></span><span class="pr">$15.00</span></button>
+      <button class="op" type="button" data-g="base" data-i="3" data-img="../IMG/Pizzas/ay-dios-mio.webp" data-pz="15,22,28" data-tp="🍗 🍄 🧀" aria-pressed="false"><em>🍕</em><span class="tx"><b>Ay Dios Mío</b><small>Pollo, champiñones, queso</small></span><span class="pr">$15.00</span></button>
+      <button class="op" type="button" data-g="base" data-i="4" data-img="../IMG/Pizzas/californiana.webp" data-pz="16,24,29" data-tp="🍗 🍄 🦐 🥓 🧀 🌶️" aria-pressed="false"><em>🍕</em><span class="tx"><b>Californiana</b><small>Pollo, camarones, jamón, pimentón</small></span><span class="pr">$16.00</span></button>
+      <button class="op" type="button" data-g="base" data-i="5" data-img="../IMG/Pizzas/mexicana.webp" data-pz="16,24,29" data-tp="🥩 🥓 🧀 🌶️ 🧅" aria-pressed="false"><em>🍕</em><span class="tx"><b>Mexicana</b><small>Carne, jamón, queso, pimentón</small></span><span class="pr">$16.00</span></button>
+      <button class="op" type="button" data-g="base" data-i="6" data-img="../IMG/Pizzas/camarones.webp" data-pz="20,26,32" data-tp="🦐 🥓 🧀 🌶️" aria-pressed="false"><em>🍕</em><span class="tx"><b>Camarones</b><small>Camarones, jamón, queso</small></span><span class="pr">$20.00</span></button>
+      <button class="op" type="button" data-g="base" data-i="7" data-img="../IMG/Pizzas/la-4k.webp" data-pz="22,28,34" data-tp="🥓 🌭 🧀 🥩" aria-pressed="false"><em>🍕</em><span class="tx"><b>La 4K</b><small>Jamón, carne de res, pollo, chorizo</small></span><span class="pr">$22.00</span></button>
+      <button class="op" type="button" data-g="base" data-i="8" data-img="../IMG/Pizzas/legendaria.webp" data-pz="16,22,28" data-tp="🥩 🌽 🥓 🌶️ 🧀" aria-pressed="false"><em>🍕</em><span class="tx"><b>Legendaria</b><small>Carne molida, maíz, tocino, pimentón</small></span><span class="pr">$16.00</span></button>
       </div>
     </section>
     <section class="step">
@@ -61,7 +67,7 @@
       </div>
     </section>
     <section class="step">
-      <h3><i>4</i>Toppings extra <small>Se ven sobre tu pizza</small></h3>
+      <h3><i>4</i>Toppings extra <small>Se agregan a tu pizza</small></h3>
       <div class="opts opts-ex">
       <button class="op" type="button" data-g="ex" data-i="0" data-p="2" aria-pressed="false"><em>🧀</em><span class="tx"><b>Queso extra</b></span><span class="pr">+$2.00</span></button>
       <button class="op" type="button" data-g="ex" data-i="1" data-p="2" aria-pressed="false"><em>🥓</em><span class="tx"><b>Tocineta</b></span><span class="pr">+$2.00</span></button>
@@ -88,6 +94,14 @@
   <p>Servido en San José, California</p>
   <p>📍 63 N Keeble Ave, San Jose, CA 95126</p>
   <p>📞 Delivery <a href="tel:+16506830906">+1 (650) 683-0906</a></p>
+  <div class="social" role="group" aria-label="Redes sociales">
+    <p class="social-t">¡Síguenos!</p>
+    <ul>
+      <!-- Cambia los href por las URLs reales de TAZ -->
+      <li><a class="sc sc-fb" href="https://www.facebook.com/" target="_blank" rel="noopener" aria-label="TAZ Fast Food en Facebook"><img src="../IMG/Redes/facebook.png" alt="" width="52" height="52" loading="lazy"><span>Facebook</span></a></li>
+      <li><a class="sc sc-ig" href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="TAZ Fast Food en Instagram"><img src="../IMG/Redes/instagram.png" alt="" width="52" height="52" loading="lazy"><span>Instagram</span></a></li>
+    </ul>
+  </div>
 </footer>
 <div id="ov"></div>
 <aside id="cart" aria-label="Carrito">

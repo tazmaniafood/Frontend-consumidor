@@ -239,3 +239,15 @@ footer::after{content:"🍕 🍔 🌭 🍟 🌽";display:block;margin-top:14px;f
 @media(prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 #menu{scroll-margin-top:120px}
 @media(max-width:760px){#menu{scroll-margin-top:130px}}
+/* ---- Footer: redes sociales ---- */
+footer .social{margin:18px 0 4px}
+footer .social-t{font:400 24px/1 var(--hd);letter-spacing:1px;color:var(--cream);-webkit-text-stroke:5px #120303;paint-order:stroke fill;text-shadow:3px 3px 0 #120303;margin:0 0 12px}
+footer .social ul{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin:0;padding:0;list-style:none}
+footer a.sc{display:inline-flex;align-items:center;gap:10px;background:var(--cream);color:#120303;border:4px solid #120303;border-radius:99px;box-shadow:0 5px 0 #120303;padding:5px 18px 5px 5px;font:400 21px/1 var(--hd);letter-spacing:.8px;text-decoration:none;text-shadow:none;transition:transform .15s,background .15s}
+footer a.sc img{display:block;width:44px;height:44px;border-radius:50%;transition:transform .3s}
+footer .social li:nth-child(odd) a.sc{transform:rotate(-2deg)}footer .social li:nth-child(even) a.sc{transform:rotate(2deg)}
+footer .social li a.sc:hover{transform:translateY(-3px) rotate(0) scale(1.05)}
+footer a.sc-fb:hover{background:#cfe0ff}footer a.sc-ig:hover{background:#ffd3e8}
+footer a.sc:hover img{transform:rotate(-12deg) scale(1.08)}
+footer a.sc:active{transform:translateY(3px);box-shadow:0 1px 0 #120303}
+@media(max-width:420px){footer a.sc{font-size:18px;padding-right:14px}footer a.sc img{width:38px;height:38px}}

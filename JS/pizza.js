@@ -1,5 +1,7 @@
-/* Constructor de pizza. Las opciones (nombres, precios, toppings) viven en pizza.html como data-*;
-   aquí solo se lee, se calcula el total, se dibuja la pizza y se envía al carrito (cart.js). */
+/* Constructor de pizza. Las opciones (nombres, precios, foto) viven en pizza.html como data-*;
+   aquí solo se lee, se calcula el total, se muestra la pizza y se envía al carrito.
+   Foto de cada especialidad: data-img="../IMG/Pizzas/<nombre>.webp". Si la foto no existe
+   todavía, se muestra la plantilla base (sin toppings). */
 (()=>{
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],fmt=n=>'$'+n.toFixed(2);
 
@@ -8,7 +10,7 @@ const G={};
 $$('.op').forEach(el=>{
   const d=el.dataset;
   (G[d.g]=G[d.g]||[]).push({el,n:el.querySelector('b').textContent,e:el.querySelector('em').textContent,pr:el.querySelector('.pr'),
-    p:+d.p||0,pz:d.pz?d.pz.split(',').map(Number):null,tp:d.tp?d.tp.split(' '):[]});
+    p:+d.p||0,pz:d.pz?d.pz.split(',').map(Number):null,img:d.img||'',ok:false});
 });
 
 const fresh=()=>({size:0,base:0,edge:0,ex:[],q:1});
@@ -16,17 +18,26 @@ let s=fresh();
 const price=()=>G.base[s.base].pz[s.size]+G.edge[s.edge].p+s.ex.reduce((t,i)=>t+G.ex[i].p,0);
 const mark=(o,v)=>{o.el.classList.toggle('on',v);o.el.setAttribute('aria-pressed',v)};
 
-/* Pizza con toppings repartidos en espiral */
+/* Precarga las fotos: la que exista se marca ok y aparece como miniatura en su botón */
+const thumb=src=>{const i=new Image();i.src=src;i.alt='';return i};
+G.base.forEach(o=>{
+  if(!o.img)return;
+  const im=new Image();
+  im.onload=()=>{o.ok=true;o.el.querySelector('em').replaceChildren(thumb(o.img));if(G.base[s.base]===o)drawPizza()};
+  im.src=o.img;
+});
+
+/* Muestra la foto de la especialidad (o la plantilla base) con el tamaño y el borde elegidos */
+let shown='';
 function drawPizza(){
-  const z=$('#pz'),b=G.base[s.base],ex=s.ex.map(i=>G.ex[i].e),list=[];
-  z.className='pz s'+s.size+(s.edge?' bocadillo':'');
-  [...b.tp,...ex].forEach(e=>{for(let r=0;r<(ex.includes(e)&&!b.tp.includes(e)?4:5);r++)list.push(e)});
-  list.sort((a,c)=>((a.codePointAt(0)*7)%11)-((c.codePointAt(0)*7)%11));
-  z.replaceChildren(...list.map((e,i)=>{
-    const t=document.createElement('i'),a=i*2.399,r=Math.sqrt((i+.6)/list.length)*40;
-    t.textContent=e;t.style.left=(50+r*Math.cos(a))+'%';t.style.top=(50+r*Math.sin(a))+'%';
-    return t;
-  }));
+  const z=$('#pz'),img=$('#pzImg'),b=G.base[s.base];
+  z.className='pz s'+s.size+(s.edge?' bocadillo':'')+(b.ok?' has-img':'');
+  if(b.ok&&shown!==b.img){
+    img.src=b.img;img.alt='Pizza '+b.n;shown=b.img;
+    img.classList.remove('swap');void img.offsetWidth;img.classList.add('swap');
+  }
+  if(!b.ok){img.removeAttribute('src');img.alt='';shown=''}
+  G.size.forEach(o=>o.el.querySelector('em').replaceChildren(b.ok?thumb(b.img):'🍕'));
 }
 function paint(){
   G.size.forEach((o,i)=>mark(o,s.size===i));
@@ -36,7 +47,7 @@ function paint(){
   drawPizza();
   const t=price();
   $('#tot').textContent=fmt(t);
-  $('#pvSub').textContent=G.base[s.base].n+' · '+G.size[s.size].n;
+  $('#pvSub').textContent=[G.base[s.base].n,G.size[s.size].n,s.edge?G.edge[s.edge].n:'',s.ex.length?'Extra: '+s.ex.map(i=>G.ex[i].n).join(', '):''].filter(Boolean).join(' · ');
   $('#q').textContent=s.q;
   $('#addBtn').textContent='Agregar al carrito · '+fmt(t*s.q);
 }
@@ -58,5 +69,39 @@ document.addEventListener('click',e=>{
   if(q){s.q=Math.max(1,Math.min(20,s.q+ +q.dataset.q));return paint()}
   if(e.target.id==='addBtn')add();
 });
+
+/* Carrito (compartido con las demás páginas por localStorage 'taz-cart') */
+if(!window.Cart)window.Cart=(()=>{
+  let cart=[];
+  try{cart=JSON.parse(localStorage.getItem('taz-cart')||'[]')}catch(e){}
+  const save=()=>{try{localStorage.setItem('taz-cart',JSON.stringify(cart))}catch(e){}};
+  const tpl=$('#tpl-item'),items=$('#items'),empty=$('#empty');
+  function draw(){
+    const n=cart.reduce((t,i)=>t+i.q,0),tot=cart.reduce((t,i)=>t+i.q*i.unit,0);
+    $('#cnt').textContent=n;$('#ctot').textContent=fmt(tot);$('#send').disabled=!n;
+    items.replaceChildren(...(n?cart.map((it,i)=>{
+      const c=tpl.content.firstElementChild.cloneNode(true);
+      c.querySelector('.nm').textContent=it.name;c.querySelector('.pt').textContent=fmt(it.unit*it.q);
+      c.querySelector('.ln').textContent=it.lines.join(' · ');c.querySelector('.qn').textContent=it.q;
+      c.querySelectorAll('[data-c]').forEach(b=>b.dataset.i=i);
+      return c;
+    }):[empty]));
+  }
+  const open=o=>{$('#cart').classList.toggle('on',o);$('#ov').classList.toggle('on',o)};
+  $('#openCart').onclick=()=>open(true);$('#closeCart').onclick=$('#ov').onclick=()=>open(false);
+  items.addEventListener('click',e=>{
+    const c=e.target.closest('[data-c]');if(!c)return;
+    const i=+c.dataset.i;
+    if(c.dataset.c==='del')cart.splice(i,1);else{cart[i].q+=+c.dataset.c;if(cart[i].q<1)cart.splice(i,1)}
+    save();draw();
+  });
+  $('#send').onclick=()=>{
+    const tot=cart.reduce((t,i)=>t+i.q*i.unit,0);
+    const msg='Hola TAZ, quiero hacer este pedido:\n'+cart.map(i=>`${i.q}x ${i.name} (${i.lines.join('; ')}) - ${fmt(i.q*i.unit)}`).join('\n')+'\nTotal: '+fmt(tot);
+    window.open('https://wa.me/16506830906?text='+encodeURIComponent(msg),'_blank');
+  };
+  draw();
+  return{add(it){cart.push(it);save();draw();const t=$('#toast');t.classList.add('on');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('on'),1600)}};
+})();
 paint();
 })();

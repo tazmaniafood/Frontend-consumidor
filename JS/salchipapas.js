@@ -5,7 +5,7 @@ const PZ=(n,pz,tp,d)=>({n,e:'🍕',pz,tp:T(tp),d});
 const PR={};
 const PAGES={pizza:['Pizza','🍕','pizza.html'],burger:['Burguer','🍔','burger.html'],perro:['Perro caliente','🌭','perro.html'],salchi:['Salchipapas','🍟','salchipapas.html'],mazo:['Mazorcada','🌽','mazorcada.html']};
 const KEYS=Object.keys(PAGES);
-const LOGO_SRC="assets/logo.webp";
+const LOGO_SRC="../IMG/Logo-taz-trans.png";
 function logo(){return `<img src="${LOGO_SRC}" alt="TAZ Fast Food, hecho en Colombia" style="width:100%;height:100%;object-fit:contain;display:block">`}
 let cart=[],cur=null,st=null;
 try{cart=JSON.parse(localStorage.getItem('taz-cart')||'[]')}catch(e){}
@@ -43,7 +43,7 @@ function previewHTML(){
 }
 function builder(){
   const P=PR[st.k];
-  $('#app').innerHTML=`<button class="back" onclick="location.href='index.html'">‹ Volver al inicio</button><div class="bld"><div class="pv"><h2>${P.name}</h2><div class="stage" id="stage">${previewHTML()}</div><div class="tot" id="tot">${fmt(price())}</div></div><div>
+  $('#app').innerHTML=`<button class="back" onclick="location.href='../index.html'">‹ Volver al inicio</button><div class="bld"><div class="pv"><h2>${P.name}</h2><div class="stage" id="stage">${previewHTML()}</div><div class="tot" id="tot">${fmt(price())}</div></div><div>
   ${P.groups.map((g,gi)=>`<div class="step"><h3>${gi+1}. ${g.t}<small>${g.sub||''}</small></h3><div class="opts">${g.opts.map((o,i)=>{const on=g.type==='one'?st.ch[g.k]===i:st.ch[g.k].includes(i);
    const pr=g.k==='size'?'':o.pz?fmt(o.pz[st.ch.size]):o.p?(g.type==='many'?'+':'')+fmt(o.p):'';
    return`<button class="op${on?' on':''}" data-g="${g.k}" data-i="${i}" aria-pressed="${on}"><em>${o.e}</em><span>${o.n}${o.d?`<small>${o.d}</small>`:''}${pr?`<span class="pr">${pr}</span>`:''}</span></button>`}).join('')}</div></div>`).join('')}
@@ -93,8 +93,8 @@ $('#send').onclick=()=>{
   const msg='Hola TAZ, quiero hacer este pedido:\n'+cart.map(i=>`${i.q}x ${i.name} (${i.lines.join('; ')}) - ${fmt(i.q*i.unit)}`).join('\n')+'\nTotal: '+fmt(tot);
   window.open('https://wa.me/16506830906?text='+encodeURIComponent(msg),'_blank');
 };
-$('#hlogo').innerHTML=logo();$('#hlogo').onclick=()=>location.href='index.html';
+$('#hlogo').innerHTML=logo();$('#hlogo').onclick=()=>location.href='../index.html';
 const pg=document.body.dataset.page;
-$('#nav').innerHTML=`<a href="index.html" class="${pg==='inicio'?'on':''}">Inicio</a>`+KEYS.map(k=>`<a href="${PAGES[k][2]}" class="${pg===k?'on':''}">${PAGES[k][1]} ${PAGES[k][0]}</a>`).join('');
+$('#nav').innerHTML=`<a href="../index.html" class="${pg==='inicio'?'on':''}">Inicio</a>`+KEYS.map(k=>`<a href="${PAGES[k][2]}" class="${pg===k?'on':''}">${PAGES[k][1]} ${PAGES[k][0]}</a>`).join('');
 drawCart();
 st=init('salchi');builder();

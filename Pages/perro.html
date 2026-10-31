@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="TAZ Fast Food, hecho en Colombia. Arma tu pizza, burguer, perro caliente, salchipapa o mazorcada y pídela a tu puerta.">
-<link rel="icon" href="assets/logo.webp" type="image/webp">
+<link rel="icon" href="../IMG/Logo-taz.png" type="image/png">
 <title>Perro caliente · TAZ Fast Food</title>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="perro.css">
+<link rel="stylesheet" href="../Styles/perro.css">
 </head>
 <body data-page="perro">
 <header>
@@ -16,7 +16,21 @@
   <button class="cartbtn" id="openCart" aria-label="Abrir carrito">🛒 <span class="ct">Carrito</span> <b id="cnt">0</b></button>
 </header>
 <main id="app"></main>
-<footer>TAZ Fast Food · Hecho en Colombia, servido en San José, California<br>63 N Keeble Ave, San Jose, CA 95126 · Delivery +1 (650) 683-0906</footer>
+<footer>
+  <span class="stick">¡Hecho en Colombia!</span>
+  <p class="fn">TAZ Fast Food</p>
+  <p>Servido en San José, California</p>
+  <p>📍 63 N Keeble Ave, San Jose, CA 95126</p>
+  <p>📞 Delivery <a href="tel:+16506830906">+1 (650) 683-0906</a></p>
+  <div class="social" role="group" aria-label="Redes sociales">
+    <p class="social-t">¡Síguenos!</p>
+    <ul>
+      <!-- Cambia los href por las URLs reales de TAZ -->
+      <li><a class="sc sc-fb" href="https://www.facebook.com/" target="_blank" rel="noopener" aria-label="TAZ Fast Food en Facebook"><img src="../IMG/Redes/facebook.png" alt="" width="52" height="52" loading="lazy"><span>Facebook</span></a></li>
+      <li><a class="sc sc-ig" href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="TAZ Fast Food en Instagram"><img src="../IMG/Redes/instagram.png" alt="" width="52" height="52" loading="lazy"><span>Instagram</span></a></li>
+    </ul>
+  </div>
+</footer>
 <div id="ov"></div>
 <aside id="cart" aria-label="Carrito">
   <header><h2>Tu pedido</h2><button class="x" id="closeCart" aria-label="Cerrar carrito">Cerrar ✕</button></header>
@@ -25,6 +39,6 @@
 </aside>
 <div class="toast" id="toast">Agregado al carrito</div>
 
-<script src="perro.js"></script>
+<script src="../JS/perro.js"></script>
 </body>
 </html>
