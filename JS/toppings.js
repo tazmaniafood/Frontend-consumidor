@@ -36,7 +36,8 @@ if(tp){
 const EM=[['piña','🍍'],['queso','🧀'],['jamón','🍖'],['pepperoni','🔴'],['cereza','🍒'],['durazno','🍑'],['pollo','🍗'],['champiñon','🍄'],['camaron','🦐'],
   ['pimentón','🫑'],['pimiento','🫑'],['carne','🥩'],['chorizo','🌭'],['maíz','🌽'],['tocin','🥓'],['papas','🍟'],['lechuga','🥬'],['salchicha','🌭'],['cebolla','🧅'],['salsa','🥫'],['pan','🍞']];
 const icon=t=>(EM.find(([k])=>t.toLowerCase().includes(k))||[,'•'])[1];
-$$('.opts-base .op:not(.cartel)').forEach(op=>{
+/* En la pizza no se muestra (se pidió quitarla) */
+if(!document.querySelector('.cartel'))$$('.opts-base .op').forEach(op=>{
   const sm=op.querySelector('.tx small');if(!sm)return;
   const parts=sm.textContent.split(',').map(t=>t.trim()).filter(Boolean),last=parts.pop()||'';
   /* solo la última "y" separa ingredientes ("pimentón rojo y verde" queda junto) */
