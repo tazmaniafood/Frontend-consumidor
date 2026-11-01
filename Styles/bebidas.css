@@ -142,3 +142,13 @@ footer a.sc:active{transform:translateY(3px);box-shadow:0 1px 0 #120303}
  .top nav{order:3;flex:1 0 100%;padding:6px 6px 10px;justify-content:center}
  .cartbtn{margin-left:auto}
 }
+
+/* ---- Latas: se balancean suave; al pasar el mouse se agitan como recién destapadas ---- */
+.bb.has-img .marco img{position:absolute;inset:0;margin:auto;width:auto;height:82%;max-width:80%;object-fit:contain;transform-origin:50% 90%;animation:sway 3.4s ease-in-out infinite}
+.bb:nth-child(2) .marco img{animation-delay:-1.1s}
+.bb:nth-child(3) .marco img{animation-delay:-2.2s}
+@keyframes sway{0%,100%{transform:rotate(-4deg) translateY(0)}50%{transform:rotate(4deg) translateY(-8px)}}
+.bb.has-img:hover .marco img{animation:shake .6s ease-in-out infinite}
+@keyframes shake{0%,100%{transform:rotate(0) translateY(-6px) scale(1.04)}25%{transform:rotate(-7deg) translateY(-10px) scale(1.04)}75%{transform:rotate(7deg) translateY(-10px) scale(1.04)}}
+.bb.has-img .marco::after{content:"";position:absolute;left:50%;bottom:7%;width:44%;height:5%;border-radius:50%;background:radial-gradient(closest-side,#0004,#0000);transform:translateX(-50%);pointer-events:none}
+.bb .burb{z-index:2}
