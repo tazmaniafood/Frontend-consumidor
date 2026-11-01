@@ -10,7 +10,7 @@ const G={};
 $$('.op').forEach(el=>{
   const d=el.dataset;
   (G[d.g]=G[d.g]||[]).push({el,n:el.querySelector('b').textContent,e:el.querySelector('em').textContent,pr:el.querySelector('.pr'),
-    p:+d.p||0,pz:d.pz?d.pz.split(',').map(Number):null,img:d.img||'',ok:false});
+    p:+d.p||0,pz:d.pz?d.pz.split(',').map(Number):null,img:d.img||'',custom:d.custom==='1',ok:false});
 });
 
 const fresh=()=>({size:0,base:0,edge:0,ex:[],q:1});
@@ -31,13 +31,25 @@ G.base.forEach(o=>{
 let shown='';
 function drawPizza(){
   const z=$('#pz'),img=$('#pzImg'),b=G.base[s.base];
-  z.className='pz'+['',' bocadillo',' queso'][s.edge]+(b.ok?' has-img':'');
+  z.className='pz'+['',' bocadillo',' queso'][s.edge]+(b.ok?' has-img':'')+(b.custom?' custom':'');
+  drawTops(b.custom?s.ex.map(i=>G.ex[i].e):[]);
   if(b.ok&&shown!==b.img){
     img.src=b.img;img.alt='Pizza '+b.n;shown=b.img;
     img.classList.remove('swap');void img.offsetWidth;img.classList.add('swap');
   }
   if(!b.ok){img.removeAttribute('src');img.alt='';shown=''}
   G.size.forEach(o=>o.el.querySelector('em').replaceChildren(b.ok?thumb(b.img):'🍕'));
+}
+/* Pizza a tu gusto: los ingredientes elegidos se reparten en espiral sobre la pizza en blanco */
+function drawTops(list){
+  const box=$('#tops'),all=[];
+  list.forEach(e=>{for(let r=0;r<6;r++)all.push(e)});
+  all.sort((a,c)=>((a.codePointAt(0)*7)%11)-((c.codePointAt(0)*7)%11));
+  box.replaceChildren(...all.map((e,i)=>{
+    const t=document.createElement('i'),a=i*2.399,r=Math.sqrt((i+.6)/all.length)*36;
+    t.textContent=e;t.style.left=(50+r*Math.cos(a))+'%';t.style.top=(50+r*Math.sin(a))+'%';
+    return t;
+  }));
 }
 function paint(){
   G.size.forEach((o,i)=>mark(o,s.size===i));
@@ -47,15 +59,18 @@ function paint(){
   drawPizza();
   const t=price();
   $('#tot').textContent=fmt(t);
-  $('#pvSub').textContent=[G.base[s.base].n,G.size[s.size].n,s.edge?'Borde de '+G.edge[s.edge].n.toLowerCase():'',s.ex.length?'Extra: '+s.ex.map(i=>G.ex[i].n).join(', '):''].filter(Boolean).join(' · ');
+  const custom=G.base[s.base].custom;
+  $('#exSub').textContent=custom?'Elige los ingredientes de tu pizza':'Elige una categoría';
+  $('#pvSub').textContent=[G.base[s.base].n,G.size[s.size].n,s.edge?'Borde de '+G.edge[s.edge].n.toLowerCase():'',s.ex.length?(custom?'Con: ':'Extra: ')+s.ex.map(i=>G.ex[i].n).join(', '):''].filter(Boolean).join(' · ');
   $('#q').textContent=s.q;
   $('#addBtn').textContent='Agregar al carrito · '+fmt(t*s.q);
 }
 function add(){
-  const b=G.base[s.base],lines=[G.size[s.size].n,b.n];
+  const b=G.base[s.base],lines=b.custom?[G.size[s.size].n]:[G.size[s.size].n,b.n];
   if(s.edge)lines.push('Borde de '+G.edge[s.edge].n.toLowerCase());
-  if(s.ex.length)lines.push('Extra: '+s.ex.map(i=>G.ex[i].n).join(', '));
-  Cart.add({name:'Pizza '+b.n,lines,unit:price(),q:s.q});
+  if(s.ex.length)lines.push((b.custom?'Ingredientes: ':'Extra: ')+s.ex.map(i=>G.ex[i].n).join(', '));
+  else if(b.custom)lines.push('Solo salsa y queso');
+  Cart.add({name:b.custom?b.n:'Pizza '+b.n,lines,unit:price(),q:s.q});
   s=fresh();paint();
 }
 document.addEventListener('click',e=>{

@@ -7,7 +7,7 @@
 <link rel="icon" href="../IMG/Logo-taz.png" type="image/png">
 <title>Salchipapas · TAZ Fast Food</title>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../Styles/salchipapas.css?v=6">
+<link rel="stylesheet" href="../Styles/salchipapas.css?v=7">
 </head>
 <body>
 <header class="top">
@@ -47,12 +47,20 @@
       </div>
     </section>
     <section class="step">
-      <h3><i>2</i>Toppings extra <small>Se agregan a tu pedido</small></h3>
-      <div class="opts opts-ex">
-      <button class="op" type="button" data-g="ex" data-i="0" data-p="3.5" aria-pressed="false"><em>🦐</em><span class="tx"><b>Camarones</b></span><span class="pr">+$3.50</span></button>
-      <button class="op" type="button" data-g="ex" data-i="1" data-p="2" aria-pressed="false"><em>🥓</em><span class="tx"><b>Tocineta</b></span><span class="pr">+$2.00</span></button>
-      <button class="op" type="button" data-g="ex" data-i="2" data-p="1.5" aria-pressed="false"><em>🧀</em><span class="tx"><b>Queso extra</b></span><span class="pr">+$1.50</span></button>
-      <button class="op" type="button" data-g="ex" data-i="3" data-p="1.5" aria-pressed="false"><em>🍳</em><span class="tx"><b>Huevo</b></span><span class="pr">+$1.50</span></button>
+      <h3><i>2</i>Toppings extra <small>Elige una categoría</small></h3>
+      <div class="tp">
+      <div class="cats">
+        <button class="cat cat-pro" type="button" data-cat="pro"><span class="cat-em">🍗</span><span class="cat-tx"><b>Proteínas</b><small class="sel">Carnes, mariscos y queso</small></span><span class="cnt"></span><span class="go" aria-hidden="true">›</span></button>
+      </div>
+      <div class="catpanel" data-cat="pro" hidden>
+        <div class="cathead"><button class="back" type="button">‹ Volver</button><b>🍗 Proteínas</b></div>
+        <div class="opts opts-ex">
+          <button class="op" type="button" data-g="ex" data-i="0" data-p="3.5" data-cat="pro" aria-pressed="false"><em>🦐</em><span class="tx"><b>Camarones</b></span><span class="pr">+$3.50</span></button>
+          <button class="op" type="button" data-g="ex" data-i="1" data-p="2" data-cat="pro" aria-pressed="false"><em>🥓</em><span class="tx"><b>Tocineta</b></span><span class="pr">+$2.00</span></button>
+          <button class="op" type="button" data-g="ex" data-i="2" data-p="1.5" data-cat="pro" aria-pressed="false"><em>🧀</em><span class="tx"><b>Queso extra</b></span><span class="pr">+$1.50</span></button>
+          <button class="op" type="button" data-g="ex" data-i="3" data-p="1.5" data-cat="pro" aria-pressed="false"><em>🍳</em><span class="tx"><b>Huevo</b></span><span class="pr">+$1.50</span></button>
+        </div>
+      </div>
       </div>
     </section>
       <div class="add">
@@ -84,7 +92,8 @@
 </aside>
 <template id="tpl-item"><div class="it"><div class="row"><b class="nm"></b><span class="pt"></span></div><p class="ln"></p><div class="row"><div class="qty"><button data-c="-1" aria-label="Menos">−</button><span class="qn"></span><button data-c="1" aria-label="Más">+</button></div><button class="x" data-c="del">Quitar</button></div></div></template>
 <div class="toast" id="toast" role="status">Agregado al carrito</div>
-<script src="../JS/cart.js?v=6"></script>
-<script src="../JS/plato.js?v=6"></script>
+<script src="../JS/cart.js?v=7"></script>
+<script src="../JS/plato.js?v=7"></script>
+<script src="../JS/toppings.js?v=7"></script>
 </body>
 </html>
