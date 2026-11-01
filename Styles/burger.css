@@ -281,3 +281,11 @@ footer a.sc:active{transform:translateY(3px);box-shadow:0 1px 0 #120303}
  .tip{max-width:200px}
 }
 .tp [hidden]{display:none!important}
+
+/* Header en tablet y celular: el logo no se monta sobre el menú */
+@media(max-width:1100px){
+ .brand{margin:0 0 4px}
+ .top nav{padding-top:8px}
+}
+@media(max-width:760px){.brand{width:52px;height:52px}}
+@media(max-width:1100px) and (min-width:761px){.top nav{justify-content:safe center}}
