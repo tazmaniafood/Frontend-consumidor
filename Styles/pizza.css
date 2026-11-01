@@ -324,3 +324,21 @@ footer a.sc:active{transform:translateY(3px);box-shadow:0 1px 0 #120303}
  .opts-size .op:has(.pr:empty),.opts-edge .op:has(.pr:empty){grid-template-areas:"em" "tx"}
  .opts-size .op .pr,.opts-edge .op .pr{justify-self:center}
 }
+
+/* ---- Paso 2: Tamaño y borde, uno al lado del otro ---- */
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.half{min-width:0;background:#00000026;border:3px solid var(--ink);border-radius:16px;padding:10px}
+.half h4{margin:0 0 8px;font:400 19px/1.1 var(--hd);letter-spacing:.5px;color:var(--cream)}
+.duo .opts-size,.duo .opts-edge{grid-template-columns:1fr;gap:8px}
+.duo .opts-size .op,.duo .opts-edge .op,.duo .op:has(.pr:empty){grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"em tx pr";justify-content:stretch;justify-items:start;text-align:left;gap:4px 10px;height:auto;min-height:48px;padding:6px 12px}
+.duo .opts-size .op .pr,.duo .opts-edge .op .pr{justify-self:end}
+.duo .opts-size .op em,.duo .opts-edge .op em{width:32px;height:32px;font-size:17px}
+.duo .opts-size .op:nth-child(1) em{width:28px;height:28px;font-size:14px}
+.duo .opts-size .op:nth-child(3) em{width:36px;height:36px;font-size:19px}
+.duo .tx b{font-size:15px}
+@media(max-width:520px){
+ .duo{gap:8px}.half{padding:8px}
+ .duo .opts-size .op,.duo .opts-edge .op,.duo .op:has(.pr:empty){grid-template-columns:auto minmax(0,1fr);grid-template-areas:"em tx" "em pr";gap:2px 8px;padding:6px 8px}
+ .duo .opts-size .op .pr,.duo .opts-edge .op .pr{justify-self:start}
+ .duo .tx b{font-size:13.5px}
+}

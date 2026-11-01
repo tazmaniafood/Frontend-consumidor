@@ -34,11 +34,13 @@ if(tp){
 
 /* ---------- 2) Ventana de ingredientes de cada especialidad ---------- */
 const EM=[['piña','🍍'],['queso','🧀'],['jamón','🍖'],['pepperoni','🔴'],['cereza','🍒'],['durazno','🍑'],['pollo','🍗'],['champiñon','🍄'],['camaron','🦐'],
-  ['pimentón','🫑'],['carne','🥩'],['chorizo','🌭'],['maíz','🌽'],['tocin','🥓'],['papas','🍟'],['lechuga','🥬'],['salchicha','🌭'],['cebolla','🧅'],['salsa','🥫'],['pan','🍞']];
+  ['pimentón','🫑'],['pimiento','🫑'],['carne','🥩'],['chorizo','🌭'],['maíz','🌽'],['tocin','🥓'],['papas','🍟'],['lechuga','🥬'],['salchicha','🌭'],['cebolla','🧅'],['salsa','🥫'],['pan','🍞']];
 const icon=t=>(EM.find(([k])=>t.toLowerCase().includes(k))||[,'•'])[1];
 $$('.opts-base .op:not(.cartel)').forEach(op=>{
   const sm=op.querySelector('.tx small');if(!sm)return;
-  const items=sm.textContent.replace(/\s+y\s+/g,', ').split(',').map(t=>t.trim()).filter(Boolean);
+  const parts=sm.textContent.split(',').map(t=>t.trim()).filter(Boolean),last=parts.pop()||'';
+  /* solo la última "y" separa ingredientes ("pimentón rojo y verde" queda junto) */
+  const items=[...parts,...last.split(/\s+y\s+(?!.*\s+y\s+)/)].filter(Boolean);
   const tip=document.createElement('span');tip.className='tip';tip.setAttribute('aria-hidden','true');
   tip.innerHTML='<b>Ingredientes</b><ul></ul>';
   tip.querySelector('ul').append(...items.map(t=>{const li=document.createElement('li');li.textContent=icon(t)+' '+t[0].toUpperCase()+t.slice(1);return li}));
