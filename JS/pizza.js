@@ -51,6 +51,16 @@ function drawTops(list){
     return t;
   }));
 }
+function drawPicked(custom){
+  const box=$('#picked');
+  if(!custom)return box.replaceChildren();
+  const lab=document.createElement('span');lab.className='pk-lab';lab.textContent='Tu pizza lleva:';
+  if(!s.ex.length){const e=document.createElement('span');e.className='pk-empty';e.textContent='Solo salsa y queso. Toca los ingredientes para ponérselos 👇';return box.replaceChildren(lab,e)}
+  const chips=s.ex.map(i=>{const b=document.createElement('button');b.type='button';b.className='pk';b.dataset.pick=i;
+    b.setAttribute('aria-label','Quitar '+G.ex[i].n);b.textContent=G.ex[i].e+' '+G.ex[i].n+' ✕';return b});
+  const clr=document.createElement('button');clr.type='button';clr.className='pk-clear';clr.dataset.clear='1';clr.textContent='Limpiar todo';
+  box.replaceChildren(lab,...chips,clr);
+}
 function paint(){
   G.size.forEach((o,i)=>mark(o,s.size===i));
   G.base.forEach((o,i)=>{mark(o,s.base===i);o.pr.textContent=fmt(o.pz[s.size])});
@@ -60,7 +70,11 @@ function paint(){
   const t=price();
   $('#tot').textContent=fmt(t);
   const custom=G.base[s.base].custom;
-  $('#exSub').textContent=custom?'Elige los ingredientes de tu pizza':'Elige una categoría';
+  /* Pizza a tu gusto: interfaz especial "A la mano" con todos los ingredientes por categoría */
+  const tp=$('.tp');tp.classList.toggle('all',custom);tp.closest('.step').classList.toggle('taller',custom);
+  $('#exTitle').textContent=custom?'A la mano':'Toppings extra';
+  $('#exSub').textContent=custom?'Todos los ingredientes, listos para tu pizza':'Elige una categoría';
+  drawPicked(custom);
   $('#pvSub').textContent=[G.base[s.base].n,G.size[s.size].n,s.edge?'Borde de '+G.edge[s.edge].n.toLowerCase():'',s.ex.length?(custom?'Con: ':'Extra: ')+s.ex.map(i=>G.ex[i].n).join(', '):''].filter(Boolean).join(' · ');
   $('#q').textContent=s.q;
   $('#addBtn').textContent='Agregar al carrito · '+fmt(t*s.q);
@@ -74,6 +88,9 @@ function add(){
   s=fresh();paint();
 }
 document.addEventListener('click',e=>{
+  const pk=e.target.closest('[data-pick]');
+  if(pk){const j=s.ex.indexOf(+pk.dataset.pick);if(j>=0)s.ex.splice(j,1);return paint()}
+  if(e.target.closest('[data-clear]')){s.ex=[];return paint()}
   const op=e.target.closest('.op');
   if(op){
     const g=op.dataset.g,i=+op.dataset.i;
