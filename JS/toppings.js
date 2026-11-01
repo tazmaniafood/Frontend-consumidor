@@ -48,4 +48,14 @@ if(!document.querySelector('.cartel'))$$('.opts-base .op').forEach(op=>{
   op.append(tip);
   op.addEventListener('pointerup',e=>{if(e.pointerType!=='touch')return;$$('.op.peek').forEach(o=>o.classList.remove('peek'));op.classList.add('peek');clearTimeout(op._t);op._t=setTimeout(()=>op.classList.remove('peek'),2600)});
 });
+
+/* ---------- 3) Después de elegir una opción, volver a la vista del plato si no se ve ---------- */
+const pv=document.querySelector('.pv'),stage=document.querySelector('.stage');
+document.addEventListener('click',e=>{
+  if(!pv||!e.target.closest('.op, #backEsp'))return;
+  setTimeout(()=>{
+    const r=stage.getBoundingClientRect(),top=(document.querySelector('.top')?.getBoundingClientRect().bottom||0);
+    if(r.top<top||r.bottom>innerHeight)pv.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
+  },120);
+});
 })();

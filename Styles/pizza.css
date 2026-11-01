@@ -347,3 +347,13 @@ footer a.sc:active{transform:translateY(3px);box-shadow:0 1px 0 #120303}
 .opts-base.solo{display:none}
 .volver-esp{margin:0;display:inline-block;background:var(--cream);color:var(--ink);border:2px solid var(--ink);border-radius:99px;box-shadow:0 2px 0 var(--ink);padding:2px 12px;font-size:13px;text-decoration:none}
 .volver-esp:hover{background:var(--yel);color:var(--ink)}
+
+/* ---- Pizza personalizada: barrita con título y volver; A la mano primero ---- */
+.custombar{display:flex;align-items:center;gap:12px;padding:8px 12px;background:var(--card);border:3px solid var(--ink);border-radius:16px;box-shadow:4px 4px 0 var(--ink)}
+.custombar[hidden]{display:none}
+.custombar b{font:400 22px/1 var(--hd);letter-spacing:.5px;color:var(--yel)}
+.steps.custom>.step:has(.opts-base){display:none}
+.steps.custom .custombar{order:0}
+.steps.custom>.step:has(.tp){order:1}
+.steps.custom>.step-duo{order:2}
+.steps.custom>.add{order:3}
