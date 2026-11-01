@@ -14,7 +14,7 @@ $$('.op').forEach(el=>{
 });
 
 const fresh=()=>({size:0,base:0,edge:0,ex:[],q:1});
-let s=fresh();
+let s=fresh(),lastBase=0;
 const price=()=>G.base[s.base].pz[s.size]+G.edge[s.edge].p+s.ex.reduce((t,i)=>t+G.ex[i].p,0);
 const mark=(o,v)=>{o.el.classList.toggle('on',v);o.el.setAttribute('aria-pressed',v)};
 
@@ -71,6 +71,7 @@ function paint(){
   $('#tot').textContent=fmt(t);
   const custom=G.base[s.base].custom;
   /* Pizza a tu gusto: interfaz especial "A la mano" con todos los ingredientes por categoría */
+  $('.opts-base').classList.toggle('solo',custom);$('#backEsp').hidden=!custom;
   const tp=$('.tp');tp.classList.toggle('all',custom);tp.closest('.step').classList.toggle('taller',custom);
   $('#exTitle').textContent=custom?'A la mano':'Toppings extra';
   $('#exSub').textContent=custom?'Todos los ingredientes, listos para tu pizza':'Elige una categoría';
@@ -91,10 +92,12 @@ document.addEventListener('click',e=>{
   const pk=e.target.closest('[data-pick]');
   if(pk){const j=s.ex.indexOf(+pk.dataset.pick);if(j>=0)s.ex.splice(j,1);return paint()}
   if(e.target.closest('[data-clear]')){s.ex=[];return paint()}
+  if(e.target.id==='backEsp'){s.base=lastBase;s.ex=[];paint();return $('.opts-base').scrollIntoView({behavior:'smooth',block:'nearest'})}
   const op=e.target.closest('.op');
   if(op){
     const g=op.dataset.g,i=+op.dataset.i;
     if(g==='ex'){const j=s.ex.indexOf(i);j<0?s.ex.push(i):s.ex.splice(j,1)}else s[g]=i;
+    if(g==='base'&&!G.base[i].custom)lastBase=i;
     return paint();
   }
   const q=e.target.closest('[data-q]');

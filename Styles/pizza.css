@@ -303,3 +303,24 @@ footer a.sc:active{transform:translateY(3px);box-shadow:0 1px 0 #120303}
 @keyframes pop2{from{transform:scale(.6);opacity:0}}
 .pk-clear{margin-left:auto;background:none;border:0;color:var(--yel);font-weight:800;text-decoration:underline}
 @media(max-width:520px){.tp.all .opts-ex{grid-template-columns:repeat(3,1fr);gap:8px}.tp.all .opts-ex .op em{width:42px;height:42px;font-size:23px}.tp.all .opts-ex .tx b{font-size:12.5px}.step.taller h3 #exTitle{font-size:27px}}
+
+/* ---- Pizza a tu gusto: solo se ve el cartel, con un botón sutil para volver ---- */
+.opts-base.solo .op:not(.cartel){display:none}
+.volver-esp{display:block;margin:12px auto 0;background:none;border:0;color:var(--mut);font-weight:800;font-size:14px;text-decoration:underline;text-underline-offset:3px;padding:4px 8px}
+.volver-esp:hover{color:var(--yel)}
+.volver-esp[hidden]{display:none}
+
+/* ---- Tamaño y borde más bajitos: ícono al lado del texto ---- */
+.opts-size .op,.opts-edge .op{grid-template-columns:auto auto;grid-template-areas:"em tx" "em pr";justify-content:center;justify-items:start;text-align:left;gap:2px 10px;min-height:0;padding:8px 10px}
+.opts-size .op:has(.pr:empty),.opts-edge .op:has(.pr:empty){grid-template-areas:"em tx"}
+.opts-size .op .pr,.opts-edge .op .pr{justify-self:start;font-size:12px;padding:1px 9px}
+.opts-size .op:nth-child(1) em{width:30px;height:30px;font-size:15px}
+.opts-size .op:nth-child(2) em{width:36px;height:36px;font-size:18px}
+.opts-size .op:nth-child(3) em{width:42px;height:42px;font-size:21px}
+.opts-edge .op em{width:36px;height:36px;font-size:19px}
+.opts-size .op,.opts-edge .op{height:60px}
+@media(max-width:520px){
+ .opts-size .op,.opts-edge .op{grid-template-columns:1fr;grid-template-areas:"em" "tx" "pr";justify-items:center;text-align:center;gap:3px;height:auto;padding:7px 4px}
+ .opts-size .op:has(.pr:empty),.opts-edge .op:has(.pr:empty){grid-template-areas:"em" "tx"}
+ .opts-size .op .pr,.opts-edge .op .pr{justify-self:center}
+}
