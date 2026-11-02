@@ -73,7 +73,7 @@ function paint(){
   /* Pizza a tu gusto: interfaz especial "A la mano" con todos los ingredientes por categoría */
   /* Pizza personalizada: se oculta la especialidad y queda: 1. A la mano, 2. Tamaño y borde */
   $('.steps').classList.toggle('custom',custom);$('#customBar').hidden=!custom;
-  $('.step:has(.tp) h3 i').textContent=custom?1:3;$('.step-duo h3 i').textContent=2;
+  $('.step:has(.tp) h3 i').textContent=custom?1:2;
   const tp=$('.tp');tp.classList.toggle('all',custom);tp.closest('.step').classList.toggle('taller',custom);
   $('#exTitle').textContent=custom?'A la mano':'Toppings extra';
   $('#exSub').textContent=custom?'Todos los ingredientes, listos para tu pizza':'Elige una categoría';

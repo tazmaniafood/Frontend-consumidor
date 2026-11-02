@@ -365,3 +365,18 @@ footer a.sc:active{transform:translateY(3px);box-shadow:0 1px 0 #120303}
 }
 @media(max-width:760px){.brand{width:52px;height:52px}}
 @media(max-width:1100px) and (min-width:761px){.top nav{justify-content:safe center}}
+
+/* ---- Tamaño y borde como acciones debajo de la pizza ---- */
+.acciones{display:grid;gap:10px;margin:2px 0 16px;text-align:left}
+.fila{display:grid;grid-template-columns:62px 1fr;align-items:center;gap:10px}
+.fila .lab{font:400 17px/1 var(--hd);letter-spacing:.5px;color:var(--yel)}
+.pv .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:0;background:var(--ink);border:3px solid var(--ink);border-radius:99px;padding:3px;box-shadow:0 3px 0 #0008}
+.pv .seg .op{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;min-height:0;height:auto;padding:5px 4px;background:transparent;border:0;border-radius:99px;box-shadow:none;color:var(--cream);text-align:center;transform:none}
+.pv .seg .op em{display:none}
+.pv .seg .op .tx b{font-size:14px;line-height:1.15}
+.pv .seg .op .pr{background:none;color:var(--mut);padding:0;font-size:11px;line-height:1.2}
+.pv .seg .op:hover{background:#ffffff1a;transform:none}
+.pv .seg .op.on{background:var(--yel);color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink)}
+.pv .seg .op.on .pr{color:var(--ink)}
+.pv .seg .op.on::after{display:none}
+@media(max-width:420px){.fila{grid-template-columns:1fr;gap:5px}.fila .lab{font-size:15px}.pv .seg .op .tx b{font-size:13px}}
