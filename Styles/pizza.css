@@ -380,3 +380,6 @@ footer a.sc:active{transform:translateY(3px);box-shadow:0 1px 0 #120303}
 .pv .seg .op.on .pr{color:var(--ink)}
 .pv .seg .op.on::after{display:none}
 @media(max-width:420px){.fila{grid-template-columns:1fr;gap:5px}.fila .lab{font-size:15px}.pv .seg .op .tx b{font-size:13px}}
+/* Mismo alto en los botones de tamaño y de borde */
+.pv .seg .op{min-height:42px}
+.pv .seg .op .pr:empty{display:none}
