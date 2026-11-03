@@ -446,3 +446,9 @@ footer a.sc:active{transform:translateY(3px);box-shadow:0 1px 0 #120303}
 /* ---- Toppings con ícono en imagen (ej. chorizo) ---- */
 .op em img.ic{object-fit:contain;padding:7px;border-radius:0}
 .spin .tops i img.ic,.pz .sec i img.ic,.pk img.ic{position:static;inset:auto;display:inline-block;width:1.1em;height:1.1em;vertical-align:-.18em;object-fit:contain;opacity:1;border-radius:0;animation:none;transition:none}
+
+/* ---- Capas de toppings (foto del ingrediente regado sobre la pizza) ---- */
+.capas{position:absolute;inset:0;border-radius:50%;pointer-events:none}
+.pz .spin .capas img.capa,.pz .sec img.capa{position:absolute;inset:4%;width:92%;height:92%;object-fit:contain;opacity:1;border-radius:0;animation:capa .35s ease-out;filter:drop-shadow(1px 2px 1px #0005)}
+@keyframes capa{from{opacity:0;transform:scale(1.08)}}
+.pz.is-split .capas{display:none}

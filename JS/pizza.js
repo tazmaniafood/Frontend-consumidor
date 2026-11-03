@@ -18,7 +18,7 @@ const G={};
 $$('.op').forEach(el=>{
   const d=el.dataset;
   (G[d.g]=G[d.g]||[]).push({el,n:el.querySelector('b').textContent,e:(im=>im?'img:'+im.getAttribute('src'):el.querySelector('em').textContent)(el.querySelector('em img')),pr:el.querySelector('.pr'),
-    p:+d.p||0,pz:d.pz?d.pz.split(',').map(Number):null,img:d.img||'',tp:(d.tp||'').split(' ').filter(Boolean),custom:d.custom==='1',ok:false});
+    p:+d.p||0,pz:d.pz?d.pz.split(',').map(Number):null,img:d.img||'',tp:(d.tp||'').split(' ').filter(Boolean),custom:d.custom==='1',layer:d.layer||'',ok:false});
 });
 
 const part=(base,edge=0)=>({base,ex:[],edge});
@@ -32,6 +32,11 @@ const exSum=p=>p.ex.reduce((t,i)=>t+G.ex[i].p,0);
 const listo=()=>s.parts.every(p=>p.base!=null);
 const price=()=>listo()?Math.max(...s.parts.map(p=>G.base[p.base].pz[s.size]))+s.parts.reduce((t,p)=>t+exSum(p)+G.edge[p.edge].p/s.n,0):null;
 const nombre=k=>(s.n===2?'Mitad ':'Cuarto ')+(k+1);
+/* Capas de toppings (data-layer en el HTML): foto del ingrediente regado que se pone encima de la pizza.
+   Los toppings sin capa se muestran con su ícono. */
+(G.ex||[]).forEach(o=>{if(o.layer)new Image().src=o.layer});
+const capas=p=>[...p.ex].sort((a,c)=>a-c).filter(i=>G.ex[i].layer).map(i=>{const im=new Image();im.src=G.ex[i].layer;im.alt='';im.className='capa';return im});
+const sinCapa=p=>p.ex.filter(i=>!G.ex[i].layer).map(i=>G.ex[i].e);
 /* Ícono de un topping: emoji o imagen (los que en el HTML tienen <img> dentro de <em>) */
 const ico=e=>{if(!e.startsWith('img:'))return document.createTextNode(e);const i=new Image();i.src=e.slice(4);i.alt='';i.className='ic';return i};
 const mark=(o,v)=>{o.el.classList.toggle('on',v);o.el.setAttribute('aria-pressed',v)};
@@ -51,7 +56,8 @@ let shown='';
 function drawPizza(){
   const img=$('#pzImg'),p=s.parts[0],b=G.base[p.base];
   $('#pz').classList.toggle('has-img',b.ok);$('#pz').classList.toggle('custom',b.custom);
-  drawTops(b.custom?p.ex.map(i=>G.ex[i].e):[]);
+  $('#capas').replaceChildren(...capas(p));
+  drawTops(b.custom?sinCapa(p):[]);
   if(b.ok&&shown!==b.img){
     img.src=b.img;img.alt='Pizza '+b.n;shown=b.img;
     img.classList.remove('swap');void img.offsetWidth;img.classList.add('swap');
@@ -88,8 +94,10 @@ function drawSplit(){
   const secs=s.parts.map((p,k)=>{
     const d=document.createElement('div');d.className='sec'+(p.base==null?' vacia':'')+(k===s.act?' act':'');d.style.clipPath=clip(k);
     if(p.base!=null){
-      const b=G.base[p.base],ex=p.ex.map(i=>G.ex[i].e);
-      if(b.ok){const im=new Image();im.src=b.img;im.alt='';d.append(im);if(ex.length)sprinkle(d,k,ex,Math.min(8,ex.length*2))}
+      const b=G.base[p.base],ex=sinCapa(p);
+      if(b.ok){const im=new Image();im.src=b.img;im.alt='';d.append(im)}
+      d.append(...capas(p));
+      if(b.ok){if(ex.length)sprinkle(d,k,ex,Math.min(8,ex.length*2))}
       else{d.classList.add('base');const list=b.custom?ex:[...b.tp,...ex];if(list.length)sprinkle(d,k,list,s.n===2?12:7)}
     }
     return d;
