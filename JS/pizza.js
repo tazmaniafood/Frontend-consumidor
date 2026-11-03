@@ -3,7 +3,8 @@
    Foto de cada especialidad: data-img="../IMG/Pizzas/<nombre>.webp". Si la foto no existe
    todavía, se muestra la plantilla base con los ingredientes en emoji.
 
-   Sabores: la pizza puede ser Entera (1 parte), Mitad y mitad (2) o Cuartos (4).
+   Sabores: la pizza puede ser Entera (1 parte) o Mitad y mitad (2 partes).
+   (El código también soporta 4 partes por si se vuelven a ofrecer cuartos.)
    Cada parte tiene su especialidad (o "Pizza a tu gusto") y sus propios extras.
    Cada parte tiene también su propio borde.
    Precio = la especialidad más cara de las partes (según el tamaño) + todos los extras
@@ -16,7 +17,7 @@ const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],fmt
 const G={};
 $$('.op').forEach(el=>{
   const d=el.dataset;
-  (G[d.g]=G[d.g]||[]).push({el,n:el.querySelector('b').textContent,e:el.querySelector('em').textContent,pr:el.querySelector('.pr'),
+  (G[d.g]=G[d.g]||[]).push({el,n:el.querySelector('b').textContent,e:(im=>im?'img:'+im.getAttribute('src'):el.querySelector('em').textContent)(el.querySelector('em img')),pr:el.querySelector('.pr'),
     p:+d.p||0,pz:d.pz?d.pz.split(',').map(Number):null,img:d.img||'',tp:(d.tp||'').split(' ').filter(Boolean),custom:d.custom==='1',ok:false});
 });
 
@@ -31,6 +32,8 @@ const exSum=p=>p.ex.reduce((t,i)=>t+G.ex[i].p,0);
 const listo=()=>s.parts.every(p=>p.base!=null);
 const price=()=>listo()?Math.max(...s.parts.map(p=>G.base[p.base].pz[s.size]))+s.parts.reduce((t,p)=>t+exSum(p)+G.edge[p.edge].p/s.n,0):null;
 const nombre=k=>(s.n===2?'Mitad ':'Cuarto ')+(k+1);
+/* Ícono de un topping: emoji o imagen (los que en el HTML tienen <img> dentro de <em>) */
+const ico=e=>{if(!e.startsWith('img:'))return document.createTextNode(e);const i=new Image();i.src=e.slice(4);i.alt='';i.className='ic';return i};
 const mark=(o,v)=>{o.el.classList.toggle('on',v);o.el.setAttribute('aria-pressed',v)};
 const reduce=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -62,7 +65,7 @@ function drawTops(list){
   all.sort((a,c)=>((a.codePointAt(0)*7)%11)-((c.codePointAt(0)*7)%11));
   $('#tops').replaceChildren(...all.map((e,i)=>{
     const t=document.createElement('i'),a=i*2.399,r=Math.sqrt((i+.6)/all.length)*36;
-    t.textContent=e;t.style.left=(50+r*Math.cos(a))+'%';t.style.top=(50+r*Math.sin(a))+'%';
+    t.append(ico(e));t.style.left=(50+r*Math.cos(a))+'%';t.style.top=(50+r*Math.sin(a))+'%';
     return t;
   }));
 }
@@ -77,7 +80,7 @@ function sprinkle(sec,k,list,cnt){
   const span=360/s.n;
   for(let j=0;j<cnt;j++){
     const a=ang(k,s.n)+span*(.12+.76*((j*.618+.3)%1)),r=12+31*Math.sqrt((j+.5)/cnt),[x,y]=pt(a,r),t=document.createElement('i');
-    t.textContent=list[j%list.length];t.style.left=x+'%';t.style.top=y+'%';sec.append(t);
+    t.append(ico(list[j%list.length]));t.style.left=x+'%';t.style.top=y+'%';sec.append(t);
   }
 }
 function drawSplit(){
@@ -117,7 +120,7 @@ function drawPicked(custom){
   const lab=document.createElement('span');lab.className='pk-lab';lab.textContent=s.n>1?nombre(s.act)+' lleva:':'Tu pizza lleva:';
   if(!p.ex.length){const e=document.createElement('span');e.className='pk-empty';e.textContent='Solo masa y queso. Toca los ingredientes para ponérselos 👇';return box.replaceChildren(lab,e)}
   const chips=p.ex.map(i=>{const b=document.createElement('button');b.type='button';b.className='pk';b.dataset.pick=i;
-    b.setAttribute('aria-label','Quitar '+G.ex[i].n);b.textContent=G.ex[i].e+' '+G.ex[i].n+' ✕';return b});
+    b.setAttribute('aria-label','Quitar '+G.ex[i].n);b.append(ico(G.ex[i].e),' '+G.ex[i].n+' ✕');return b});
   const clr=document.createElement('button');clr.type='button';clr.className='pk-clear';clr.dataset.clear='1';clr.textContent='Limpiar todo';
   box.replaceChildren(lab,...chips,clr);
 }
