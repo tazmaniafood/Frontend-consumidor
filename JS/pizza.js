@@ -164,16 +164,13 @@ function paint(){
   add.textContent=t==null?'Elige el sabor de la parte '+(falta+1):'Agregar al carrito · '+fmt(t*s.q);
 }
 
-/* Cambia entre Entera / Mitades / Cuartos conservando lo que ya se eligió */
+/* Cambia entre Entera y Mitad y mitad */
 function setN(n){
-  const o=s.parts,first=o.find(p=>p.base!=null)||part(lastBase);
   if(n===s.n)return;
-  const e=o[0].edge;
-  if(n===1)s.parts=[copy(o[s.act].base!=null?o[s.act]:first)];
-  else if(n===2)s.parts=s.n===1?[copy(o[0]),part(null,e)]:[copy(o[0]),copy(o[2])];
-  else s.parts=s.n===1?[copy(o[0]),part(null,e),part(null,e),part(null,e)]:[copy(o[0]),copy(o[0]),copy(o[1]),copy(o[1])];
-  s.n=n;
-  const f=s.parts.findIndex(p=>p.base==null);s.act=f<0?0:f;
+  const o=s.parts,first=o.find(p=>p.base!=null)||part(lastBase);
+  /* Entera: se queda con la parte que se estaba viendo. Por partes: se empieza de cero, todas sin sabor */
+  s.parts=n===1?[copy(o[s.act].base!=null?o[s.act]:first)]:Array.from({length:n},()=>part(null));
+  s.n=n;s.act=0;
 }
 
 function add(){
