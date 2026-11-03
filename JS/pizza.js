@@ -18,7 +18,7 @@ const G={};
 $$('.op').forEach(el=>{
   const d=el.dataset;
   (G[d.g]=G[d.g]||[]).push({el,n:el.querySelector('b').textContent,e:(im=>im?'img:'+im.getAttribute('src'):el.querySelector('em').textContent)(el.querySelector('em img')),pr:el.querySelector('.pr'),
-    p:+d.p||0,pz:d.pz?d.pz.split(',').map(Number):null,img:d.img||'',tp:(d.tp||'').split(' ').filter(Boolean),custom:d.custom==='1',layer:d.layer||'',ok:false});
+    p:+d.p||0,pz:d.pz?d.pz.split(',').map(Number):null,img:d.img||'',tp:(d.tp||'').split(' ').filter(Boolean),custom:d.custom==='1',layer:d.layer||'',escala:d.escala||'',ok:false});
 });
 
 const part=(base,edge=0)=>({base,ex:[],edge});
@@ -40,7 +40,8 @@ const nombre=k=>(s.n===2?'Mitad ':'Cuarto ')+(k+1);
 const FONDO=['Carne molida','Queso extra'];
 const nivel=i=>{const k=FONDO.indexOf(G.ex[i].n);return k<0?FONDO.length+i:k};
 const capas=p=>[...p.ex].sort((a,c)=>nivel(a)-nivel(c)).filter(i=>G.ex[i].layer).map((i,k)=>{const im=new Image();im.src=G.ex[i].layer;im.alt='';im.className='capa';
-  im.style.setProperty('--r',(i*67+k*41)%360+'deg');im.style.setProperty('--f',k%2?-1:1);return im});
+  im.style.setProperty('--r',(i*67+k*41)%360+'deg');im.style.setProperty('--f',k%2?-1:1);
+  if(G.ex[i].escala)im.style.setProperty('--s',G.ex[i].escala);return im});
 const sinCapa=p=>p.ex.filter(i=>!G.ex[i].layer).map(i=>G.ex[i].e);
 /* Ícono de un topping: emoji o imagen (los que en el HTML tienen <img> dentro de <em>) */
 const ico=e=>{if(!e.startsWith('img:'))return document.createTextNode(e);const i=new Image();i.src=e.slice(4);i.alt='';i.className='ic';return i};
