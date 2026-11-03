@@ -171,7 +171,9 @@ footer a.sc:active{transform:translateY(3px);box-shadow:0 1px 0 #120303}
 .tam.on{background:var(--yel);transform:translateY(2px);box-shadow:0 2px 0 var(--ink)}
 .tam.on::after{content:"✓";position:absolute;top:-10px;right:-8px;display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--ok);border:3px solid var(--ink);font-size:12px;font-weight:800;line-height:1}
 /* Botellas: más altas que la lata, ocupan casi todo el marco */
-.bb.has-img[data-tam="1"] .marco img,.bb.has-img[data-tam="2"] .marco img{height:90%}
+/* Botellas (SVG animadas: ya flotan y burbujean solas, así que no se balancean por fuera) */
+.bb.has-img[data-tam="1"] .marco img,.bb.has-img[data-tam="2"] .marco img{height:92%;animation:none;filter:drop-shadow(6px 8px 0 #0003)}
 .bb.has-img .marco img.pop{animation:pop .45s cubic-bezier(.3,1.6,.5,1),sway 3.4s ease-in-out .45s infinite}
 @keyframes pop{0%{transform:translateY(30px) scale(.6);opacity:0}100%{transform:none;opacity:1}}
 @media(max-width:420px){.tam b{font-size:18px}}
+.bb.has-img[data-tam="1"] .marco img.pop,.bb.has-img[data-tam="2"] .marco img.pop{animation:pop .45s cubic-bezier(.3,1.6,.5,1)}

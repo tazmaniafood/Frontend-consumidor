@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="260" height="740" viewBox="170 34 260 740" role="img" aria-label="Botella roja genérica de 1.5 L animada">
+<style>
+
+
+@keyframes btFloat{0%,100%{transform:translateY(0) rotate(-1.5deg)}50%{transform:translateY(-16px) rotate(1.5deg)}}
+@keyframes btSweep{0%,55%{transform:translateX(-140px)}100%{transform:translateX(320px)}}
+@keyframes btRise{0%{transform:translateY(0);opacity:0}10%{opacity:.6}85%{opacity:.5}100%{transform:translateY(-500px);opacity:0}}
+.bt-float{transform-box:fill-box;transform-origin:50% 100%;animation:btFloat 3.2s ease-in-out infinite}
+.bt-sweep{animation:btSweep 3.8s ease-in-out infinite}
+.bt-rise{animation-name:btRise;animation-timing-function:linear;animation-iteration-count:infinite}
+</style>
+<defs><clipPath id="minirojaClip"><path d="M272,150 C272,205 190,212 190,272 L190,680 C190,710 198,724 210,740 Q236,756 262,738 Q300,760 338,738 Q364,756 390,740 C402,724 410,710 410,680 L410,272 C410,212 328,205 328,150 Z"></path></clipPath></defs>
+<g class="bt-float">
+<rect x="266" y="58" width="68" height="54" rx="8" fill="#E3262F"></rect>
+<rect x="266" y="58" width="68" height="12" rx="6" fill="#FFFFFF" opacity=".18"></rect>
+<rect x="276" y="74" width="5" height="34" rx="2.5" fill="#000000" opacity=".15"></rect>
+<rect x="290" y="74" width="5" height="34" rx="2.5" fill="#000000" opacity=".15"></rect>
+<rect x="304" y="74" width="5" height="34" rx="2.5" fill="#000000" opacity=".15"></rect>
+<rect x="318" y="74" width="5" height="34" rx="2.5" fill="#000000" opacity=".15"></rect>
+<rect x="266" y="58" width="16" height="54" rx="8" fill="#000000" opacity=".12"></rect>
+<rect x="256" y="112" width="88" height="10" rx="5" fill="#D6E7EE"></rect>
+<g clip-path="url(#minirojaClip)">
+<rect x="180" y="140" width="240" height="810" fill="#D9EEF5" opacity=".55"></rect>
+<rect x="180" y="214" width="240" height="810" fill="#3A1A0F"></rect>
+<rect x="180" y="214" width="240" height="8" fill="#FFFFFF" opacity=".35"></rect>
+<circle class="bt-rise" cx="389" cy="730" r="5.8" fill="#FFFFFF" opacity=".45" style="animation-duration: 3.4s; animation-delay: -2.4s"></circle><circle class="bt-rise" cx="351" cy="730" r="7.9" fill="#FFFFFF" opacity=".45" style="animation-duration: 3.3s; animation-delay: -1.0s"></circle><circle class="bt-rise" cx="276" cy="730" r="3.3" fill="#FFFFFF" opacity=".45" style="animation-duration: 3.8s; animation-delay: -4.5s"></circle><circle class="bt-rise" cx="244" cy="730" r="6.8" fill="#FFFFFF" opacity=".45" style="animation-duration: 2.9s; animation-delay: -4.2s"></circle><circle class="bt-rise" cx="311" cy="730" r="4.9" fill="#FFFFFF" opacity=".45" style="animation-duration: 2.6s; animation-delay: -0.7s"></circle><circle class="bt-rise" cx="376" cy="730" r="3.9" fill="#FFFFFF" opacity=".45" style="animation-duration: 3.7s; animation-delay: -2.5s"></circle><circle class="bt-rise" cx="289" cy="730" r="6.6" fill="#FFFFFF" opacity=".45" style="animation-duration: 2.8s; animation-delay: -3.0s"></circle><circle class="bt-rise" cx="217" cy="730" r="4.1" fill="#FFFFFF" opacity=".45" style="animation-duration: 3.9s; animation-delay: -0.9s"></circle><circle class="bt-rise" cx="231" cy="730" r="5.5" fill="#FFFFFF" opacity=".45" style="animation-duration: 3.8s; animation-delay: -0.0s"></circle><circle class="bt-rise" cx="333" cy="730" r="5.9" fill="#FFFFFF" opacity=".45" style="animation-duration: 2.5s; animation-delay: -2.6s"></circle><circle class="bt-rise" cx="205" cy="730" r="5.8" fill="#FFFFFF" opacity=".45" style="animation-duration: 3.7s; animation-delay: -1.7s"></circle><circle class="bt-rise" cx="273" cy="730" r="7.0" fill="#FFFFFF" opacity=".45" style="animation-duration: 2.9s; animation-delay: -2.1s"></circle><circle class="bt-rise" cx="300" cy="730" r="3.2" fill="#FFFFFF" opacity=".45" style="animation-duration: 4.3s; animation-delay: -0.8s"></circle><circle class="bt-rise" cx="355" cy="730" r="5.3" fill="#FFFFFF" opacity=".45" style="animation-duration: 2.5s; animation-delay: -1.4s"></circle>
+<rect x="180" y="300" width="240" height="6" fill="#FFFFFF" opacity=".16"></rect>
+<rect x="180" y="330" width="240" height="6" fill="#FFFFFF" opacity=".16"></rect>
+<rect x="180" y="574" width="240" height="6" fill="#FFFFFF" opacity=".16"></rect>
+<rect x="180" y="604" width="240" height="6" fill="#FFFFFF" opacity=".16"></rect>
+<rect x="180" y="390" width="240" height="140" fill="#E3262F"></rect>
+<rect x="180" y="390" width="240" height="40" fill="#FFFFFF" opacity=".1"></rect>
+<circle cx="317" cy="428" r="5" fill="#FFFFFF" opacity=".22"></circle><circle cx="386" cy="411" r="8" fill="#FFFFFF" opacity=".22"></circle><circle cx="369" cy="445" r="4" fill="#FFFFFF" opacity=".22"></circle><circle cx="229" cy="430" r="6" fill="#FFFFFF" opacity=".22"></circle><circle cx="205" cy="433" r="9" fill="#FFFFFF" opacity=".22"></circle><circle cx="341" cy="422" r="5" fill="#FFFFFF" opacity=".22"></circle>
+<text x="300" y="452" text-anchor="middle" font-family="Lilita One, Arial Black, Arial, sans-serif" font-weight="900" font-size="58" fill="#FFFFFF">1.5 L</text>
+<rect x="180" y="478" width="240" height="16" fill="#FFFFFF" opacity=".92"></rect>
+<rect x="180" y="504" width="240" height="6" fill="#FFFFFF" opacity=".6"></rect>
+<rect x="180" y="140" width="56" height="810" fill="#000000" opacity=".14"></rect>
+<rect x="236" y="140" width="38" height="810" fill="#000000" opacity=".05"></rect>
+<rect x="336" y="140" width="36" height="810" fill="#FFFFFF" opacity=".08"></rect>
+<rect x="372" y="140" width="48" height="810" fill="#FFFFFF" opacity=".15"></rect>
+<g class="bt-sweep"><rect x="180" y="140" width="34" height="810" fill="#FFFFFF" opacity=".22"></rect><rect x="222" y="140" width="10" height="810" fill="#FFFFFF" opacity=".16"></rect></g>
+</g>
+<path d="M272,150 C272,205 190,212 190,272 L190,680 C190,710 198,724 210,740 Q236,756 262,738 Q300,760 338,738 Q364,756 390,740 C402,724 410,710 410,680 L410,272 C410,212 328,205 328,150 Z" fill="none" stroke="#FFFFFF" stroke-opacity=".5" stroke-width="3"></path>
+<rect x="380" y="290" width="11" height="60" rx="5.5" fill="#FFFFFF" opacity=".6"></rect>
+<rect x="380" y="266" width="11" height="14" rx="5.5" fill="#FFFFFF" opacity=".6"></rect>
+<rect x="380" y="560" width="11" height="44" rx="5.5" fill="#FFFFFF" opacity=".45"></rect>
+</g>
+</svg>

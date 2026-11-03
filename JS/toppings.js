@@ -55,6 +55,8 @@ document.addEventListener('click',e=>{
   /* tamaño y borde no suben a la pizza */
   if(!pv||!e.target.closest('.op, #backEsp')||e.target.closest('[data-g="size"],[data-g="edge"]'))return;
   setTimeout(()=>{
+    /* pizza por partes: si aún falta elegir el sabor de alguna parte, se queda en la lista */
+    if(document.querySelector('#partes .parte.vacia'))return;
     const r=stage.getBoundingClientRect(),top=(document.querySelector('.top')?.getBoundingClientRect().bottom||0);
     if(r.top<top||r.bottom>innerHeight)pv.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
   },120);
