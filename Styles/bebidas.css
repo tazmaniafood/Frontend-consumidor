@@ -160,3 +160,18 @@ footer a.sc:active{transform:translateY(3px);box-shadow:0 1px 0 #120303}
 }
 @media(max-width:760px){.brand{width:52px;height:52px}}
 @media(max-width:1100px) and (min-width:761px){.top nav{justify-content:safe center}}
+
+/* ---- Tamaños: Personal (lata), 1.5 L y 2 L ---- */
+.tams{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.tam{position:relative;display:flex;flex-direction:column;align-items:center;gap:1px;background:var(--cream);color:var(--ink);border:3px solid var(--ink);border-radius:14px;box-shadow:0 4px 0 var(--ink);padding:6px 4px 5px;transition:transform .15s,background .15s}
+.tam b{font:400 20px/1.1 var(--hd);letter-spacing:.5px}
+.tam small{font-size:11.5px;font-weight:800;opacity:.7;text-transform:uppercase;letter-spacing:.6px}
+.tam:hover{transform:translateY(-2px)}
+.tam:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.tam.on{background:var(--yel);transform:translateY(2px);box-shadow:0 2px 0 var(--ink)}
+.tam.on::after{content:"✓";position:absolute;top:-10px;right:-8px;display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--ok);border:3px solid var(--ink);font-size:12px;font-weight:800;line-height:1}
+/* Botellas: más altas que la lata, ocupan casi todo el marco */
+.bb.has-img[data-tam="1"] .marco img,.bb.has-img[data-tam="2"] .marco img{height:90%}
+.bb.has-img .marco img.pop{animation:pop .45s cubic-bezier(.3,1.6,.5,1),sway 3.4s ease-in-out .45s infinite}
+@keyframes pop{0%{transform:translateY(30px) scale(.6);opacity:0}100%{transform:none;opacity:1}}
+@media(max-width:420px){.tam b{font-size:18px}}

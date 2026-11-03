@@ -107,5 +107,108 @@ document.addEventListener('click',e=>{
   if(e.target.id==='addBtn')add();
 });
 
+/* ===================== Pizza por mitades =====================
+   Botón #openMit abre la ventana #mit: se divide la pizza en 2 o 4 partes y cada parte
+   lleva su especialidad. Se cobra la especialidad más cara (según el tamaño) + el borde.
+   En tamaño Personal solo se permite por mitades. */
+const dlg=$('#mit');
+if(dlg){
+const ESP=G.base.map((o,i)=>({o,i})).filter(x=>!x.o.custom);
+const FR={1:'¼',2:'½',3:'¾'};
+let m=null;
+const SVGNS='http://www.w3.org/2000/svg';
+const ang=(k,n)=>-90+360*k/n;
+const pt=(a,r)=>[50+r*Math.cos(a*Math.PI/180),50+r*Math.sin(a*Math.PI/180)];
+const clip=(k,n)=>{const a0=ang(k,n),a1=ang(k+1,n),p=['50% 50%'];for(let a=a0;a<=a1+.01;a+=5){const[x,y]=pt(a,75);p.push(x.toFixed(2)+'% '+y.toFixed(2)+'%')}return'polygon('+p.join(',')+')'};
+const mprice=()=>m.parts.some(v=>v==null)?null:Math.max(...m.parts.map(i=>G.base[i].pz[m.size]))+G.edge[m.edge].p;
+function seg(box,list,cur,key,dis){
+  box.replaceChildren(...list.map((t,i)=>{const b=document.createElement('button');b.type='button';b.className='mseg'+(i===cur?' on':'');
+    b.dataset[key]=i;b.setAttribute('aria-pressed',i===cur);b.innerHTML=t;if(dis&&dis(i)){b.disabled=true}return b}));
+}
+function drawPie(){
+  const pz=$('#mpz'),n=m.n;
+  pz.className='mpz'+['',' bocadillo',' queso'][m.edge];
+  const secs=m.parts.map((v,k)=>{
+    const d=document.createElement('div');d.className='msec'+(v==null?' vacia':'')+(k===m.act?' act':'');d.style.clipPath=clip(k,n);
+    if(v!=null){const b=G.base[v];
+      if(b.ok){const im=new Image();im.src=b.img;im.alt='';d.append(im)}
+      else{d.classList.add('base');const tp=(b.el.dataset.tp||'').split(' ').filter(Boolean);
+        for(let j=0;j<12;j++){const t=document.createElement('i');const a=ang(k,n)+(360/n)*(.1+.8*((j*.618+.3)%1)),r=10+32*Math.sqrt((j+.5)/12);const[x,y]=pt(a,r);t.style.left=x+'%';t.style.top=y+'%';t.textContent=tp[j%tp.length]||'🍕';d.append(t)}}
+    }
+    return d;
+  });
+  /* contorno de cada parte (se puede tocar) */
+  const svg=document.createElementNS(SVGNS,'svg');svg.setAttribute('viewBox','0 0 100 100');svg.setAttribute('class','mlines');
+  m.parts.forEach((v,k)=>{
+    const[x0,y0]=pt(ang(k,n),49),[x1,y1]=pt(ang(k+1,n),49),p=document.createElementNS(SVGNS,'path');
+    p.setAttribute('d',`M50 50L${x0} ${y0}A49 49 0 0 1 ${x1} ${y1}Z`);p.dataset.part=k;p.setAttribute('class',k===m.act?'act':'');
+    const t=document.createElementNS(SVGNS,'title');t.textContent='Parte '+(k+1);p.append(t);svg.append(p);
+  });
+  const labs=m.parts.map((v,k)=>{
+    const a=ang(k+.5,n),[x,y]=pt(a,n===2?28:30),l=document.createElement('span');
+    l.className='mlab'+(k===m.act?' act':'');l.style.left=x+'%';l.style.top=y+'%';
+    l.innerHTML='<i>'+(k+1)+'</i>';const nm=document.createElement('b');nm.textContent=v==null?'Elige':G.base[v].n;l.append(nm);return l;
+  });
+  pz.replaceChildren(...secs,svg,...labs);
+}
+function mpaint(){
+  seg($('#mitN'),['<b>2</b> mitades','<b>4</b> cuartos'],m.n===2?0:1,'mn',i=>i===1&&m.size===0);
+  seg($('#mitSize'),G.size.map(o=>o.n),m.size,'msize');
+  seg($('#mitEdge'),G.edge.map(o=>o.n+(o.p?' <small>+'+fmt(o.p)+'</small>':'')),m.edge,'medge');
+  $('#mitNote4').hidden=m.size!==0;
+  drawPie();
+  /* lista de partes */
+  $('#mitParts').replaceChildren(...m.parts.map((v,k)=>{
+    const b=document.createElement('button');b.type='button';b.className='mpart'+(k===m.act?' on':'')+(v==null?' vacia':'');b.dataset.part=k;
+    b.innerHTML='<i>'+(k+1)+'</i>';const t=document.createElement('span');t.textContent=v==null?'Sin elegir':G.base[v].n;b.append(t);
+    if(v!=null){const pr=document.createElement('small');pr.textContent=fmt(G.base[v].pz[m.size]);b.append(pr)}
+    return b;
+  }));
+  $('#mitPickT').textContent='Especialidad para la '+(m.n===2?'mitad ':'parte ')+(m.act+1);
+  $('#mitEsp').replaceChildren(...ESP.map(({o,i})=>{
+    const b=document.createElement('button');b.type='button';b.className='mesp'+(m.parts[m.act]===i?' on':'');b.dataset.esp=i;b.setAttribute('aria-pressed',m.parts[m.act]===i);
+    const em=document.createElement('em');if(o.ok){const im=new Image();im.src=o.img;im.alt='';em.append(im)}else em.textContent='🍕';
+    const nm=document.createElement('b');nm.textContent=o.n;const pr=document.createElement('small');pr.textContent=fmt(o.pz[m.size]);
+    b.append(em,nm,pr);return b;
+  }));
+  const p=mprice(),falta=m.parts.filter(v=>v==null).length;
+  $('#mitTot').textContent=p==null?'—':fmt(p*m.q);
+  $('#mitQ').textContent=m.q;
+  const add=$('#mitAdd');add.disabled=p==null;
+  add.textContent=p==null?(falta===1?'Falta 1 parte por elegir':'Faltan '+falta+' partes por elegir'):'Agregar al carrito · '+fmt(p*m.q);
+}
+const setN=n=>{const old=m.parts;m.n=n;m.parts=Array.from({length:n},(_,k)=>n===4?(old[Math.floor(k/2)]??null):(old[k*2]??null));m.act=Math.min(m.act,n-1)};
+function open(){
+  const b=G.base[s.base];
+  m={n:2,size:s.size,edge:s.edge,q:1,act:b.custom?0:1,parts:[b.custom?null:s.base,null]};
+  mpaint();dlg.showModal();document.documentElement.classList.add('mit-open');
+}
+function close(){dlg.close()}
+dlg.addEventListener('close',()=>document.documentElement.classList.remove('mit-open'));
+dlg.addEventListener('click',e=>{
+  if(e.target===dlg||e.target.closest('[data-mit="close"]'))return close();
+  const t=e.target.closest('[data-mn],[data-msize],[data-medge],[data-part],[data-esp],[data-mq]');if(!t)return;
+  const d=t.dataset;
+  if(d.mn!=null)setN(+d.mn?4:2);
+  else if(d.msize!=null){m.size=+d.msize;if(m.size===0&&m.n===4)setN(2)}
+  else if(d.medge!=null)m.edge=+d.medge;
+  else if(d.part!=null)m.act=+d.part;
+  else if(d.esp!=null){m.parts[m.act]=+d.esp;const nx=m.parts.findIndex(v=>v==null);if(nx>=0)m.act=nx;
+    /* en celular la pizza queda arriba: se vuelve a ella para ver cómo quedó */
+    const bd=dlg.querySelector('.mit-body');if(bd.scrollTop>0&&matchMedia('(max-width:760px)').matches)bd.scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'})}
+  else if(d.mq!=null)m.q=Math.max(1,Math.min(20,m.q+ +d.mq));
+  mpaint();
+});
+$('#openMit').addEventListener('click',open);
+$('#mitAdd').addEventListener('click',()=>{
+  const p=mprice();if(p==null)return;
+  const cnt=new Map();m.parts.forEach(v=>cnt.set(v,(cnt.get(v)||0)+1));
+  const lines=[G.size[m.size].n,...[...cnt].map(([v,c])=>(m.n===2?(c===2?'Completa':'½'):(c===4?'Completa':FR[c]))+' '+G.base[v].n)];
+  if(m.edge)lines.push('Borde de '+G.edge[m.edge].n.toLowerCase());
+  Cart.add({name:m.n===2?'Pizza por mitades':'Pizza en cuartos',lines,unit:p,q:m.q});
+  close();
+});
+}
+
 paint();
 })();
