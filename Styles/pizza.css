@@ -429,3 +429,14 @@ footer a.sc:active{transform:translateY(3px);box-shadow:0 1px 0 #120303}
 .step[hidden]{display:none}
 .add .cta:disabled{font-size:18px}
 @media(prefers-reduced-motion:reduce){.cuts path.act{animation:none}}
+
+/* ---- Tamaño arriba de la pizza; borde por parte ---- */
+.acciones.arriba{margin:12px 0 0}
+.fila .lab small{display:block;margin-top:3px;font:800 11px/1.1 var(--bd);letter-spacing:0;color:var(--cream);text-transform:capitalize}
+.pz.is-split::after{display:none}
+.cuts path.borde{fill:none;stroke-width:3.4;stroke-linecap:round;pointer-events:none;filter:drop-shadow(0 0 .6px var(--ink))}
+.cuts path.borde.bocadillo{stroke:#d4406a}
+.cuts path.borde.queso{stroke:#ffd54a}
+.cuts path.act{stroke-width:1.8;fill:#ffc93314}
+/* parte sin sabor: masa clarita, no plato gris */
+.sec.vacia{filter:none;opacity:.55}

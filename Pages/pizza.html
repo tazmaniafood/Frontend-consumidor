@@ -7,7 +7,7 @@
 <link rel="icon" href="../IMG/Logo-taz.png" type="image/png">
 <title>Pizza · TAZ Fast Food</title>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../Styles/pizza.css?v=20">
+<link rel="stylesheet" href="../Styles/pizza.css?v=21">
 </head>
 <body>
 <header class="top">
@@ -27,6 +27,16 @@
   <div class="bld">
     <aside class="pv">
       <h1>Tu pizza</h1>
+      <!-- Tamaño: arriba de la pizza -->
+      <div class="acciones arriba">
+        <div class="fila"><span class="lab">Tamaño</span>
+      <div class="opts opts-size seg" role="group" aria-label="Tamaño">
+      <button class="op" type="button" data-g="size" data-i="0" aria-pressed="false"><em>🍕</em><span class="tx"><b>Personal</b></span><span class="pr"></span></button>
+      <button class="op" type="button" data-g="size" data-i="1" aria-pressed="false"><em>🍕</em><span class="tx"><b>Medium</b></span><span class="pr"></span></button>
+      <button class="op" type="button" data-g="size" data-i="2" aria-pressed="false"><em>🍕</em><span class="tx"><b>Familiar</b></span><span class="pr"></span></button>
+      </div>
+        </div>
+      </div>
       <div class="stage" id="stage">
         <div class="pz s0" id="pz">
           <div class="spin"><img id="pzImg" alt="" decoding="async"><div class="pz-base" aria-hidden="true"></div><div class="tops" id="tops" aria-hidden="true"></div></div>
@@ -42,16 +52,9 @@
         <button class="sab" type="button" data-n="2" aria-pressed="false"><span class="ico ico2" aria-hidden="true"></span><b>Mitad y mitad</b><small>2 sabores</small></button>
         <button class="sab" type="button" data-n="4" aria-pressed="false"><span class="ico ico4" aria-hidden="true"></span><b>Cuartos</b><small>4 sabores</small></button>
       </div>
-      <!-- Tamaño y borde: acciones justo debajo de la pizza -->
+      <!-- Borde: en pizza por partes se elige para cada parte -->
       <div class="acciones">
-        <div class="fila"><span class="lab">Tamaño</span>
-      <div class="opts opts-size seg" role="group" aria-label="Tamaño">
-      <button class="op" type="button" data-g="size" data-i="0" aria-pressed="false"><em>🍕</em><span class="tx"><b>Personal</b></span><span class="pr"></span></button>
-      <button class="op" type="button" data-g="size" data-i="1" aria-pressed="false"><em>🍕</em><span class="tx"><b>Medium</b></span><span class="pr"></span></button>
-      <button class="op" type="button" data-g="size" data-i="2" aria-pressed="false"><em>🍕</em><span class="tx"><b>Familiar</b></span><span class="pr"></span></button>
-      </div>
-        </div>
-        <div class="fila"><span class="lab">Borde</span>
+        <div class="fila"><span class="lab" id="edgeLab">Borde</span>
       <div class="opts opts-edge seg" role="group" aria-label="Borde">
       <button class="op" type="button" data-g="edge" data-i="0" data-p="0" aria-pressed="false"><em>🍞</em><span class="tx"><b>Normal</b></span><span class="pr"></span></button>
       <button class="op" type="button" data-g="edge" data-i="1" data-p="3" aria-pressed="false"><em>🍬</em><span class="tx"><b>Bocadillo</b></span><span class="pr">+$3.00</span></button>
@@ -69,16 +72,16 @@
     <section class="step">
       <h3><i>1</i><span id="espTitle">Especialidad</span></h3>
       <div class="opts opts-base">
-      <button class="op" type="button" data-g="base" data-i="0" data-img="../IMG/Pizzas/hawaiana.webp?v=20" data-pz="13,19,24" data-tp="🍍 🧀 🥓" aria-pressed="false"><em>🍕</em><span class="tx"><b>Hawaiana</b><small>Piña, queso rayado, jamón (opcional cerezas)</small></span><span class="pr">$13.00</span></button>
-      <button class="op" type="button" data-g="base" data-i="1" data-img="../IMG/Pizzas/pepperoni.webp?v=20" data-pz="13,19,24" data-tp="🔴 🧀 🥓" aria-pressed="false"><em>🍕</em><span class="tx"><b>Pepperoni</b><small>Pepperoni, queso y jamón</small></span><span class="pr">$13.00</span></button>
-      <button class="op" type="button" data-g="base" data-i="2" data-img="../IMG/Pizzas/tropical.webp?v=20" data-pz="15,22,26" data-tp="🍍 🍒 🍑 🥓 🧀" aria-pressed="false"><em>🍕</em><span class="tx"><b>Tropical</b><small>Piña, cereza, durazno, jamón, queso y salsa de la casa</small></span><span class="pr">$15.00</span></button>
-      <button class="op" type="button" data-g="base" data-i="3" data-img="../IMG/Pizzas/ay-dios-mio.webp?v=20" data-pz="15,22,28" data-tp="🍗 🍄 🧀" aria-pressed="false"><em>🍕</em><span class="tx"><b>Ay Dios Mío</b><small>Pollo desmechado, champiñones, jamón, queso rayado y salsa de la casa</small></span><span class="pr">$15.00</span></button>
-      <button class="op" type="button" data-g="base" data-i="4" data-img="../IMG/Pizzas/californiana.webp?v=20" data-pz="16,24,29" data-tp="🍗 🍄 🦐 🥓 🧀 🌶️" aria-pressed="false"><em>🍕</em><span class="tx"><b>Californiana</b><small>Pollo desmechado, champiñones, camarones, jamón, pimentón rojo y verde, queso rayado y salsa de la casa</small></span><span class="pr">$16.00</span></button>
-      <button class="op" type="button" data-g="base" data-i="5" data-img="../IMG/Pizzas/mexicana.webp?v=20" data-pz="16,24,29" data-tp="🥩 🥓 🧀 🌶️ 🧅" aria-pressed="false"><em>🍕</em><span class="tx"><b>Mexicana</b><small>Carne desmechada, jamón, queso rayado, pimentón, cebolla, salsa picosa de la casa y tocineta</small></span><span class="pr">$16.00</span></button>
-      <button class="op" type="button" data-g="base" data-i="6" data-img="../IMG/Pizzas/camarones.webp?v=20" data-pz="20,26,32" data-tp="🦐 🥓 🧀 🌶️" aria-pressed="false"><em>🍕</em><span class="tx"><b>Camarones</b><small>Camarones, jamón, queso rayado, pimentón y salsa de la casa</small></span><span class="pr">$20.00</span></button>
-      <button class="op" type="button" data-g="base" data-i="7" data-img="../IMG/Pizzas/la-4k.webp?v=20" data-pz="22,28,34" data-tp="🥓 🌭 🧀 🥩" aria-pressed="false"><em>🍕</em><span class="tx"><b>La 4K</b><small>Jamón, carne de res, pollo, chorizo, tocino y queso rayado</small></span><span class="pr">$22.00</span></button>
-      <button class="op" type="button" data-g="base" data-i="8" data-img="../IMG/Pizzas/legendaria.webp?v=20" data-pz="16,22,28" data-tp="🥩 🌽 🥓 🌶️ 🧀" aria-pressed="false"><em>🍕</em><span class="tx"><b>Legendaria</b><small>Carne molida, maíz, tocino, pimiento, jamón, queso y salsa de la casa</small></span><span class="pr">$16.00</span></button>
-      <button class="op cartel" type="button" data-g="base" data-i="9" data-pz="10,15,19" data-custom="1" aria-pressed="false"><em><i class="blank" aria-hidden="true"></i></em><span class="tx"><span class="tag">¡Nueva!</span><b>Pizza a tu gusto</b><small>Empieza con una pizza en blanco (salsa y queso) y ponle todos los ingredientes que quieras.</small></span><span class="pr">$10.00</span></button>
+      <button class="op" type="button" data-g="base" data-i="0" data-img="../IMG/Pizzas/hawaiana.webp?v=21" data-pz="13,19,24" data-tp="🍍 🧀 🥓" aria-pressed="false"><em>🍕</em><span class="tx"><b>Hawaiana</b><small>Piña, queso rayado, jamón (opcional cerezas)</small></span><span class="pr">$13.00</span></button>
+      <button class="op" type="button" data-g="base" data-i="1" data-img="../IMG/Pizzas/pepperoni.webp?v=21" data-pz="13,19,24" data-tp="🔴 🧀 🥓" aria-pressed="false"><em>🍕</em><span class="tx"><b>Pepperoni</b><small>Pepperoni, queso y jamón</small></span><span class="pr">$13.00</span></button>
+      <button class="op" type="button" data-g="base" data-i="2" data-img="../IMG/Pizzas/tropical.webp?v=21" data-pz="15,22,26" data-tp="🍍 🍒 🍑 🥓 🧀" aria-pressed="false"><em>🍕</em><span class="tx"><b>Tropical</b><small>Piña, cereza, durazno, jamón, queso y salsa de la casa</small></span><span class="pr">$15.00</span></button>
+      <button class="op" type="button" data-g="base" data-i="3" data-img="../IMG/Pizzas/ay-dios-mio.webp?v=21" data-pz="15,22,28" data-tp="🍗 🍄 🧀" aria-pressed="false"><em>🍕</em><span class="tx"><b>Ay Dios Mío</b><small>Pollo desmechado, champiñones, jamón, queso rayado y salsa de la casa</small></span><span class="pr">$15.00</span></button>
+      <button class="op" type="button" data-g="base" data-i="4" data-img="../IMG/Pizzas/californiana.webp?v=21" data-pz="16,24,29" data-tp="🍗 🍄 🦐 🥓 🧀 🌶️" aria-pressed="false"><em>🍕</em><span class="tx"><b>Californiana</b><small>Pollo desmechado, champiñones, camarones, jamón, pimentón rojo y verde, queso rayado y salsa de la casa</small></span><span class="pr">$16.00</span></button>
+      <button class="op" type="button" data-g="base" data-i="5" data-img="../IMG/Pizzas/mexicana.webp?v=21" data-pz="16,24,29" data-tp="🥩 🥓 🧀 🌶️ 🧅" aria-pressed="false"><em>🍕</em><span class="tx"><b>Mexicana</b><small>Carne desmechada, jamón, queso rayado, pimentón, cebolla, salsa picosa de la casa y tocineta</small></span><span class="pr">$16.00</span></button>
+      <button class="op" type="button" data-g="base" data-i="6" data-img="../IMG/Pizzas/camarones.webp?v=21" data-pz="20,26,32" data-tp="🦐 🥓 🧀 🌶️" aria-pressed="false"><em>🍕</em><span class="tx"><b>Camarones</b><small>Camarones, jamón, queso rayado, pimentón y salsa de la casa</small></span><span class="pr">$20.00</span></button>
+      <button class="op" type="button" data-g="base" data-i="7" data-img="../IMG/Pizzas/la-4k.webp?v=21" data-pz="22,28,34" data-tp="🥓 🌭 🧀 🥩" aria-pressed="false"><em>🍕</em><span class="tx"><b>La 4K</b><small>Jamón, carne de res, pollo, chorizo, tocino y queso rayado</small></span><span class="pr">$22.00</span></button>
+      <button class="op" type="button" data-g="base" data-i="8" data-img="../IMG/Pizzas/legendaria.webp?v=21" data-pz="16,22,28" data-tp="🥩 🌽 🥓 🌶️ 🧀" aria-pressed="false"><em>🍕</em><span class="tx"><b>Legendaria</b><small>Carne molida, maíz, tocino, pimiento, jamón, queso y salsa de la casa</small></span><span class="pr">$16.00</span></button>
+      <button class="op cartel" type="button" data-g="base" data-i="9" data-pz="10,15,19" data-custom="1" aria-pressed="false"><em><i class="blank" aria-hidden="true"></i></em><span class="tx"><span class="tag">¡Nueva!</span><b>Pizza a tu gusto</b><small>Empieza con una pizza en blanco (masa y queso) y ponle todos los ingredientes que quieras.</small></span><span class="pr">$10.00</span></button>
       </div>
     </section>
     <section class="step">
@@ -147,8 +150,8 @@
 </aside>
 <template id="tpl-item"><div class="it"><div class="row"><b class="nm"></b><span class="pt"></span></div><p class="ln"></p><div class="row"><div class="qty"><button data-c="-1" aria-label="Menos">−</button><span class="qn"></span><button data-c="1" aria-label="Más">+</button></div><button class="x" data-c="del">Quitar</button></div></div></template>
 <div class="toast" id="toast" role="status">Agregado al carrito</div>
-<script src="../JS/cart.js?v=20"></script>
-<script src="../JS/pizza.js?v=20"></script>
-<script src="../JS/toppings.js?v=20"></script>
+<script src="../JS/cart.js?v=21"></script>
+<script src="../JS/pizza.js?v=21"></script>
+<script src="../JS/toppings.js?v=21"></script>
 </body>
 </html>
