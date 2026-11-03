@@ -35,7 +35,9 @@ const nombre=k=>(s.n===2?'Mitad ':'Cuarto ')+(k+1);
 /* Capas de toppings (data-layer en el HTML): foto del ingrediente regado que se pone encima de la pizza.
    Los toppings sin capa se muestran con su ícono. */
 (G.ex||[]).forEach(o=>{if(o.layer)new Image().src=o.layer});
-const capas=p=>[...p.ex].sort((a,c)=>a-c).filter(i=>G.ex[i].layer).map(i=>{const im=new Image();im.src=G.ex[i].layer;im.alt='';im.className='capa';return im});
+/* cada capa va girada (y una sí, una no, volteada) para que al juntar varias no queden alineadas */
+const capas=p=>[...p.ex].sort((a,c)=>a-c).filter(i=>G.ex[i].layer).map((i,k)=>{const im=new Image();im.src=G.ex[i].layer;im.alt='';im.className='capa';
+  im.style.setProperty('--r',(i*67+k*41)%360+'deg');im.style.setProperty('--f',k%2?-1:1);return im});
 const sinCapa=p=>p.ex.filter(i=>!G.ex[i].layer).map(i=>G.ex[i].e);
 /* Ícono de un topping: emoji o imagen (los que en el HTML tienen <img> dentro de <em>) */
 const ico=e=>{if(!e.startsWith('img:'))return document.createTextNode(e);const i=new Image();i.src=e.slice(4);i.alt='';i.className='ic';return i};
