@@ -6,7 +6,7 @@
    Sabores: la pizza puede ser Entera (1 parte), Mitad y mitad (2) o Cuartos (4).
    Cada parte tiene su especialidad (o "Pizza a tu gusto") y sus propios extras.
    Precio = la especialidad más cara de las partes (según el tamaño) + todos los extras + el borde.
-   La Personal solo se puede dividir en mitades. */
+   La parte que se va a elegir se escoge tocándola en la pizza. */
 (()=>{
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],fmt=n=>'$'+n.toFixed(2);
 
@@ -105,23 +105,6 @@ function drawSplit(){
   });
   box.replaceChildren(...secs,svg,...labs);
 }
-/* Fichas de las partes, encima de la lista de especialidades */
-function drawPartes(){
-  const box=$('#partes');
-  if(s.n===1)return box.replaceChildren();
-  const tip=document.createElement('p');tip.className='partes-t';
-  const falta=s.parts.findIndex(p=>p.base==null);
-  tip.textContent=falta<0?'¡Lista! Toca una parte si quieres cambiarla.':'Toca una parte y elige su sabor 👇';
-  const row=document.createElement('div');row.className='partes-r';
-  row.append(...s.parts.map((p,k)=>{
-    const b=document.createElement('button');b.type='button';b.className='parte'+(k===s.act?' on':'')+(p.base==null?' vacia':'');b.dataset.part=k;
-    b.setAttribute('aria-pressed',k===s.act);
-    const i=document.createElement('i');i.textContent=k+1;
-    const t=document.createElement('span');t.textContent=p.base==null?'Elegir sabor':short(G.base[p.base])+(p.ex.length?' +'+p.ex.length:'');
-    b.append(i,t);return b;
-  }));
-  box.replaceChildren(tip,row);
-}
 
 function drawPicked(custom){
   const box=$('#picked'),p=P();
@@ -139,8 +122,7 @@ const describe=p=>{const b=G.base[p.base],ex=p.ex.map(i=>G.ex[i].n);
 function paint(){
   const split=s.n>1,p=P(),custom=isCustom(p),t=price();
   /* Sabores */
-  $$('.sab').forEach(b=>{const n=+b.dataset.n;b.classList.toggle('on',n===s.n);b.setAttribute('aria-pressed',n===s.n);b.disabled=n===4&&s.size===0});
-  $('#sabNota').hidden=s.size!==0;
+  $$('.sab').forEach(b=>{const n=+b.dataset.n;b.classList.toggle('on',n===s.n);b.setAttribute('aria-pressed',n===s.n);});
   G.size.forEach((o,i)=>mark(o,s.size===i));
   G.base.forEach((o,i)=>{mark(o,p.base===i);o.pr.textContent=fmt(o.pz[s.size])});
   G.edge.forEach((o,i)=>{mark(o,s.edge===i);o.pr.textContent=o.p?'+'+fmt(o.p):''});
@@ -150,10 +132,11 @@ function paint(){
   z.className='pz'+['',' bocadillo',' queso'][s.edge]+(split?' is-split':'');
   if(split){drawSplit();$('#tops').replaceChildren()}else{$('#split').replaceChildren();drawPizza()}
   /* Pasos */
-  const solo=!split&&custom;              /* Pizza a tu gusto entera: se oculta la lista de especialidades */
+  /* Pizza a tu gusto (entera o en una parte): se ocultan las especialidades y queda el menú personalizado */
+  const solo=custom;
   $('.steps').classList.toggle('custom',solo);$('#customBar').hidden=!solo;
-  drawPartes();
-  $('#espTitle').textContent=split?'Sabor de cada parte':'Especialidad';
+  $('#customBar b').textContent='🍕 '+(split?nombre(s.act)+' a tu gusto':'Pizza personalizada');
+  $('#espTitle').textContent=split?'Sabor '+(s.n===2?'de la mitad ':'del cuarto ')+(s.act+1):'Especialidad';
   const tpStep=$('.tp').closest('.step');
   tpStep.hidden=p.base==null;
   tpStep.querySelector('h3 i').textContent=solo?1:2;
@@ -206,17 +189,17 @@ document.addEventListener('click',e=>{
   const sab=e.target.closest('.sab');
   if(sab){setN(+sab.dataset.n);paint();
     /* en celular la lista de sabores queda abajo: se baja a ella para elegir rápido */
-    if(s.n>1&&s.parts.some(p=>p.base==null)&&matchMedia('(max-width:760px)').matches)setTimeout(()=>$('#partes').scrollIntoView({behavior:reduce()?'auto':'smooth',block:'start'}),250);
+    if(s.n>1&&s.parts.some(p=>p.base==null)&&matchMedia('(max-width:760px)').matches)setTimeout(()=>$('.steps').scrollIntoView({behavior:reduce()?'auto':'smooth',block:'start'}),250);
     return}
   const pa=e.target.closest('[data-part]');
   if(pa){s.act=+pa.dataset.part;paint();
     /* al tocar la pizza en celular se baja a los sabores para elegir */
-    if(pa.closest('#split')&&matchMedia('(max-width:760px)').matches)$('#partes').scrollIntoView({behavior:reduce()?'auto':'smooth',block:'start'});
+    if(matchMedia('(max-width:760px)').matches)$('.steps').scrollIntoView({behavior:reduce()?'auto':'smooth',block:'start'});
     return}
   const pk=e.target.closest('[data-pick]');
   if(pk){const j=P().ex.indexOf(+pk.dataset.pick);if(j>=0)P().ex.splice(j,1);return paint()}
   if(e.target.closest('[data-clear]')){P().ex=[];return paint()}
-  if(e.target.id==='backEsp'){s.parts[0]=part(lastBase);paint();return $('.opts-base').scrollIntoView({behavior:reduce()?'auto':'smooth',block:'start'})}
+  if(e.target.id==='backEsp'){s.parts[s.act]=part(s.n>1?null:lastBase);paint();return $('.opts-base').scrollIntoView({behavior:reduce()?'auto':'smooth',block:'start'})}
   const op=e.target.closest('.op');
   if(op){
     const g=op.dataset.g,i=+op.dataset.i,p=P();
@@ -229,7 +212,7 @@ document.addEventListener('click',e=>{
       /* por partes: pasa sola a la siguiente parte sin sabor (salvo "a tu gusto", que necesita ingredientes) */
       if(s.n>1&&!G.base[i].custom){const f=s.parts.findIndex(q=>q.base==null);if(f>=0)s.act=f}
     }
-    else{s[g]=i;if(g==='size'&&s.size===0&&s.n===4)setN(2)}
+    else s[g]=i;
     return paint();
   }
   const q=e.target.closest('[data-q]');
