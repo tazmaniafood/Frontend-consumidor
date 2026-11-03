@@ -1,6 +1,7 @@
 /* Carrito compartido (pizza, bebidas…). Guarda en localStorage 'taz-cart', el mismo que usan
  las demás páginas, así el pedido se mantiene al cambiar de página.
- Uso: Cart.add({name, lines:[...], unit, q}) */
+ Uso: Cart.add({name, lines:[...], unit, q}).
+ Al tocar "Ir a pagar" se abre el formulario de JS/checkout.js. */
 window.Cart=(()=>{
 const $=s=>document.querySelector(s),fmt=n=>'$'+n.toFixed(2);
 let cart=[];
@@ -26,11 +27,7 @@ items.addEventListener('click',e=>{
   if(c.dataset.c==='del')cart.splice(i,1);else{cart[i].q+=+c.dataset.c;if(cart[i].q<1)cart.splice(i,1)}
   save();draw();
 });
-$('#send').onclick=()=>{
-  const tot=cart.reduce((t,i)=>t+i.q*i.unit,0);
-  const msg='Hola TAZ, quiero hacer este pedido:\n'+cart.map(i=>`${i.q}x ${i.name} (${i.lines.join('; ')}) - ${fmt(i.q*i.unit)}`).join('\n')+'\nTotal: '+fmt(tot);
-  window.open('https://wa.me/16506830906?text='+encodeURIComponent(msg),'_blank');
-};
+$('#send').onclick=()=>window.Checkout?Checkout.open(cart):null;
 draw();
 return{add(it){cart.push(it);save();draw();const t=$('#toast');t.classList.add('on');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('on'),1600)}};
 })();

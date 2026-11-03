@@ -24,9 +24,5 @@ function drawCart(){
 }
 const cartOpen=o=>{$('#cart').classList.toggle('on',o);$('#ov').classList.toggle('on',o)};
 $('#openCart').onclick=()=>cartOpen(true);$('#closeCart').onclick=$('#ov').onclick=()=>cartOpen(false);
-$('#send').onclick=()=>{
-  const tot=cart.reduce((s,i)=>s+i.q*i.unit,0);
-  const msg='Hola TAZ, quiero hacer este pedido:\n'+cart.map(i=>`${i.q}x ${i.name} (${i.lines.join('; ')}) - ${fmt(i.q*i.unit)}`).join('\n')+'\nTotal: '+fmt(tot);
-  window.open('https://wa.me/16506830906?text='+encodeURIComponent(msg),'_blank');
-};
+$('#send').onclick=()=>window.Checkout?Checkout.open(cart):null;
 drawCart();
