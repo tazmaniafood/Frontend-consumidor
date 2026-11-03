@@ -1,6 +1,6 @@
 /* Formulario para terminar el pedido (todas las páginas).
    Al tocar "Ir a pagar" en el carrito se abre una ventanita que pide:
-   nombre, celular, medio de pago (efectivo o los de Stripe) y si se recoge en el local
+   nombre, celular, medio de pago (efectivo o Stripe) y si se recoge en el local
    o se lleva a domicilio (en ese caso pide la dirección).
    Luego arma el mensaje y lo envía por WhatsApp.
    Nota: el sitio no cobra en línea (no tiene servidor). Si el cliente elige un medio de
@@ -9,13 +9,11 @@
 window.Checkout=(()=>{
 const WA='16506830906';
 const fmt=n=>'$'+n.toFixed(2);
+/* Logo de Stripe: la ruta se calcula desde este archivo, así sirve en index.html y en Pages/ */
+const STRIPE=new URL('../IMG/Pagos/stripe.png?v=25',document.currentScript.src).href;
 const PAGOS=[
   {id:'efectivo',ic:'💵',n:'Efectivo',d:'Pagas al recibir'},
-  {id:'tarjeta',ic:'💳',n:'Tarjeta',d:'Crédito o débito'},
-  {id:'apple',ic:'🍎',n:'Apple Pay',d:''},
-  {id:'google',ic:'🅖',n:'Google Pay',d:''},
-  {id:'cashapp',ic:'💲',n:'Cash App Pay',d:''},
-  {id:'link',ic:'🔗',n:'Link',d:'Pago rápido de Stripe'},
+  {id:'stripe',logo:STRIPE,n:'Stripe',d:'Tarjeta · Apple Pay · Google Pay'},
 ];
 const ENTREGA=[
   {id:'local',ic:'🏪',n:'Recoger en el local',d:'Pasas por tu pedido'},
@@ -25,7 +23,7 @@ const KEY='taz-cliente';
 let saved={};try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
 let cart=[];
 
-const opt=(name,o,i)=>`<label class="ck-op"><input type="radio" name="${name}" value="${o.id}"${i===0?' required':''}><span class="ck-ic" aria-hidden="true">${o.ic}</span><span class="ck-tx"><b>${o.n}</b>${o.d?`<small>${o.d}</small>`:''}</span></label>`;
+const opt=(name,o,i)=>`<label class="ck-op"><input type="radio" name="${name}" value="${o.id}"${i===0?' required':''}>${o.logo?`<img class="ck-logo" src="${o.logo}" alt="">`:`<span class="ck-ic" aria-hidden="true">${o.ic}</span>`}<span class="ck-tx"><b${o.logo?' class="sr"':''}>${o.n}</b>${o.d?`<small>${o.d}</small>`:''}</span></label>`;
 const dlg=document.createElement('dialog');
 dlg.className='ck';dlg.setAttribute('aria-labelledby','ckT');
 dlg.innerHTML=`
@@ -59,7 +57,7 @@ const f=dlg.querySelector('form'),$=s=>dlg.querySelector(s);
 
 function sync(){
   const pago=f.pago.value,ent=f.entrega.value;
-  $('#ckStripe').hidden=!pago||pago==='efectivo';
+  $('#ckStripe').hidden=pago!=='stripe';
   $('#ckDir').hidden=ent!=='domicilio';
   f.dir.required=ent==='domicilio';
 }
@@ -91,7 +89,7 @@ f.addEventListener('submit',e=>{
     'Total: '+fmt(tot),'',
     'Nombre: '+v('nombre'),
     'Celular: '+v('cel'),
-    'Pago: '+pago.n+(pago.id==='efectivo'?'':' (Stripe, envíenme el link de pago)'),
+    'Pago: '+(pago.id==='stripe'?'Stripe (tarjeta / Apple Pay / Google Pay). Envíenme el link de pago':'Efectivo'),
     dom?'Entrega: A domicilio':'Entrega: Recoger en el local',
     ...(dom?['Dirección: '+v('dir')+(v('ref')?' ('+v('ref')+')':'')]:[]),
   ].join('\n');

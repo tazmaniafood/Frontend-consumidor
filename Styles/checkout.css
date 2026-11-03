@@ -19,7 +19,7 @@ html.ck-open{overflow:hidden}
 .ck-in input::placeholder{color:#8a6a5a;font-weight:600}
 .ck-in input:focus{box-shadow:0 0 0 3px var(--yel,#ffc933)}
 .ck-ops{display:grid;gap:8px;margin-top:10px}
-.ck-pagos{grid-template-columns:repeat(3,minmax(0,1fr))}
+.ck-pagos{grid-template-columns:repeat(2,minmax(0,1fr))}
 .ck-ent{grid-template-columns:repeat(2,minmax(0,1fr))}
 .ck-op{position:relative;display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 6px 9px;text-align:center;background:var(--cream,#fff3dc);color:var(--ink,#120303);border:3px solid var(--ink,#120303);border-radius:14px;box-shadow:0 4px 0 var(--ink,#120303);cursor:pointer;transition:transform .12s,background .12s}
 .ck-op:hover{transform:translateY(-2px);background:#fff}
@@ -45,9 +45,13 @@ html.ck-open{overflow:hidden}
 .ck-go{flex:1;padding:10px 12px!important;font-size:19px!important}
 @media(max-width:560px){
  .ck{width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;border:0;border-radius:0;box-shadow:none}
- .ck-pagos{grid-template-columns:repeat(2,minmax(0,1fr))}
  .ck-ent{grid-template-columns:1fr}
  .ck-b{padding:14px 14px 4px}
  .ck-go{font-size:17px!important}
 }
 @media(prefers-reduced-motion:reduce){.ck[open],.ck-dir{animation:none}}
+/* Efectivo y Stripe: tarjetas más grandes, Stripe con su logo */
+.ck-pagos .ck-op{min-height:92px;justify-content:center}
+.ck-pagos .ck-ic{font-size:32px}
+.ck-logo{display:block;height:34px;width:auto;margin:2px 0 3px}
+.ck-tx b.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
