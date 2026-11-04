@@ -463,3 +463,10 @@ footer a.sc:active{transform:translateY(3px);box-shadow:0 1px 0 #120303}
 .steps.custom>.step-salsa{order:2}
 .opts-sa .op em{background:transparent;border-color:transparent;width:50px;height:50px}
 .opts-sa .op em img.salsa{padding:0;object-fit:contain;width:100%;height:100%}
+/* Salsas: ícono grande arriba, nombre y precio abajo */
+.opts-sa{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:12px}
+.opts-sa .op{grid-template-columns:1fr!important;grid-template-areas:"em" "tx" "pr"!important;justify-items:center;text-align:center;gap:6px;padding:14px 8px 12px;min-height:0}
+.opts-sa .op em{width:84px!important;height:84px!important}
+.opts-sa .op .pr{justify-self:center}
+.opts-sa .tx b{font-size:15px}
+@media(max-width:520px){.opts-sa{gap:8px}.opts-sa .op em{width:64px!important;height:64px!important}.opts-sa .tx b{font-size:13px}}
