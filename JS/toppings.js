@@ -53,7 +53,7 @@ if(!document.querySelector('.cartel'))$$('.opts-base .op').forEach(op=>{
 const pv=document.querySelector('.pv'),stage=document.querySelector('.stage');
 document.addEventListener('click',e=>{
   /* tamaño y borde no suben a la pizza */
-  if(!pv||!e.target.closest('.op, #backEsp')||e.target.closest('[data-g="size"],[data-g="edge"]'))return;
+  if(!pv||!e.target.closest('.op, #backEsp')||e.target.closest('[data-g="size"],[data-g="edge"],[data-g="sa"]'))return;
   setTimeout(()=>{
     /* pizza por partes: si aún falta elegir el sabor de alguna parte, se queda en la lista */
     if(document.querySelector('#split .sec.vacia'))return;

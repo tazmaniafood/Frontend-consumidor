@@ -457,3 +457,7 @@ footer a.sc:active{transform:translateY(3px);box-shadow:0 1px 0 #120303}
 .pz{width:96%}
 .acciones.arriba{margin:0 0 12px}
 .pv h1+.stage{margin-top:6px}
+
+/* Salsa extra */
+.opts-sa .op em{font-size:22px}
+.steps.custom>.step-salsa{order:2}

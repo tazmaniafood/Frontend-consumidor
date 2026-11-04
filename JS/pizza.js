@@ -23,14 +23,17 @@ $$('.op').forEach(el=>{
 
 const part=(base,edge=0)=>({base,ex:[],edge});
 const copy=p=>({base:p.base,ex:[...p.ex],edge:p.edge});
-const fresh=()=>({size:0,n:1,act:0,parts:[part(0)],q:1});
+const fresh=()=>({size:0,n:1,act:0,parts:[part(0)],sa:[],q:1});
+/* salsas extra: van para toda la pizza (no por mitad) */
+const saSum=()=>s.sa.reduce((t,i)=>t+G.sa[i].p,0);
+const saLine=()=>s.sa.length?['Salsas: '+s.sa.map(i=>G.sa[i].n).join(', ')]:[];
 let s=fresh(),lastBase=0;
 const P=()=>s.parts[s.act];
 const isCustom=p=>p.base!=null&&G.base[p.base].custom;
 const short=b=>b.custom?'A tu gusto':b.n;
 const exSum=p=>p.ex.reduce((t,i)=>t+G.ex[i].p,0);
 const listo=()=>s.parts.every(p=>p.base!=null);
-const price=()=>listo()?Math.max(...s.parts.map(p=>G.base[p.base].pz[s.size]))+s.parts.reduce((t,p)=>t+exSum(p)+G.edge[p.edge].p/s.n,0):null;
+const price=()=>listo()?Math.max(...s.parts.map(p=>G.base[p.base].pz[s.size]))+s.parts.reduce((t,p)=>t+exSum(p)+G.edge[p.edge].p/s.n,0)+saSum():null;
 const nombre=k=>(s.n===2?'Mitad ':'Cuarto ')+(k+1);
 /* Capas de toppings (data-layer en el HTML): foto del ingrediente regado que se pone encima de la pizza.
    Los toppings sin capa se muestran con su ícono. */
@@ -150,6 +153,7 @@ function paint(){
   G.edge.forEach((o,i)=>{mark(o,p.edge===i);o.pr.textContent=o.p?'+'+fmt(o.p/s.n):''});
   $('#edgeLab').innerHTML='Borde'+(split?'<small>'+nombre(s.act).toLowerCase()+'</small>':'');
   G.ex.forEach((o,i)=>{mark(o,p.ex.includes(i));o.pr.textContent='+'+fmt(o.p)});
+  G.sa.forEach((o,i)=>mark(o,s.sa.includes(i)));
   /* La pizza */
   const z=$('#pz');
   z.className='pz'+(split?' is-split':['',' bocadillo',' queso'][p.edge]);
@@ -163,6 +167,7 @@ function paint(){
   const tpStep=$('.tp').closest('.step');
   tpStep.hidden=p.base==null;
   tpStep.querySelector('h3 i').textContent=solo?1:2;
+  $('.step-salsa h3 i').textContent=solo?2:3;
   const tp=$('.tp');tp.classList.toggle('all',custom);tpStep.classList.toggle('taller',custom);
   $('#exTitle').textContent=(custom?'A la mano':'Toppings extra')+(split?' · '+nombre(s.act):'');
   $('#exSub').textContent=custom?(split?'Ingredientes para esta parte':'Todos los ingredientes, listos para tu pizza'):(split?'Solo para esta parte':'Elige una categoría');
@@ -194,12 +199,13 @@ function add(){
     if(p.edge)lines.push('Borde de '+G.edge[p.edge].n.toLowerCase());
     if(p.ex.length)lines.push((b.custom?'Ingredientes: ':'Extra: ')+p.ex.map(i=>G.ex[i].n).join(', '));
     else if(b.custom)lines.push('Solo masa y queso');
+    lines.push(...saLine());
     Cart.add({name:b.custom?b.n:'Pizza '+b.n,lines,unit:t,q:s.q});
   }else{
     /* partes iguales se juntan: dos cuartos de Hawaiana = ½ Hawaiana */
     const g=new Map();s.parts.forEach(p=>{const k=describe(p);g.set(k,(g.get(k)||0)+1)});
     const FR=s.n===2?{1:'½',2:'Toda'}:{1:'¼',2:'½',3:'¾',4:'Toda'};
-    const lines=[G.size[s.size].n,...[...g].map(([k,c])=>FR[c]+' '+k)];
+    const lines=[G.size[s.size].n,...[...g].map(([k,c])=>FR[c]+' '+k),...saLine()];
     Cart.add({name:s.n===2?'Pizza mitad y mitad':'Pizza en cuartos',lines,unit:t,q:s.q});
   }
   s=fresh();shown='';paint();
@@ -223,7 +229,8 @@ document.addEventListener('click',e=>{
   const op=e.target.closest('.op');
   if(op){
     const g=op.dataset.g,i=+op.dataset.i,p=P();
-    if(g==='ex'){if(p.base==null)return;const j=p.ex.indexOf(i);j<0?p.ex.push(i):p.ex.splice(j,1)}
+    if(g==='sa'){const j=s.sa.indexOf(i);j<0?s.sa.push(i):s.sa.splice(j,1)}
+    else if(g==='ex'){if(p.base==null)return;const j=p.ex.indexOf(i);j<0?p.ex.push(i):p.ex.splice(j,1)}
     else if(g==='base'){
       const was=p.base;
       if(was!==i&&(was==null||G.base[was].custom||G.base[i].custom))p.ex=[];

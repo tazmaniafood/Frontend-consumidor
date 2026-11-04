@@ -292,3 +292,6 @@ footer a.sc:active{transform:translateY(3px);box-shadow:0 1px 0 #120303}
 
 /* Toppings con ícono en imagen (ej. chorizo) */
 .op em img.ic{object-fit:contain;padding:7px;border-radius:0}
+
+/* Salsa extra */
+.opts-sa .op em{font-size:22px}
