@@ -42,9 +42,20 @@ const nombre=k=>(s.n===2?'Mitad ':'Cuarto ')+(k+1);
 /* orden de abajo hacia arriba: carne molida y queso primero (son los que más tapan), luego el resto */
 const FONDO=['Carne molida','Queso extra'];
 const nivel=i=>{const k=FONDO.indexOf(G.ex[i].n);return k<0?FONDO.length+i:k};
-const capas=p=>Uds.uniq(p.ex).sort((a,c)=>nivel(a)-nivel(c)).filter(i=>G.ex[i].layer).map((i,k)=>{const im=new Image();im.src=G.ex[i].layer;im.alt='';im.className='capa';
-  im.style.setProperty('--r',(i*67+k*41)%360+'deg');im.style.setProperty('--f',k%2?-1:1);
-  if(G.ex[i].escala)im.style.setProperty('--s',G.ex[i].escala);return im});
+/* una capa por cada unidad: la 2.ª, 3.ª… es la misma foto girada otro ángulo (y volteada),
+   así se ve que se está agregando más de ese topping */
+const capas=p=>{
+  const out=[];
+  Uds.uniq(p.ex).sort((a,c)=>nivel(a)-nivel(c)).filter(i=>G.ex[i].layer).forEach((i,k)=>{
+    for(let u=0,n=Uds.cnt(p.ex,i);u<n;u++){
+      const im=new Image();im.src=G.ex[i].layer;im.alt='';im.className='capa'+(u?' extra':'');
+      im.style.setProperty('--r',(i*67+k*41+u*137)%360+'deg');im.style.setProperty('--f',(k+u)%2?-1:1);
+      if(G.ex[i].escala)im.style.setProperty('--s',G.ex[i].escala);
+      im.dataset.k=i+'-'+u;out.push(im);
+    }
+  });
+  return out;
+};
 const sinCapa=p=>Uds.uniq(p.ex).filter(i=>!G.ex[i].layer).map(i=>G.ex[i].e);
 /* Ícono de un topping: emoji o imagen (los que en el HTML tienen <img> dentro de <em>) */
 const ico=e=>{if(!e.startsWith('img:'))return document.createTextNode(e);const i=new Image();i.src=e.slice(4);i.alt='';i.className='ic';return i};
@@ -65,7 +76,9 @@ let shown='';
 function drawPizza(){
   const img=$('#pzImg'),p=s.parts[0],b=G.base[p.base];
   $('#pz').classList.toggle('has-img',b.ok);$('#pz').classList.toggle('custom',b.custom);
-  $('#capas').replaceChildren(...capas(p));
+  /* reusa las capas que ya estaban para que solo se anime la que se acaba de agregar */
+  const box=$('#capas'),old=new Map([...box.children].map(e=>[e.dataset.k,e]));
+  box.replaceChildren(...capas(p).map(im=>old.get(im.dataset.k)||im));
   drawTops(b.custom?sinCapa(p):[]);
   if(b.ok&&shown!==b.img){
     img.src=b.img;img.alt='Pizza '+b.n;shown=b.img;
