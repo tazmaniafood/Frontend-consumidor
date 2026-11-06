@@ -152,7 +152,7 @@ function paint(){
   G.base.forEach((o,i)=>{mark(o,p.base===i);o.pr.textContent=fmt(o.pz[s.size])});
   G.edge.forEach((o,i)=>{mark(o,p.edge===i);o.pr.textContent=o.p?'+'+fmt(o.p/s.n):''});
   $('#edgeLab').innerHTML='Borde'+(split?'<small>'+nombre(s.act).toLowerCase()+'</small>':'');
-  G.ex.forEach((o,i)=>{const c=Uds.cnt(p.ex,i);mark(o,c>0);Uds.paint(o.el,c);o.pr.textContent='+'+fmt(o.p)});
+  G.ex.forEach((o,i)=>{const c=Uds.cnt(p.ex,i);mark(o,c>0);o.pr.textContent='+'+fmt(o.p);Uds.paint(o.el,c)});
   G.sa.forEach((o,i)=>{const c=Uds.cnt(s.sa,i);mark(o,c>0);Uds.paint(o.el,c)});
   /* La pizza */
   const z=$('#pz');
