@@ -14,26 +14,28 @@ G.base.forEach(o=>{if(!o.img)return;const im=new Image();im.onload=()=>{o.ok=tru
 function paint(){
   const b=G.base[s.base],z=$('#pz'),img=$('#pzImg');
   G.base.forEach((o,i)=>mark(o,s.base===i));
-  G.ex.forEach((o,i)=>mark(o,s.ex.includes(i)));
-  G.sa.forEach((o,i)=>mark(o,s.sa.includes(i)));
+  G.ex.forEach((o,i)=>{const c=Uds.cnt(s.ex,i);mark(o,c>0);Uds.paint(o.el,c)});
+  G.sa.forEach((o,i)=>{const c=Uds.cnt(s.sa,i);mark(o,c>0);Uds.paint(o.el,c)});
   z.classList.toggle('has-img',b.ok);
   if(b.ok&&shown!==b.img){img.src=b.img;img.alt=b.full;shown=b.img;img.classList.remove('swap');void img.offsetWidth;img.classList.add('swap')}
   if(!b.ok){img.removeAttribute('src');img.alt='';shown=''}
   const t=price();
   $('#tot').textContent=fmt(t);
-  $('#pvSub').textContent=[b.full,s.ex.length?'Extra: '+s.ex.map(i=>G.ex[i].n).join(', '):'',s.sa.length?'Salsas: '+s.sa.map(i=>G.sa[i].n).join(', '):''].filter(Boolean).join(' · ');
+  $('#pvSub').textContent=[b.full,s.ex.length?'Extra: '+Uds.names(s.ex,G.ex).join(', '):'',s.sa.length?'Salsas: '+Uds.names(s.sa,G.sa).join(', '):''].filter(Boolean).join(' · ');
   $('#q').textContent=s.q;
   $('#addBtn').textContent='Agregar al carrito · '+fmt(t*s.q);
 }
 document.addEventListener('click',e=>{
+  const st=e.target.closest('[data-step]');
+  if(st){const op=st.closest('.op');Uds.step(s[op.dataset.g],+op.dataset.i,+st.dataset.step);return paint()}
   const op=e.target.closest('.op');
-  if(op){const g=op.dataset.g,i=+op.dataset.i;if(g==='ex'||g==='sa'){const a=s[g],j=a.indexOf(i);j<0?a.push(i):a.splice(j,1)}else s.base=i;return paint()}
+  if(op){const g=op.dataset.g,i=+op.dataset.i;if(g==='ex'||g==='sa')Uds.toggle(s[g],i);else s.base=i;return paint()}
   const q=e.target.closest('[data-q]');
   if(q){s.q=Math.max(1,Math.min(20,s.q+ +q.dataset.q));return paint()}
   if(e.target.id==='addBtn'){
     const b=G.base[s.base],lines=[];
-    if(s.ex.length)lines.push('Extra: '+s.ex.map(i=>G.ex[i].n).join(', '));
-    if(s.sa.length)lines.push('Salsas: '+s.sa.map(i=>G.sa[i].n).join(', '));
+    if(s.ex.length)lines.push('Extra: '+Uds.names(s.ex,G.ex).join(', '));
+    if(s.sa.length)lines.push('Salsas: '+Uds.names(s.sa,G.sa).join(', '));
     Cart.add({name:b.full,lines:lines.length?lines:['Sin extras'],unit:price(),q:s.q});
     s=fresh();paint();
   }

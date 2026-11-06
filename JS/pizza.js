@@ -26,7 +26,7 @@ const copy=p=>({base:p.base,ex:[...p.ex],edge:p.edge});
 const fresh=()=>({size:0,n:1,act:0,parts:[part(0)],sa:[],q:1});
 /* salsas extra: van para toda la pizza (no por mitad) */
 const saSum=()=>s.sa.reduce((t,i)=>t+G.sa[i].p,0);
-const saLine=()=>s.sa.length?['Salsas: '+s.sa.map(i=>G.sa[i].n).join(', ')]:[];
+const saLine=()=>s.sa.length?['Salsas: '+Uds.names(s.sa,G.sa).join(', ')]:[];
 let s=fresh(),lastBase=0;
 const P=()=>s.parts[s.act];
 const isCustom=p=>p.base!=null&&G.base[p.base].custom;
@@ -42,10 +42,10 @@ const nombre=k=>(s.n===2?'Mitad ':'Cuarto ')+(k+1);
 /* orden de abajo hacia arriba: carne molida y queso primero (son los que más tapan), luego el resto */
 const FONDO=['Carne molida','Queso extra'];
 const nivel=i=>{const k=FONDO.indexOf(G.ex[i].n);return k<0?FONDO.length+i:k};
-const capas=p=>[...p.ex].sort((a,c)=>nivel(a)-nivel(c)).filter(i=>G.ex[i].layer).map((i,k)=>{const im=new Image();im.src=G.ex[i].layer;im.alt='';im.className='capa';
+const capas=p=>Uds.uniq(p.ex).sort((a,c)=>nivel(a)-nivel(c)).filter(i=>G.ex[i].layer).map((i,k)=>{const im=new Image();im.src=G.ex[i].layer;im.alt='';im.className='capa';
   im.style.setProperty('--r',(i*67+k*41)%360+'deg');im.style.setProperty('--f',k%2?-1:1);
   if(G.ex[i].escala)im.style.setProperty('--s',G.ex[i].escala);return im});
-const sinCapa=p=>p.ex.filter(i=>!G.ex[i].layer).map(i=>G.ex[i].e);
+const sinCapa=p=>Uds.uniq(p.ex).filter(i=>!G.ex[i].layer).map(i=>G.ex[i].e);
 /* Ícono de un topping: emoji o imagen (los que en el HTML tienen <img> dentro de <em>) */
 const ico=e=>{if(!e.startsWith('img:'))return document.createTextNode(e);const i=new Image();i.src=e.slice(4);i.alt='';i.className='ic';return i};
 const mark=(o,v)=>{o.el.classList.toggle('on',v);o.el.setAttribute('aria-pressed',v)};
@@ -136,12 +136,12 @@ function drawPicked(custom){
   if(!custom)return box.replaceChildren();
   const lab=document.createElement('span');lab.className='pk-lab';lab.textContent=s.n>1?nombre(s.act)+' lleva:':'Tu pizza lleva:';
   if(!p.ex.length){const e=document.createElement('span');e.className='pk-empty';e.textContent='Solo masa y queso. Toca los ingredientes para ponérselos 👇';return box.replaceChildren(lab,e)}
-  const chips=p.ex.map(i=>{const b=document.createElement('button');b.type='button';b.className='pk';b.dataset.pick=i;
-    b.setAttribute('aria-label','Quitar '+G.ex[i].n);b.append(ico(G.ex[i].e),' '+G.ex[i].n+' ✕');return b});
+  const chips=Uds.uniq(p.ex).map(i=>{const c=Uds.cnt(p.ex,i);const b=document.createElement('button');b.type='button';b.className='pk';b.dataset.pick=i;
+    b.setAttribute('aria-label','Quitar '+G.ex[i].n);b.append(ico(G.ex[i].e),' '+G.ex[i].n+(c>1?' x'+c:'')+' ✕');return b});
   const clr=document.createElement('button');clr.type='button';clr.className='pk-clear';clr.dataset.clear='1';clr.textContent='Limpiar todo';
   box.replaceChildren(lab,...chips,clr);
 }
-const describe=p=>{const b=G.base[p.base],ex=p.ex.map(i=>G.ex[i].n);
+const describe=p=>{const b=G.base[p.base],ex=Uds.names(p.ex,G.ex);
   return (b.custom?'A tu gusto: '+(ex.length?ex.join(', '):'solo masa y queso'):b.n+(ex.length?' + '+ex.join(', '):''))+(p.edge?', borde de '+G.edge[p.edge].n.toLowerCase():'')};
 
 function paint(){
@@ -152,8 +152,8 @@ function paint(){
   G.base.forEach((o,i)=>{mark(o,p.base===i);o.pr.textContent=fmt(o.pz[s.size])});
   G.edge.forEach((o,i)=>{mark(o,p.edge===i);o.pr.textContent=o.p?'+'+fmt(o.p/s.n):''});
   $('#edgeLab').innerHTML='Borde'+(split?'<small>'+nombre(s.act).toLowerCase()+'</small>':'');
-  G.ex.forEach((o,i)=>{mark(o,p.ex.includes(i));o.pr.textContent='+'+fmt(o.p)});
-  G.sa.forEach((o,i)=>mark(o,s.sa.includes(i)));
+  G.ex.forEach((o,i)=>{const c=Uds.cnt(p.ex,i);mark(o,c>0);Uds.paint(o.el,c);o.pr.textContent='+'+fmt(o.p)});
+  G.sa.forEach((o,i)=>{const c=Uds.cnt(s.sa,i);mark(o,c>0);Uds.paint(o.el,c)});
   /* La pizza */
   const z=$('#pz');
   z.className='pz'+(split?' is-split':['',' bocadillo',' queso'][p.edge]);
@@ -175,7 +175,7 @@ function paint(){
   /* Resumen y total */
   $('#pvSub').textContent=split
     ?[s.parts.map(q=>q.base==null?'¿?':short(G.base[q.base])).join(' / '),G.size[s.size].n].filter(Boolean).join(' · ')
-    :[G.base[p.base].n,G.size[s.size].n,p.edge?'Borde de '+G.edge[p.edge].n.toLowerCase():'',p.ex.length?(custom?'Con: ':'Extra: ')+p.ex.map(i=>G.ex[i].n).join(', '):''].filter(Boolean).join(' · ');
+    :[G.base[p.base].n,G.size[s.size].n,p.edge?'Borde de '+G.edge[p.edge].n.toLowerCase():'',p.ex.length?(custom?'Con: ':'Extra: ')+Uds.names(p.ex,G.ex).join(', '):''].filter(Boolean).join(' · ');
   $('#tot').textContent=t==null?'—':fmt(t);
   $('#q').textContent=s.q;
   const add=$('#addBtn'),falta=s.parts.findIndex(q=>q.base==null);
@@ -197,7 +197,7 @@ function add(){
   if(s.n===1){
     const p=s.parts[0],b=G.base[p.base],lines=b.custom?[G.size[s.size].n]:[G.size[s.size].n,b.n];
     if(p.edge)lines.push('Borde de '+G.edge[p.edge].n.toLowerCase());
-    if(p.ex.length)lines.push((b.custom?'Ingredientes: ':'Extra: ')+p.ex.map(i=>G.ex[i].n).join(', '));
+    if(p.ex.length)lines.push((b.custom?'Ingredientes: ':'Extra: ')+Uds.names(p.ex,G.ex).join(', '));
     else if(b.custom)lines.push('Solo masa y queso');
     lines.push(...saLine());
     Cart.add({name:b.custom?b.n:'Pizza '+b.n,lines,unit:t,q:s.q});
@@ -222,15 +222,18 @@ document.addEventListener('click',e=>{
     /* al tocar la pizza en celular se baja a los sabores para elegir */
     if(matchMedia('(max-width:760px)').matches)$('.steps').scrollIntoView({behavior:reduce()?'auto':'smooth',block:'start'});
     return}
+  const st=e.target.closest('[data-step]');
+  if(st){const op=st.closest('.op'),i=+op.dataset.i,d=+st.dataset.step;
+    if(op.dataset.g==='sa')Uds.step(s.sa,i,d);else if(P().base!=null)Uds.step(P().ex,i,d);return paint()}
   const pk=e.target.closest('[data-pick]');
-  if(pk){const j=P().ex.indexOf(+pk.dataset.pick);if(j>=0)P().ex.splice(j,1);return paint()}
+  if(pk){const k=+pk.dataset.pick;P().ex=P().ex.filter(x=>x!==k);return paint()}
   if(e.target.closest('[data-clear]')){P().ex=[];return paint()}
   if(e.target.id==='backEsp'){s.parts[s.act]=part(s.n>1?null:lastBase,P().edge);paint();return $('.opts-base').scrollIntoView({behavior:reduce()?'auto':'smooth',block:'start'})}
   const op=e.target.closest('.op');
   if(op){
     const g=op.dataset.g,i=+op.dataset.i,p=P();
-    if(g==='sa'){const j=s.sa.indexOf(i);j<0?s.sa.push(i):s.sa.splice(j,1)}
-    else if(g==='ex'){if(p.base==null)return;const j=p.ex.indexOf(i);j<0?p.ex.push(i):p.ex.splice(j,1)}
+    if(g==='sa')Uds.toggle(s.sa,i);
+    else if(g==='ex'){if(p.base==null)return;Uds.toggle(p.ex,i)}
     else if(g==='base'){
       const was=p.base;
       if(was!==i&&(was==null||G.base[was].custom||G.base[i].custom))p.ex=[];

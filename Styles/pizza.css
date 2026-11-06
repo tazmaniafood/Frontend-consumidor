@@ -470,3 +470,13 @@ footer a.sc:active{transform:translateY(3px);box-shadow:0 1px 0 #120303}
 .opts-sa .op .pr{justify-self:center}
 .opts-sa .tx b{font-size:15px}
 @media(max-width:520px){.opts-sa{gap:8px}.opts-sa .op em{width:64px!important;height:64px!important}.opts-sa .tx b{font-size:13px}}
+
+/* Unidades de toppings y salsas: − n + en lugar del precio cuando está elegido */
+.uds{grid-area:pr;display:none;align-items:center;justify-self:start;gap:6px;background:var(--ink);border-radius:99px;padding:2px}
+.op.on .uds{display:inline-flex}
+.op.on[data-g="ex"] .pr,.op.on[data-g="sa"] .pr{display:none}
+.ud{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--cream);color:var(--ink);font-weight:800;font-size:17px;line-height:1;cursor:pointer;user-select:none;transition:transform .1s}
+.ud:hover{background:var(--yel)}.ud:active{transform:scale(.88)}
+.udn{min-width:18px;text-align:center;font-style:normal;font-weight:800;color:var(--yel);font-size:14px}
+.opts-sa .uds,.tp.all .opts-ex .uds{justify-self:center}
+@media(max-width:520px){.opts-ex .uds{justify-self:center}.ud{width:24px;height:24px;font-size:15px}}
