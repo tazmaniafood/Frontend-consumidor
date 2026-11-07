@@ -316,3 +316,16 @@ footer a.sc:active{transform:translateY(3px);box-shadow:0 1px 0 #120303}
 .prud .pr{white-space:nowrap}
 .op:not(.on) .uds{background:#0000004d}
 .op:not(.on) .udn{color:var(--mut)}
+
+/* Unidades integradas en la tarjeta: − y + como bolitas en las esquinas de abajo,
+   la cantidad en la esquina de arriba (en lugar del ✓) */
+.op[data-g="ex"],.op[data-g="sa"]{padding-bottom:18px}
+.uds{display:contents!important}
+.op .ud{position:absolute;bottom:-11px;z-index:3;width:30px;height:30px;border:3px solid var(--ink);box-shadow:0 2px 0 var(--ink);font-size:18px}
+.op .ud[data-step="-1"]{left:-9px}
+.op .ud[data-step="1"]{right:-9px;background:var(--yel)}
+.op:not(.on) .ud[data-step="-1"]{opacity:.45}
+.op[data-g="ex"].on::after,.op[data-g="sa"].on::after{display:none}
+.op .udn{position:absolute;top:-11px;right:-9px;z-index:3;display:none;place-items:center;min-width:26px;height:26px;padding:0 5px;border-radius:99px;background:var(--ok);border:3px solid var(--ink);color:var(--ink)!important;font-size:13px}
+.op.on .udn{display:grid}
+.opts-ex,.opts-sa{row-gap:22px!important;column-gap:16px!important}
