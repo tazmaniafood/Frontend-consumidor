@@ -370,25 +370,24 @@
 }
 
 @layer components {
-  /* ---------- Te recomendamos: baraja de cartas en abanico. Cada carta es una pizza;
-     la que se toca sube derecha al frente y las demás se abren para darle espacio. ---------- */
-  .baraja { position: relative; display: flex; justify-content: center; align-items: flex-start; padding: 50px 0 100px; margin: 0; list-style: none; }
-  .carta {
-    flex: none; width: 230px; margin-left: -96px; transform-origin: 50% 120%;
-    rotate: calc(var(--off) * 8deg); translate: 0 calc(abs(var(--off)) * abs(var(--off)) * 9px);
-    transition: rotate 0.35s var(--ease), translate 0.35s var(--ease), margin 0.35s var(--ease), scale 0.35s var(--ease);
-  }
-  .carta:first-child { margin-left: 0; }
-  .baraja:has(.carta:hover, .carta:focus-within) .carta { margin-left: -70px; }
-  .baraja:has(.carta:hover, .carta:focus-within) .carta:first-child { margin-left: 0; }
-  .carta:hover, .carta:focus-within { z-index: 10; rotate: 0deg; translate: 0 -34px; scale: 1.06; }
+  /* ---------- Te recomendamos: baraja de cartas en desfile infinito. Las cartas pasan
+     solas (la lista va dos veces y se corre media vuelta); con el mouse o el foco se
+     detiene y la carta tocada sube al frente. ---------- */
+  .baraja-riel { overflow: hidden; margin-inline: calc(-1 * var(--e-4)); -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+  .baraja { display: flex; width: max-content; padding: 46px 0 56px; margin: 0; list-style: none; animation: desfile 48s linear infinite; }
+  .baraja-riel:hover .baraja, .baraja-riel:focus-within .baraja { animation-play-state: paused; }
+  @keyframes desfile { to { translate: -50% 0; } }
+  .carta { flex: none; width: 230px; margin-right: var(--e-5); rotate: -3deg; transition: rotate 0.35s var(--ease), translate 0.35s var(--ease), scale 0.35s var(--ease); }
+  .carta:nth-child(even) { rotate: 3deg; translate: 0 12px; }
+  .carta:hover, .carta:focus-within { z-index: 10; rotate: 0deg; translate: 0 -22px; scale: 1.06; }
+  @media (prefers-reduced-motion: reduce) { .baraja { animation: none; } .baraja-riel { overflow-x: auto; } }
   .carta a {
     position: relative; display: grid; justify-items: center; align-content: start; gap: 6px; height: 360px; padding: var(--e-5) var(--e-4) var(--e-4); text-align: center; text-decoration: none;
     background: var(--crema); color: var(--noche); border: var(--borde); border-radius: var(--r-3); box-shadow: 5px 7px 0 var(--uva);
   }
   /* marco interior de la carta, del color de cada una */
-  .carta a::before { content: ""; position: absolute; inset: 8px; border: 2px dashed var(--n); border-radius: 10px; pointer-events: none; }
-  .carta__esq { position: absolute; display: grid; justify-items: center; font: 400 1.05rem/1 var(--f-letrero); color: var(--n); -webkit-text-stroke: 0.06em var(--noche); paint-order: stroke fill; }
+  .carta a::before { content: ""; position: absolute; inset: 8px; border: 2px dashed var(--noche); border-radius: 10px; pointer-events: none; }
+  .carta__esq { position: absolute; display: grid; justify-items: center; font: 400 1.05rem/1 var(--f-letrero); color: var(--noche); }
   .carta__esq--arriba { top: 14px; left: 16px; }
   .carta__esq--abajo { bottom: 14px; right: 16px; rotate: 180deg; }
   .carta__foto { width: 150px; height: 150px; margin-top: var(--e-2); border-radius: 50%; padding: 6px; background: var(--noche); box-shadow: 0 0 0 4px var(--n), 4px 6px 0 4px var(--uva); }
@@ -399,11 +398,5 @@
   .carta__desc { font-size: 0.78rem; font-weight: 700; line-height: 1.35; color: color-mix(in srgb, var(--noche) 75%, var(--crema)); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
   .carta__ir { margin-top: auto; font-size: 0.8rem; background: var(--noche); color: var(--crema); border-radius: var(--r-pill); padding: 0.4rem 0.8rem 0.34rem; opacity: 0; translate: 0 6px; transition: opacity 0.25s, translate 0.25s; }
   .carta:hover .carta__ir, .carta:focus-within .carta__ir { opacity: 1; translate: 0 0; }
-  @media (max-width: 899px) {
-    .baraja { height: auto; justify-content: flex-start; align-items: stretch; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin-inline: calc(-1 * var(--e-4)); padding: var(--e-5) var(--e-6); gap: var(--e-4); scroll-padding-inline: var(--e-6); }
-    .baraja::-webkit-scrollbar { display: none; }
-    .carta, .baraja:has(.carta:hover, .carta:focus-within) .carta { margin-left: 0; rotate: calc(var(--off) * 1.5deg); translate: none; scroll-snap-align: center; width: 72%; max-width: 260px; }
-    .carta:hover, .carta:focus-within { translate: none; scale: 1; }
-    .carta__ir { opacity: 1; translate: none; }
-  }
+  @media (max-width: 719px) { .carta { width: 210px; } .carta__ir { opacity: 1; translate: none; } }
 }
