@@ -314,3 +314,32 @@
 
 /* El sello cuelga sobre el contenido: en pantallas medianas se le deja espacio */
 @media (min-width: 721px) and (max-width: 1320px) { main#contenido::before { content: ""; display: block; height: 30px; } }
+
+/* ---------- Dos idiomas: el navegador decide (ver el script del <head>) ---------- */
+html[lang="en"] .es, html[lang="es"] .en { display: none !important; }
+
+/* ---------- Horario en el pie ---------- */
+.pie__horario { margin-top: var(--e-2); color: var(--texto-2); font-weight: 800; }
+
+/* ---------- Cartel de cerrado ----------
+   Un letrero con tubo de neón tomate alrededor (el brillo va en la forma, nunca en la letra). */
+.cartel-cerrado { width: min(440px, calc(100% - 32px)); padding: 0; margin: auto; border: 0; background: none; color: var(--crema); overflow: visible; }
+.cartel-cerrado::backdrop { background: rgb(13 9 25 / 0.82); backdrop-filter: blur(4px); }
+.cartel-cerrado[open] { animation: cartel-cuelga 0.6s var(--rebote); }
+@keyframes cartel-cuelga { from { opacity: 0; transform: translateY(-40px) rotate(-6deg); } }
+.cartel-cerrado__letrero {
+  position: relative; display: grid; justify-items: center; gap: var(--e-3); padding: var(--e-6) var(--e-5) var(--e-5); text-align: center;
+  background: radial-gradient(rgb(255 241 220 / 0.05) 2px, transparent 2.5px) 0 0 / 16px 16px, var(--sup-1);
+  border-radius: var(--r-4); border: 4px solid var(--tomate);
+  box-shadow: 0 0 0 3px var(--noche), 0 0 22px 4px rgb(255 36 64 / 0.55), inset 0 0 18px rgb(255 36 64 / 0.35), 8px 10px 0 6px var(--uva);
+  animation: tubo 4s steps(1) infinite;
+}
+@keyframes tubo { 0%, 100% { border-color: var(--tomate); } 91% { border-color: color-mix(in srgb, var(--tomate) 45%, var(--noche)); } 93% { border-color: var(--tomate); } }
+.cartel-cerrado h2 { font-size: clamp(2.8rem, 2rem + 4vw, 4rem); --n: var(--tomate); rotate: -3deg; }
+.cartel-cerrado__cuando { font-size: var(--t-2); color: var(--mango); }
+.cartel-cerrado__horario { color: var(--texto-2); max-width: 32ch; }
+.cartel-cerrado__redes { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--e-2); padding: 0; margin: var(--e-1) 0 0; list-style: none; }
+.cartel-cerrado__redes .btn { gap: var(--e-2); }
+.cartel-cerrado__redes img { width: 22px; height: 22px; }
+.cartel-cerrado__ir { width: 100%; margin-top: var(--e-2); }
+@media (prefers-reduced-motion: reduce) { .cartel-cerrado__letrero { animation: none; } }

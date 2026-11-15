@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="Palmera"><title>Palmera</title><g fill="none" stroke="#FFF1DC" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M54 108 C56 90 60 72 64 54"/>
+<path d="M56 96 l6 1 M58 84 l6 1 M60 72 l6 1"/>
+<path d="M64 52 C52 40 36 40 24 48" stroke="#7CFF6B"/>
+<path d="M64 52 C58 34 44 26 32 26" stroke="#7CFF6B"/>
+<path d="M64 52 C70 34 84 26 96 30" stroke="#7CFF6B"/>
+<path d="M64 52 C78 44 92 46 100 58" stroke="#7CFF6B"/>
+<path d="M64 52 C62 42 64 30 70 20" stroke="#7CFF6B"/>
+<circle cx="60" cy="58" r="3.5" stroke="#FFB700"/><circle cx="68" cy="59" r="3.5" stroke="#FFB700"/>
+<path d="M30 108 H90"/></g></svg>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="Carrito de fritos"><title>Carrito de fritos</title><g fill="none" stroke="#FFF1DC" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M26 42 H94 L88 26 H32 Z" stroke="#FF2440"/>
+<path d="M44 26 L42 42 M60 26 V42 M76 26 L78 42" stroke="#FF2440"/>
+<rect x="28" y="42" width="64" height="40" rx="3"/>
+<path d="M28 60 H92"/>
+<path d="M36 56 a7 7 0 0 1 14 0 Z M54 56 a7 7 0 0 1 14 0 Z M72 56 a7 7 0 0 1 14 0 Z" stroke="#FFB700" stroke-width="2.5"/>
+<circle cx="42" cy="94" r="9"/><circle cx="80" cy="94" r="9"/>
+<path d="M92 56 L108 48"/></g></svg>
