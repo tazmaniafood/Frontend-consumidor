@@ -16,7 +16,7 @@
   @media (min-width: 900px) { .portada__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: var(--e-5); } }
   .portada__texto { display: grid; gap: var(--e-4); justify-items: start; }
   .portada__donde { margin: 0; }
-  .portada h1 { font-size: clamp(2.9rem, 1.6rem + 5vw, 6.2rem); line-height: 0.95; max-width: 9ch; }
+  .portada h1 { font-size: clamp(2.9rem, min(1.6rem + 5vw, 10.5svh), 6.2rem); line-height: 0.95; max-width: 9ch; }
   html[lang="en"] .portada h1 { max-width: 10ch; }
   .portada__lema { font-size: var(--t-2); color: var(--crema); }
   .portada__bajada { color: var(--texto-2); font-size: var(--t-2); max-width: 38ch; line-height: 1.5; }
@@ -33,12 +33,31 @@
   .plato-hero__foto { width: 82%; height: 82%; object-fit: contain; filter: drop-shadow(4px 12px 12px rgb(13 9 25 / 0.65)); }
   .plato-hero__foto.es-pizza { border-radius: 50%; animation: gira 80s linear infinite; }
   @keyframes gira { to { rotate: 360deg; } }
-  /* El chorro de salsa cae sobre el plato una vez, al cargar */
-  .plato-hero__salsa { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
-  .plato-hero__salsa path { fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: chorrea 1.1s cubic-bezier(0.5, 0, 0.3, 1) 0.35s forwards; }
-  .plato-hero__salsa path:nth-child(1) { stroke: var(--tomate); stroke-width: 7; filter: drop-shadow(2px 3px 0 var(--noche)); }
-  .plato-hero__salsa path:nth-child(2) { stroke: var(--crema); stroke-width: 4.5; filter: drop-shadow(2px 3px 0 var(--noche)); animation-delay: 0.9s; }
-  @keyframes chorrea { to { stroke-dashoffset: 0; } }
+  /* ---------- Tablero: un círculo a mano alrededor del título y flechas a los botones.
+     Se dibujan una sola vez al entrar, como tiza sobre el tablero de la esquina. ---------- */
+  .portada__titulo { position: relative; justify-self: start; padding: 0.15em 0.3em 0.1em 0.1em; }
+  .tiza { position: absolute; overflow: visible; pointer-events: none; }
+  .tiza path { fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: tiza 0.9s cubic-bezier(0.5, 0, 0.3, 1) forwards; }
+  .tiza--circulo { inset: -10% -9% -12% -7%; width: 116%; height: 122%; }
+  .tiza--circulo path { stroke: var(--tomate); stroke-width: 1.1; animation-delay: 0.3s; animation-duration: 1.1s; }
+  @keyframes tiza { to { stroke-dashoffset: 0; } }
+  .cta { position: relative; display: inline-grid; justify-items: center; }
+  .tiza--flecha { top: calc(100% + 4px); width: 64px; height: 40px; }
+  .tiza--flecha path { stroke: var(--crema); stroke-width: 4; animation-delay: 1.4s; animation-duration: 0.6s; }
+  .tiza--flecha path + path { animation-delay: 1.95s; animation-duration: 0.25s; }
+  .tiza--f1 { left: calc(50% - 50px); }
+  .tiza--f2 { left: calc(50% - 30px); }
+  .tiza--f2 path { animation-delay: 2.1s; } .tiza--f2 path + path { animation-delay: 2.65s; }
+  .cta__nota { position: absolute; top: calc(100% + 34px); white-space: nowrap; font-size: 1rem; color: var(--mango); rotate: -4deg; opacity: 0; animation: nota 0.3s var(--ease) 2.1s forwards; }
+  .cta:nth-child(1) .cta__nota { right: calc(50% + 26px); }
+  .cta:nth-child(2) .cta__nota { left: calc(50% + 26px); color: var(--crema); rotate: 3deg; animation-delay: 2.8s; }
+  @keyframes nota { from { opacity: 0; translate: 0 6px; } to { opacity: 1; translate: 0 0; } }
+  .portada__acciones { margin-bottom: 64px; }
+  @media (max-width: 560px) {
+    .portada__acciones { margin-bottom: 86px; }
+    .cta:nth-child(1) .cta__nota { right: auto; left: calc(50% - 72px); top: calc(100% + 44px); }
+    .cta:nth-child(2) .cta__nota { left: auto; right: calc(50% - 72px); top: calc(100% + 44px); }
+  }
 
   /* Aviso de abierto / cerrado: el único neón de la pantalla. El brillo es del tubo, no de la letra */
   .aviso-neon {
@@ -194,6 +213,7 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .plato-hero__salsa path, .chorro path { stroke-dashoffset: 0; animation: none; transition: none; }
+    .tiza path, .chorro path { stroke-dashoffset: 0; animation: none; transition: none; }
+    .cta__nota { opacity: 1; animation: none; }
   }
 }
