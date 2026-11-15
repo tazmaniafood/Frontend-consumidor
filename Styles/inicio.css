@@ -10,6 +10,8 @@
 
   /* ---------- Portada ---------- */
   .portada { padding-block: calc(var(--e-6) + 24px) var(--e-6); }
+  /* Al entrar, la portada llena la pantalla y la siguiente sección no se asoma */
+  @media (min-width: 900px) and (min-height: 560px) { .portada { min-height: calc(100svh - var(--carpa-alto)); display: grid; align-content: center; padding-block: calc(var(--e-5) + 20px) var(--e-5); } }
   .portada__grid { display: grid; gap: var(--e-6); align-items: center; }
   @media (min-width: 900px) { .portada__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: var(--e-5); } }
   .portada__texto { display: grid; gap: var(--e-4); justify-items: start; }
@@ -24,7 +26,7 @@
   .portada__plato { position: relative; display: grid; justify-items: center; }
   @media (min-width: 900px) { .portada__plato { margin-right: calc(-1 * var(--e-7)); } }
   .plato-hero {
-    position: relative; width: min(100%, 560px); aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center;
+    position: relative; width: min(100%, 620px, calc(100svh - var(--carpa-alto) - 120px)); aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center;
     background: radial-gradient(circle, var(--sup-2) 0 64%, var(--sup-3) 65% 71%, var(--sup-2) 72%);
     border: var(--borde); box-shadow: 10px 12px 0 var(--uva);
   }
