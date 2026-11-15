@@ -135,7 +135,7 @@
   }
   .pizarra__cab { position: absolute; top: 0; left: var(--e-5); translate: 0 -50%; display: flex; flex-wrap: wrap; align-items: center; gap: var(--e-2) var(--e-4); }
   .pizarra__titulo { font-size: var(--t-4); --n: var(--tomate); rotate: -2deg; background: var(--noche); padding: 0 0.3em; }
-  .pizarra__nota { font-size: 1rem; color: var(--mango); background: var(--noche); padding: 0.2rem 0.5rem; rotate: 2deg; }
+  .pizarra__nota { font-size: 1rem; color: var(--mango); background: var(--noche); padding: 0.2rem 0.5rem; }
   .pizarra .vitrina__slide { background: none; border: 0; padding-inline: var(--e-4); }
   @media (max-width: 720px) { .pizarra { padding: var(--e-8) var(--e-3) var(--e-4); } .pizarra__cab { left: var(--e-3); right: var(--e-3); } }
 
@@ -267,8 +267,10 @@
   /* ---------- Lo que trajimos de la Costa: galería de fotos, cuadros de distintos tamaños ---------- */
   .galeria__cab { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: var(--e-3) var(--e-5); margin-bottom: var(--e-5); }
   .galeria__cab .bloque-titulo { margin: 0; }
-  .galeria__ig { gap: var(--e-2); }
-  .galeria__ig img { width: 22px; height: 22px; }
+  .galeria__redes { display: flex; flex-wrap: wrap; align-items: center; gap: var(--e-2); }
+  .galeria__redes > .plana { font-size: var(--t-2); color: var(--crema); margin-right: var(--e-1); }
+  .galeria__redes .btn { gap: var(--e-2); }
+  .galeria__redes img { width: 22px; height: 22px; }
   .galeria { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 230px; grid-auto-flow: dense; gap: var(--e-4); padding: 0; margin: 0; list-style: none; }
   .foto { --fondo: var(--sup-2); position: relative; border-radius: var(--r-4); overflow: hidden; border: var(--borde); box-shadow: 6px 8px 0 var(--uva);
     background: radial-gradient(color-mix(in srgb, var(--crema) 22%, transparent) 2px, transparent 2.5px) 0 0 / 16px 16px, var(--fondo); transition: transform 0.25s var(--ease), box-shadow 0.25s; }
@@ -297,5 +299,72 @@
     .galeria { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 170px; gap: var(--e-3); }
     .foto__pie { translate: 0 0; padding: var(--e-4) var(--e-3) var(--e-2); }
     .foto__pie .plana { display: none; }
+  }
+}
+
+@layer components {
+  /* ---------- Te recomendamos: el mostrador. Cada pizza en su plato sobre la repisa
+     mango y su etiqueta crema colgando de un hilo; al pasar el mouse el plato se levanta
+     y la etiqueta se mece. ---------- */
+  .estante { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: var(--e-7) 0; padding: 0; margin: var(--e-3) 0 0; list-style: none; }
+  @media (max-width: 1099px) { .estante { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .estante__item { position: relative; display: grid; justify-items: center; text-decoration: none; color: var(--noche); padding: 0 var(--e-2); }
+  /* la repisa: un tramo por pizza, juntos se ven como una sola */
+  .estante__item::before { content: ""; position: absolute; left: 0; right: 0; top: calc(var(--plato) - 10px); height: 16px; background: var(--mango); border-block: 2px solid var(--noche); box-shadow: 0 6px 0 var(--uva); }
+  .estante > li:first-child .estante__item::before, .estante__item.primera::before { border-left: 2px solid var(--noche); border-radius: 6px 0 0 6px; }
+  .estante > li:last-child .estante__item::before { border-right: 2px solid var(--noche); border-radius: 0 6px 6px 0; }
+  .estante { --plato: 170px; }
+  .estante__plato { position: relative; z-index: 1; width: var(--plato); height: var(--plato); border-radius: 50%; padding: 7px; background: var(--noche); border: 2px solid var(--noche); box-shadow: 0 0 0 4px var(--crema); transition: translate 0.3s var(--rebote); }
+  .estante__plato img { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; transition: rotate 0.9s var(--ease); }
+  .estante__item:hover .estante__plato, .estante__item:focus-visible .estante__plato { translate: 0 -12px; }
+  .estante__item:hover .estante__plato img { rotate: 70deg; }
+  .estante__tag {
+    position: relative; display: grid; justify-items: center; gap: 4px; width: 100%; max-width: 200px; margin-top: 40px; padding: var(--e-4) var(--e-3) var(--e-3); text-align: center;
+    background: var(--crema); border: var(--borde); border-radius: var(--r-2); box-shadow: 4px 5px 0 var(--uva); transform-origin: 50% -34px; rotate: var(--giro, -2deg); transition: rotate 0.3s var(--ease);
+  }
+  .estante > li:nth-child(even) .estante__tag { --giro: 2deg; }
+  /* el hilo y el ojal */
+  .estante__tag::before { content: ""; position: absolute; left: 50%; bottom: 100%; width: 2px; height: 34px; translate: -50% 0; background: var(--crema); }
+  .estante__tag::after { content: ""; position: absolute; left: 50%; top: 8px; width: 10px; height: 10px; translate: -50% 0; border-radius: 50%; background: var(--noche); }
+  .estante__item:hover .estante__tag { animation: mece-tag 0.8s var(--ease); }
+  @keyframes mece-tag { 30% { rotate: calc(var(--giro, -2deg) + 7deg); } 65% { rotate: calc(var(--giro, -2deg) - 4deg); } }
+  .estante__sello { margin-top: var(--e-2); font-size: 0.72rem; color: var(--tomate); }
+  .estante__tag .letrero { font-size: 1.35rem; --n: var(--mango); }
+  .estante__desc { font-size: 0.78rem; font-weight: 700; line-height: 1.35; color: color-mix(in srgb, var(--noche) 75%, var(--crema)); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .estante__pie { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px; margin-top: 4px; }
+  .estante__pie .precio { font-size: 0.78rem; }
+  .estante__ir { font-size: 0.78rem; background: var(--noche); color: var(--crema); border-radius: var(--r-pill); padding: 0.35rem 0.7rem 0.3rem; }
+  @media (max-width: 719px) {
+    .estante { --plato: 150px; grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 62%; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin-inline: calc(-1 * var(--e-4)); padding: var(--e-3) var(--e-4) var(--e-4); }
+    .estante::-webkit-scrollbar { display: none; }
+    .estante > li { scroll-snap-align: center; }
+  }
+
+  /* ---------- Combos: la cuenta como un recibo de la esquina ---------- */
+  .combo-slide__escena .combo__plato { width: 290px; height: 290px; top: 10px; }
+  .combo-slide__escena .combo__mas { left: 262px; top: 210px; }
+  .combo-slide__escena .combo__bebida { left: 300px; bottom: 0; height: 250px; }
+  .recibo {
+    position: relative; justify-self: start; width: min(100%, 440px); display: grid; gap: var(--e-3); padding: var(--e-6) var(--e-5) var(--e-5);
+    background: var(--crema); color: var(--noche); border-inline: var(--borde); filter: drop-shadow(6px 8px 0 var(--uva));
+    -webkit-mask: radial-gradient(circle 7px at 10px 0, transparent 97%, #000) 0 0 / 20px 51% repeat-x, radial-gradient(circle 7px at 10px 100%, transparent 97%, #000) 0 100% / 20px 51% repeat-x;
+    mask: radial-gradient(circle 7px at 10px 0, transparent 97%, #000) 0 0 / 20px 51% repeat-x, radial-gradient(circle 7px at 10px 100%, transparent 97%, #000) 0 100% / 20px 51% repeat-x;
+  }
+  .recibo__cab { display: grid; justify-items: start; gap: var(--e-2); padding-bottom: var(--e-3); border-bottom: 2px dashed var(--noche); }
+  .recibo__cab .etiqueta { background: var(--n); color: var(--noche); border: 2px solid var(--noche); }
+  .recibo__cab .letrero { font-size: var(--t-3); --n: var(--mango); }
+  .recibo__lineas { display: grid; gap: var(--e-2); padding: 0; margin: 0; list-style: none; font-weight: 800; }
+  .recibo__lineas li { display: flex; align-items: baseline; gap: var(--e-2); }
+  .recibo__lineas i { flex: 1; border-bottom: 2px dotted color-mix(in srgb, var(--noche) 45%, var(--crema)); translate: 0 -4px; }
+  .recibo__lineas b { font-variant-numeric: tabular-nums; }
+  .recibo__total { display: flex; align-items: center; justify-content: space-between; padding-top: var(--e-3); border-top: 2px dashed var(--noche); }
+  .recibo__total .plana { font-size: var(--t-2); }
+  .recibo__total b { font: 400 2.2rem/1 var(--f-letrero); color: var(--noche); }
+  .recibo__btn { width: 100%; }
+  @media (max-width: 520px) {
+    .combo-slide__escena .combo__plato { width: 200px; height: 200px; }
+    .combo-slide__escena .combo__mas { left: 182px; top: 150px; }
+    .combo-slide__escena .combo__bebida { left: 212px; height: 180px; }
+    .recibo { padding: var(--e-5) var(--e-4) var(--e-4); }
   }
 }
