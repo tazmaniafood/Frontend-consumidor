@@ -65,6 +65,35 @@
     });
   });
 
+  /* ---- Te recomendamos: media luna que gira sola y sin fin ---- */
+  document.querySelectorAll('[data-arco]').forEach(arco => {
+    const cartas = [...arco.querySelectorAll('.carta')], N = cartas.length;
+    if (!N) return;
+    const quieto = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let p = 0, meta = null, pausa = false, antes = performance.now();
+    const VEL = 0.3; /* cartas por segundo */
+    const pintar = () => cartas.forEach((c, i) => {
+      let off = ((i - p) % N + N) % N; if (off > N / 2) off -= N;
+      c.style.setProperty('--off', off.toFixed(3));
+      c.style.zIndex = 100 - Math.round(Math.abs(off) * 10);
+    });
+    const cuadro = t => {
+      const dt = Math.min(0.05, (t - antes) / 1000); antes = t;
+      if (meta !== null) { p += (meta - p) * Math.min(1, dt * 8); if (Math.abs(meta - p) < 0.002) { p = meta; meta = null; } }
+      else if (!pausa && !quieto) p += dt * VEL;
+      pintar(); requestAnimationFrame(cuadro);
+    };
+    arco.addEventListener('mouseenter', () => { pausa = true; });
+    arco.addEventListener('mouseleave', () => { pausa = false; });
+    arco.addEventListener('focusin', () => { pausa = true; });
+    arco.addEventListener('focusout', () => { pausa = false; });
+    arco.addEventListener('click', e => {
+      const b = e.target.closest('[data-arco-paso]');
+      if (b) meta = Math.round(meta ?? p) + +b.dataset.arcoPaso;
+    });
+    pintar(); requestAnimationFrame(cuadro);
+  });
+
   /* ---- Chorros y barra para el pulgar ---- */
   if (!('IntersectionObserver' in window)) {
     document.querySelectorAll('.chorro').forEach(c => c.classList.add('visto'));

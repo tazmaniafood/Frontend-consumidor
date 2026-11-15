@@ -370,17 +370,22 @@
 }
 
 @layer components {
-  /* ---------- Te recomendamos: baraja de cartas en desfile infinito. Las cartas pasan
-     solas (la lista va dos veces y se corre media vuelta); con el mouse o el foco se
-     detiene y la carta tocada sube al frente. ---------- */
-  .baraja-riel { overflow: hidden; margin-inline: calc(-1 * var(--e-4)); -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
-  .baraja { display: flex; width: max-content; padding: 46px 0 56px; margin: 0; list-style: none; animation: desfile 48s linear infinite; }
-  .baraja-riel:hover .baraja, .baraja-riel:focus-within .baraja { animation-play-state: paused; }
-  @keyframes desfile { to { translate: -50% 0; } }
-  .carta { flex: none; width: 230px; margin-right: var(--e-5); rotate: -3deg; transition: rotate 0.35s var(--ease), translate 0.35s var(--ease), scale 0.35s var(--ease); }
-  .carta:nth-child(even) { rotate: 3deg; translate: 0 12px; }
-  .carta:hover, .carta:focus-within { z-index: 10; rotate: 0deg; translate: 0 -22px; scale: 1.06; }
-  @media (prefers-reduced-motion: reduce) { .baraja { animation: none; } .baraja-riel { overflow-x: auto; } }
+  /* ---------- Te recomendamos: las cartas en media luna que giran solas y sin fin.
+     El JS mueve --off de cada carta (su distancia al centro); de ahí salen la posición en
+     el arco, el giro y la transparencia en las puntas. Con el mouse o el foco se detiene. ---------- */
+  .arco { --paso: 150px; --carta: 230px; position: relative; }
+  .baraja { position: relative; height: 580px; padding: 0; margin: 0; list-style: none; overflow: hidden; }
+  .carta {
+    --lift: 0px; --recto: 1;
+    position: absolute; left: 50%; top: 60px; width: var(--carta); margin: 0; transform-origin: 50% 120%;
+    translate: calc(-50% + var(--off, 0) * var(--paso)) calc(var(--off, 0) * var(--off, 0) * 10px + var(--lift));
+    rotate: calc(var(--off, 0) * 8deg * var(--recto));
+    opacity: clamp(0, calc(3.6 - abs(var(--off, 0))), 1);
+    transition: scale 0.3s var(--ease);
+  }
+  .carta:hover, .carta:focus-within { --lift: -26px; --recto: 0; scale: 1.06; z-index: 200 !important; }
+  .arco__nav { display: flex; justify-content: center; gap: var(--e-3); margin-top: calc(-1 * var(--e-6)); position: relative; z-index: 300; }
+  @media (max-width: 719px) { .arco { --paso: 118px; --carta: 200px; } .baraja { height: 520px; } .carta__ir { opacity: 1; translate: none; } }
   .carta a {
     position: relative; display: grid; justify-items: center; align-content: start; gap: 6px; height: 360px; padding: var(--e-5) var(--e-4) var(--e-4); text-align: center; text-decoration: none;
     background: var(--crema); color: var(--noche); border: var(--borde); border-radius: var(--r-3); box-shadow: 5px 7px 0 var(--uva);
@@ -394,9 +399,8 @@
   .carta__foto img { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; transition: rotate 0.9s var(--ease); }
   .carta:hover .carta__foto img { rotate: 80deg; }
   .carta__sello { margin-top: var(--e-2); font-size: 0.72rem; color: var(--tomate); }
-  .carta__nombre { font-size: 1.45rem; --n: var(--mango); }
+  .carta__nombre { font-size: 1.45rem; }
   .carta__desc { font-size: 0.78rem; font-weight: 700; line-height: 1.35; color: color-mix(in srgb, var(--noche) 75%, var(--crema)); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
   .carta__ir { margin-top: auto; font-size: 0.8rem; background: var(--noche); color: var(--crema); border-radius: var(--r-pill); padding: 0.4rem 0.8rem 0.34rem; opacity: 0; translate: 0 6px; transition: opacity 0.25s, translate 0.25s; }
   .carta:hover .carta__ir, .carta:focus-within .carta__ir { opacity: 1; translate: 0 0; }
-  @media (max-width: 719px) { .carta { width: 210px; } .carta__ir { opacity: 1; translate: none; } }
 }
