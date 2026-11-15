@@ -1,12 +1,12 @@
-/* Carrito compartido (pizza, bebidas…). Guarda en localStorage 'taz-cart', el mismo que usan
+/* Carrito compartido (pizza, bebidas…). Guarda en localStorage 'palfilo-cart' (lee el viejo 'taz-cart' si existe), el mismo que usan
  las demás páginas, así el pedido se mantiene al cambiar de página.
  Uso: Cart.add({name, lines:[...], unit, q}).
  Al tocar "Ir a pagar" se abre el formulario de JS/checkout.js. */
 window.Cart=(()=>{
 const $=s=>document.querySelector(s),fmt=n=>'$'+n.toFixed(2);
 let cart=[];
-try{cart=JSON.parse(localStorage.getItem('taz-cart')||'[]')}catch(e){}
-const save=()=>{try{localStorage.setItem('taz-cart',JSON.stringify(cart))}catch(e){}};
+try{cart=JSON.parse(localStorage.getItem('palfilo-cart')||localStorage.getItem('taz-cart')||'[]')}catch(e){}
+const save=()=>{try{localStorage.setItem('palfilo-cart',JSON.stringify(cart))}catch(e){}};
 const tpl=$('#tpl-item'),items=$('#items'),empty=$('#empty');
 function draw(){
   const n=cart.reduce((t,i)=>t+i.q,0),tot=cart.reduce((t,i)=>t+i.q*i.unit,0);

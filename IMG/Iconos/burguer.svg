@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160" role="img" aria-label="Burguer"><title>Burguer</title><g fill="none" stroke="#FFF1DC" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+<path d="M32 70 C32 40 128 40 128 70 Z" stroke="#FFB700"/>
+<path d="M60 52 l4 -2 M80 46 l4 1 M100 54 l4 -1 M70 60 l3 2 M92 62 l4 0" stroke="#FFF1DC" stroke-width="3.5"/>
+<path d="M28 80 C38 72 46 88 56 80 C66 72 74 88 84 80 C94 72 102 88 112 80 C120 74 128 82 132 80" stroke="#7CFF6B"/>
+<path d="M30 92 H130 L122 104 L112 96 L100 110 L90 96 H30 Z" stroke="#FFB700"/>
+<rect x="30" y="100" width="100" height="16" rx="8" stroke="#FF2440"/>
+<path d="M32 124 H128 C128 138 32 138 32 124 Z" stroke="#FFB700"/></g></svg>

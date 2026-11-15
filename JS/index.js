@@ -1,7 +1,7 @@
 const $=s=>document.querySelector(s), fmt=n=>'$'+n.toFixed(2), T=s=>s.split(' ');
 let cart=[],cur=null,st=null;
-try{cart=JSON.parse(localStorage.getItem('taz-cart')||'[]')}catch(e){}
-const save=()=>{try{localStorage.setItem('taz-cart',JSON.stringify(cart))}catch(e){}};
+try{cart=JSON.parse(localStorage.getItem('palfilo-cart')||localStorage.getItem('taz-cart')||'[]')}catch(e){}
+const save=()=>{try{localStorage.setItem('palfilo-cart',JSON.stringify(cart))}catch(e){}};
 
 
 document.addEventListener('click',e=>{

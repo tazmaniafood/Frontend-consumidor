@@ -19,8 +19,8 @@ const ENTREGA=[
   {id:'local',ic:'🏪',n:'Recoger en el local',d:'Pasas por tu pedido'},
   {id:'domicilio',ic:'🛵',n:'A domicilio',d:'Te lo llevamos a tu casa'},
 ];
-const KEY='taz-cliente';
-let saved={};try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+const KEY='palfilo-cliente', KEY_VIEJA='taz-cliente';
+let saved={};try{saved=JSON.parse(localStorage.getItem(KEY)||localStorage.getItem(KEY_VIEJA)||'{}')}catch(e){}
 let cart=[];
 
 const opt=(name,o,i)=>`<label class="ck-op"><input type="radio" name="${name}" value="${o.id}"${i===0?' required':''}>${o.logo?`<img class="ck-logo" src="${o.logo}" alt="">`:`<span class="ck-ic" aria-hidden="true">${o.ic}</span>`}<span class="ck-tx"><b${o.logo?' class="sr"':''}>${o.n}</b>${o.d?`<small>${o.d}</small>`:''}</span></label>`;
@@ -84,7 +84,7 @@ f.addEventListener('submit',e=>{
   const v=k=>f[k].value.trim(),pago=PAGOS.find(o=>o.id===f.pago.value),dom=f.entrega.value==='domicilio';
   try{localStorage.setItem(KEY,JSON.stringify({nombre:v('nombre'),cel:v('cel'),dir:v('dir'),ref:v('ref')}))}catch(err){}
   const tot=cart.reduce((t,i)=>t+i.q*i.unit,0);
-  const msg=['Hola TAZ, quiero hacer este pedido:',
+  const msg=['Hola Pa\'l Filo, quiero hacer este pedido:',
     ...cart.map(i=>`${i.q}x ${i.name} (${i.lines.join('; ')}) - ${fmt(i.q*i.unit)}`),
     'Total: '+fmt(tot),'',
     'Nombre: '+v('nombre'),
