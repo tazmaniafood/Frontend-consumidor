@@ -124,25 +124,26 @@
     .plato__ir { display: inline-block; }
   }
 
-  /* ---------- Por qué: una razón grande y dos que la acompañan, sin tarjetas ---------- */
-  .razones { display: grid; gap: var(--e-5); }
-  @media (min-width: 900px) { .razones { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.6fr); align-items: start; } }
-  .razones__titulo { font-size: var(--t-4); }
-  .razones__lista { display: grid; gap: var(--e-5) var(--e-6); padding: 0; margin: 0; list-style: none; }
-  @media (min-width: 640px) { .razones__lista { grid-template-columns: 1fr 1fr; } .razon--grande { grid-column: 1 / -1; } }
-  .razon { display: grid; grid-template-columns: auto 1fr; gap: var(--e-4); align-items: start; padding-top: var(--e-4); border-top: 2px dashed var(--mango); }
-  .razon img { width: 64px; height: 64px; }
-  .razon--grande img { width: 96px; height: 96px; }
-  .razon h3 { font-size: var(--t-2); color: var(--crema); margin-bottom: var(--e-1); }
-  .razon--grande h3 { font-size: var(--t-3); color: var(--mango); }
-  .razon p { color: var(--texto-2); max-width: 46ch; }
-  .razon--grande p { font-size: var(--t-2); }
+  /* ---------- Una sección, dos voces: lo que ofrecemos (placas de color) y lo que
+     recomendamos (una pizarra de la esquina, con borde de tiza) ---------- */
+  .subtitulo { display: flex; align-items: center; gap: var(--e-3); margin: 0 0 var(--e-4); font-size: var(--t-2); color: var(--crema); }
+  .subtitulo::after { content: ""; flex: 1; height: 3px; border-radius: 2px; background: var(--mango); }
+  .pizarra {
+    position: relative; margin-top: var(--e-8); padding: var(--e-7) var(--e-5) var(--e-5); border-radius: var(--r-4);
+    background: radial-gradient(color-mix(in srgb, var(--crema) 6%, transparent) 2px, transparent 2.5px) 0 0 / 18px 18px, var(--sup-1);
+    border: 3px dashed var(--crema); box-shadow: 0 0 0 6px var(--noche), 0 0 0 9px var(--tomate);
+  }
+  .pizarra__cab { position: absolute; top: 0; left: var(--e-5); translate: 0 -50%; display: flex; flex-wrap: wrap; align-items: center; gap: var(--e-2) var(--e-4); }
+  .pizarra__titulo { font-size: var(--t-4); --n: var(--tomate); rotate: -2deg; background: var(--noche); padding: 0 0.3em; }
+  .pizarra__nota { font-size: 1rem; color: var(--mango); background: var(--noche); padding: 0.2rem 0.5rem; rotate: 2deg; }
+  .pizarra .vitrina__slide { background: none; border: 0; padding-inline: var(--e-4); }
+  @media (max-width: 720px) { .pizarra { padding: var(--e-8) var(--e-3) var(--e-4); } .pizarra__cab { left: var(--e-3); right: var(--e-3); } }
 
   /* ---------- Combos ---------- */
   .seccion--combos { padding-block: var(--e-7); background: var(--sup-1); border-block: 2px solid var(--mango); }
   /* Riel de combos: se desliza de lado, con flechas en escritorio */
   .riel { position: relative; }
-  .riel__pista { display: grid; grid-auto-flow: column; grid-auto-columns: min(500px, 84%); gap: var(--e-5); overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; margin: 0 calc(-1 * var(--e-2)); padding: var(--e-3) var(--e-2) var(--e-5); list-style: none; }
+  .riel__pista { display: grid; grid-auto-flow: column; grid-auto-columns: min(400px, 86%); gap: var(--e-5); overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; margin: 0 calc(-1 * var(--e-2)); padding: var(--e-3) var(--e-2) var(--e-5); list-style: none; }
   .riel__pista::-webkit-scrollbar { display: none; }
   .riel__pista > li { scroll-snap-align: start; }
   /* desvanecido a los lados: el riel no se ve cortado, se pierde en la noche */
@@ -156,26 +157,45 @@
   .riel__flecha:disabled { opacity: 0; pointer-events: none; }
   .riel__flecha--prev { left: 6px; } .riel__flecha--next { right: 6px; }
   @media (max-width: 719px) { .riel__flecha { display: none; } .riel__pista { margin-inline: calc(-1 * var(--e-4)); padding-inline: var(--e-4); } }
+  /* Combo: un carrito de fritos. Toldo a rayas con el borde en ondas, el plato con la
+     bebida encima, el precio como sticker y el botón al pie. */
   .combo {
-    height: 100%; display: grid; grid-template-rows: auto 1fr auto; gap: var(--e-3); padding: var(--e-4) var(--e-4) var(--e-5); border-radius: var(--r-4);
-    background: var(--crema); color: var(--noche); border: var(--borde); box-shadow: 6px 8px 0 var(--uva); transition: transform 0.2s var(--ease), rotate 0.2s var(--ease);
+    position: relative; height: 100%; display: grid; grid-template-rows: auto auto 1fr auto; border-radius: var(--r-4); overflow: hidden;
+    background: var(--crema); color: var(--noche); border: var(--borde); box-shadow: 6px 8px 0 var(--uva); transition: transform 0.2s var(--ease);
   }
-  @media (min-width: 720px) { .combos li:nth-child(odd) .combo { rotate: -0.8deg; } .combos li:nth-child(even) .combo { rotate: 0.8deg; } }
-  .combo:hover { transform: translateY(-6px); rotate: 0deg; }
-  .combo__fotos { position: relative; aspect-ratio: 16 / 10; border-radius: var(--r-3); border: var(--borde); overflow: hidden; background: radial-gradient(circle at 40% 55%, color-mix(in srgb, var(--n) 45%, var(--noche)) 0, var(--noche) 72%); }
-  .combo__pizza { position: absolute; left: 4%; top: 6%; width: 64%; height: auto; aspect-ratio: 1; border-radius: 50%; filter: drop-shadow(4px 10px 8px rgb(13 9 25 / 0.6)); transition: rotate 0.9s var(--ease); }
-  .combo:hover .combo__pizza { rotate: 50deg; }
-  .combo__bebida { position: absolute; right: 6%; bottom: 6%; height: 74%; width: auto; filter: drop-shadow(4px 8px 6px rgb(13 9 25 / 0.6)); transform-origin: 50% 90%; transition: rotate 0.3s var(--rebote); }
-  .combo:hover .combo__bebida { rotate: 8deg; }
-  .combo__tx { display: grid; align-content: start; gap: var(--e-2); }
+  .combo:hover { transform: translateY(-6px); }
+  .combo__toldo {
+    height: 46px; border-bottom: 0;
+    background: repeating-linear-gradient(90deg, var(--n) 0 28px, var(--crema) 28px 56px);
+    -webkit-mask: linear-gradient(#000, #000) top / 100% calc(100% - 14px) no-repeat, radial-gradient(circle 14px at 14px 0, #000 97%, transparent) bottom / 28px 14px repeat-x;
+    mask: linear-gradient(#000, #000) top / 100% calc(100% - 14px) no-repeat, radial-gradient(circle 14px at 14px 0, #000 97%, transparent) bottom / 28px 14px repeat-x;
+    filter: drop-shadow(0 2px 0 var(--noche));
+  }
+  .combo__escena { position: relative; height: 230px; margin: var(--e-2) var(--e-4) 0; }
+  .combo__plato { position: absolute; left: 0; top: 0; width: 210px; height: 210px; border-radius: 50%; padding: 6px; background: var(--noche); box-shadow: 0 0 0 4px var(--n), 5px 7px 0 4px var(--uva); }
+  .combo__plato img { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; transition: rotate 0.9s var(--ease); }
+  .combo:hover .combo__plato img { rotate: 60deg; }
+  .combo__mas { position: absolute; left: 190px; top: 112px; z-index: 2; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--mango); color: var(--noche); border: var(--borde); font: 400 1.6rem/1 var(--f-letrero); box-shadow: 2px 3px 0 var(--uva); }
+  .combo__bebida { position: absolute; left: 222px; bottom: 6px; height: 170px; width: auto; filter: drop-shadow(4px 8px 4px rgb(13 9 25 / 0.45)); transform-origin: 50% 90%; transition: rotate 0.3s var(--rebote); }
+  .combo:hover .combo__bebida { rotate: 10deg; }
+  .combo__precio {
+    position: absolute; right: 0; top: 0; z-index: 3; display: grid; place-items: center; align-content: center; width: 92px; height: 92px; rotate: 10deg;
+    background: var(--tomate); color: var(--crema); font: 400 1.35rem/1 var(--f-letrero); border: var(--borde);
+    clip-path: polygon(50% 0, 61% 12%, 75% 6%, 79% 21%, 94% 22%, 89% 37%, 100% 50%, 89% 63%, 94% 78%, 79% 79%, 75% 94%, 61% 88%, 50% 100%, 39% 88%, 25% 94%, 21% 79%, 6% 78%, 11% 63%, 0 50%, 11% 37%, 6% 22%, 21% 21%, 25% 6%, 39% 12%);
+  }
+  .combo__precio small { font-size: 0.68rem; text-transform: uppercase; }
+  .combo__tx { display: grid; align-content: start; gap: var(--e-2); padding: var(--e-3) var(--e-4) 0; }
   .combo__tx .etiqueta { justify-self: start; background: var(--noche); color: var(--crema); }
   .combo__tx h3 { font-size: var(--t-3); --n: var(--mango); }
   .combo__tx ul { padding: 0; margin: 0; list-style: none; display: grid; gap: 4px; font-weight: 800; }
   .combo__tx li { display: flex; align-items: center; gap: var(--e-2); }
   .combo__tx li::before { content: ""; flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--n); border: 2px solid var(--noche); }
-  .combo__pie { display: flex; align-items: center; justify-content: space-between; gap: var(--e-3); flex-wrap: wrap; }
-  .combo__pie .precio { font-size: 1.15rem; }
-  .combo .btn--secundario { background: var(--noche); color: var(--crema); }
+  .combo__btn { margin: var(--e-4); background: var(--noche); color: var(--crema); justify-self: stretch; }
+  @media (max-width: 420px) {
+    .combo__escena { height: 190px; }
+    .combo__plato { width: 170px; height: 170px; } .combo__mas { left: 152px; top: 92px; } .combo__bebida { left: 180px; height: 140px; }
+    .combo__precio { width: 78px; height: 78px; font-size: 1.1rem; }
+  }
 
   /* ---------- Recomendados: vitrina con una pizza grande y las demás para escoger ---------- */
   .vitrina { display: grid; gap: var(--e-4); }
