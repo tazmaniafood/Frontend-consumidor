@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160" role="img" aria-label="Bebida"><title>Bebida</title><defs><filter id="neon" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur in="SourceGraphic" stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><g fill="none" stroke="#FFF1DC" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" filter="url(#neon)">
+<path d="M46 52 H114 L104 138 H56 Z" stroke="#00B9FF"/>
+<path d="M40 44 H120 V52 H40 Z" stroke="#FFF1DC"/>
+<path d="M86 44 L96 14 L110 14" stroke="#FF2440"/>
+<rect x="60" y="66" width="16" height="16" rx="3" stroke="#FFF1DC" stroke-width="3" transform="rotate(-10 68 74)"/><rect x="82" y="78" width="16" height="16" rx="3" stroke="#FFF1DC" stroke-width="3" transform="rotate(12 90 86)"/>
+<path d="M58 106 H102" stroke="#FFB700"/><path d="M60 116 H100" stroke="#FFB700" stroke-width="3"/>
+<path d="M124 70 c-4 6 -4 10 0 10 c4 0 4 -4 0 -10 Z M34 92 c-4 6 -4 10 0 10 c4 0 4 -4 0 -10 Z" stroke="#00B9FF" stroke-width="3"/></g></svg>

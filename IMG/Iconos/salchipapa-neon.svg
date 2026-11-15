@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160" role="img" aria-label="Salchipapa"><title>Salchipapa</title><defs><filter id="neon" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur in="SourceGraphic" stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><g fill="none" stroke="#FFF1DC" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" filter="url(#neon)">
+<path d="M28 78 H132 L120 136 H40 Z" stroke="#FF2440"/>
+<path d="M40 78 L36 34 M54 78 L52 26 M68 78 L70 30 M84 78 L88 24 M100 78 L106 32 M116 78 L124 40" stroke="#FFB700"/>
+<ellipse cx="58" cy="66" rx="12" ry="7" stroke="#FF2440"/><ellipse cx="92" cy="60" rx="12" ry="7" stroke="#FF2440"/><ellipse cx="114" cy="70" rx="10" ry="6" stroke="#FF2440"/>
+<path d="M34 58 C46 48 54 70 66 56 C78 44 86 68 98 52 C110 40 118 62 130 50" stroke="#FFF1DC" stroke-width="3.5"/>
+<path d="M60 100 l10 8 l10 -8 l10 8 l10 -8" stroke="#FFF1DC" stroke-width="3"/></g></svg>

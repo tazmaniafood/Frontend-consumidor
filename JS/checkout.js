@@ -10,25 +10,25 @@ window.Checkout=(()=>{
 const WA='16506830906';
 const fmt=n=>'$'+n.toFixed(2);
 /* Logo de Stripe: la ruta se calcula desde este archivo, así sirve en index.html y en Pages/ */
-const STRIPE=new URL('../IMG/Pagos/stripe.png?v=25',document.currentScript.src).href;
+const STRIPE=new URL('../IMG/Pagos/stripe.png?v=50',document.currentScript.src).href;
 const PAGOS=[
-  {id:'efectivo',ic:'💵',n:'Efectivo',d:'Pagas al recibir'},
+  {id:'efectivo',n:'Efectivo',d:'Pagas al recibir'},
   {id:'stripe',logo:STRIPE,n:'Stripe',d:'Tarjeta · Apple Pay · Google Pay'},
 ];
 const ENTREGA=[
-  {id:'local',ic:'🏪',n:'Recoger en el local',d:'Pasas por tu pedido'},
-  {id:'domicilio',ic:'🛵',n:'A domicilio',d:'Te lo llevamos a tu casa'},
+  {id:'local',n:'Recoger en el local',d:'Pasas por tu pedido'},
+  {id:'domicilio',n:'A domicilio',d:'Te lo llevamos a tu casa'},
 ];
 const KEY='palfilo-cliente', KEY_VIEJA='taz-cliente';
 let saved={};try{saved=JSON.parse(localStorage.getItem(KEY)||localStorage.getItem(KEY_VIEJA)||'{}')}catch(e){}
 let cart=[];
 
-const opt=(name,o,i)=>`<label class="ck-op"><input type="radio" name="${name}" value="${o.id}"${i===0?' required':''}>${o.logo?`<img class="ck-logo" src="${o.logo}" alt="">`:`<span class="ck-ic" aria-hidden="true">${o.ic}</span>`}<span class="ck-tx"><b${o.logo?' class="sr"':''}>${o.n}</b>${o.d?`<small>${o.d}</small>`:''}</span></label>`;
+const opt=(name,o,i)=>`<label class="ck-op"><input type="radio" name="${name}" value="${o.id}"${i===0?' required':''}>${o.logo?`<img class="ck-logo" src="${o.logo}" alt="">`:''}<span class="ck-tx"><b${o.logo?' class="sr"':''}>${o.n}</b>${o.d?`<small>${o.d}</small>`:''}</span></label>`;
 const dlg=document.createElement('dialog');
 dlg.className='ck';dlg.setAttribute('aria-labelledby','ckT');
 dlg.innerHTML=`
 <form class="ck-f" novalidate>
-  <div class="ck-h"><h2 id="ckT">Finalizar pedido</h2><button type="button" class="ck-x" data-ck="close" aria-label="Cerrar">✕</button></div>
+  <div class="ck-h"><h2 id="ckT" class="letrero" style="--n: var(--mango);">Finalizar pedido</h2><button type="button" class="btn btn--secundario btn--chico" data-ck="close">Cerrar</button></div>
   <div class="ck-b">
     <fieldset><legend>Tus datos</legend>
       <label class="ck-in"><span>Nombre</span><input name="nombre" autocomplete="name" placeholder="¿A nombre de quién?" required></label>
@@ -36,7 +36,7 @@ dlg.innerHTML=`
     </fieldset>
     <fieldset><legend>¿Cómo pagas?</legend>
       <div class="ck-ops ck-pagos">${PAGOS.map((o,i)=>opt('pago',o,i)).join('')}</div>
-      <p class="ck-nota" id="ckStripe" hidden>🔒 Te enviamos por WhatsApp el link de pago seguro de <b>Stripe</b>.</p>
+      <p class="ck-nota" id="ckStripe" hidden>Te enviamos por WhatsApp el link de pago seguro de <b>Stripe</b>.</p>
     </fieldset>
     <fieldset><legend>¿Cómo lo recibes?</legend>
       <div class="ck-ops ck-ent">${ENTREGA.map((o,i)=>opt('entrega',o,i)).join('')}</div>
@@ -49,7 +49,7 @@ dlg.innerHTML=`
   </div>
   <div class="ck-pie">
     <div class="ck-tot"><small>Total</small><b id="ckTot">$0.00</b></div>
-    <button type="submit" class="cta ck-go">Enviar pedido por WhatsApp</button>
+    <button type="submit" class="btn btn--whatsapp ck-go">Enviar por WhatsApp</button>
   </div>
 </form>`;
 document.body.append(dlg);

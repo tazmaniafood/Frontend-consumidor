@@ -1,0 +1,244 @@
+/* =====================================================================
+   Pa'l Filo · Armador de platos (pizza, salchicosteñas, burguer, perro, mazorcada)
+   El plato se ve mientras se arma: la foto gira en su plato, cada ingrediente
+   cae y se acomoda encima. Componentes de la guía: segmento, opción de plato,
+   extra con cantidad, total y barra de agregar.
+   ===================================================================== */
+@layer components {
+  .armador { padding-block: var(--e-5) calc(var(--e-8) + 40px); }
+  .volver { display: inline-flex; margin-bottom: var(--e-4); }
+  .armador__grid { display: grid; gap: var(--e-5); align-items: start; }
+  @media (min-width: 900px) {
+    .armador__grid { grid-template-columns: minmax(340px, 460px) 1fr; gap: var(--e-6); }
+    .vista { position: sticky; top: calc(var(--carpa-alto) + 24px); }
+  }
+
+  /* ---------- Vista del plato ---------- */
+  .vista { display: grid; gap: var(--e-4); justify-items: center; text-align: center; padding: var(--e-5) var(--e-4); border-radius: var(--r-4); background: var(--sup-1); border: 1.5px solid var(--linea); }
+  .vista h1 { font-size: var(--t-4); }
+  .vista .segmento { width: 100%; justify-content: space-between; }
+  .vista__resumen { min-height: 2.6em; color: var(--texto-2); font-weight: 700; font-size: var(--t-0); max-width: 40ch; }
+  .vista__total { display: flex; justify-content: center; }
+
+  .stage { position: relative; width: min(100%, 380px); aspect-ratio: 1; display: grid; place-items: center; }
+  /* el plato: anillo crema con su sombra uva; un aro de neón suave alrededor es el ambiente */
+  .stage::before {
+    content: ""; position: absolute; inset: 3%; border-radius: 50%;
+    background: radial-gradient(circle, var(--sup-2) 0 62%, var(--sup-3) 63% 70%, var(--sup-2) 71%);
+    border: 3px solid var(--linea-fuerte);
+    box-shadow: 6px 8px 0 var(--uva), 0 0 0 10px var(--noche), 0 0 0 12px rgb(255 183 0 / 0.35), 0 0 34px 10px rgb(255 183 0 / 0.16);
+  }
+  .pz { position: relative; z-index: 1; width: 86%; aspect-ratio: 1; }
+  .pz::before { content: ""; position: absolute; inset: 7% -1% -5% 4%; border-radius: 50%; background: radial-gradient(closest-side, rgb(13 9 25 / 0.75) 60%, transparent); filter: blur(6px); }
+  .spin { position: relative; width: 100%; height: 100%; border-radius: 50%; animation: gira 60s linear infinite; }
+  @keyframes gira { to { transform: rotate(360deg); } }
+  .spin > img, .pz-base { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 50%; object-fit: contain; }
+  .spin > img { opacity: 0; transition: opacity 0.35s; }
+  .pz.has-img .spin > img { opacity: 1; }
+  .pz.has-img .pz-base { opacity: 0; }
+  .spin > img.swap { animation: llega 0.5s var(--rebote); }
+  @keyframes llega { from { transform: scale(0.82) rotate(-20deg); opacity: 0.2; } }
+  /* pizza en blanco mientras no hay foto: la base de queso real */
+  .pz-base { background: url("../IMG/Pizzas/base-queso.webp") center / contain no-repeat; transition: opacity 0.35s; }
+
+  /* Ingredientes en capas: caen desde arriba y se acomodan */
+  .capas { position: absolute; inset: 0; border-radius: 50%; overflow: hidden; pointer-events: none; }
+  .capa, .sec img.capa {
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain;
+    transform: rotate(var(--r, 0deg)) scaleX(var(--f, 1)) scale(var(--s, 1.03));
+    filter: drop-shadow(1px 3px 2px rgb(13 9 25 / 0.45));
+    animation: cae 0.55s var(--rebote) both;
+  }
+  @keyframes cae {
+    0% { opacity: 0; transform: translateY(-28%) rotate(calc(var(--r, 0deg) - 25deg)) scaleX(var(--f, 1)) scale(calc(var(--s, 1.03) * 1.25)); }
+    60% { opacity: 1; }
+  }
+  /* Pizza a tu gusto: ingredientes regados en espiral */
+  .tops { position: absolute; inset: 0; border-radius: 50%; pointer-events: none; }
+  .pz:not(.custom) .tops { display: none; }
+  .tops i, .sec i { position: absolute; font-style: normal; line-height: 1; transform: translate(-50%, -50%); filter: drop-shadow(1px 2px 0 rgb(13 9 25 / 0.5)); animation: pica 0.35s var(--rebote) both; }
+  .tops i { font-size: clamp(18px, 3.4vw, 28px); }
+  .sec i { font-size: clamp(15px, 2.6vw, 24px); }
+  .tops i img.ic, .sec i img.ic { width: 1.2em; height: 1.2em; object-fit: contain; }
+  @keyframes pica { from { transform: translate(-50%, -120%) scale(0.4); opacity: 0; } }
+
+  /* Borde relleno de toda la pizza */
+  .pz::after { content: ""; position: absolute; inset: -1.5%; border-radius: 50%; border: 0 solid transparent; pointer-events: none; transition: border-width 0.25s var(--rebote); }
+  .pz.bocadillo::after { border-width: 7px; border-color: var(--tomate); box-shadow: 0 0 0 2px var(--noche), inset 0 0 0 2px var(--noche); }
+  .pz.queso::after { border-width: 7px; border-color: var(--mango); box-shadow: 0 0 0 2px var(--noche), inset 0 0 0 2px var(--noche); }
+  .pz.is-split::after { display: none; }
+
+  /* Pizza por partes */
+  .split { position: absolute; inset: 0; display: none; }
+  .pz.is-split .split { display: block; }
+  .pz.is-split .spin, .pz.is-split .capas, .pz.is-split .steam { visibility: hidden; }
+  .sec { position: absolute; inset: 0; border-radius: 50%; overflow: hidden; }
+  .sec > img:not(.capa) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; animation: llega 0.45s var(--rebote); }
+  .sec.base, .sec.vacia { background: url("../IMG/Pizzas/base-queso.webp") center / contain no-repeat; }
+  .sec.vacia { opacity: 0.45; filter: grayscale(0.6); }
+  .cuts { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .cuts path { fill: transparent; stroke: var(--noche); stroke-width: 1.3; stroke-linejoin: round; cursor: pointer; transition: fill 0.15s; }
+  .cuts path:hover { fill: rgb(255 241 220 / 0.12); }
+  .cuts path.act { stroke: var(--mango); stroke-width: 1.8; stroke-dasharray: 3 2; fill: rgb(255 183 0 / 0.08); animation: marcha 1s linear infinite; }
+  @keyframes marcha { to { stroke-dashoffset: -10; } }
+  .cuts path.borde { fill: none; stroke-width: 3.4; stroke-linecap: round; pointer-events: none; stroke-dasharray: none; animation: none; }
+  .cuts path.borde.bocadillo { stroke: var(--tomate); }
+  .cuts path.borde.queso { stroke: var(--mango); }
+  .slab { position: absolute; z-index: 2; transform: translate(-50%, -50%); display: grid; justify-items: center; gap: 3px; max-width: 42%; pointer-events: none; }
+  .slab i { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--crema); color: var(--noche); border: var(--borde); font: 900 0.85rem/1 var(--f-texto); font-style: normal; transition: transform 0.2s var(--rebote); }
+  .slab b { background: var(--noche); color: var(--crema); border-radius: var(--r-1); padding: 2px 8px; font-size: 0.78rem; font-weight: 900; line-height: 1.3; }
+  .slab.act i { background: var(--mango); transform: scale(1.15); }
+  .slab.act b { background: var(--mango); color: var(--noche); }
+  .slab.vacia b { background: var(--tomate); color: var(--crema); }
+
+  /* Vapor */
+  .steam { position: absolute; left: 12%; right: 12%; top: -34%; bottom: 32%; z-index: 3; pointer-events: none; filter: url(#humo) blur(5px); }
+  .steam i { position: absolute; bottom: 0; left: var(--x); width: var(--w, 20%); height: 52%; border-radius: 50% 50% 45% 45%; background: radial-gradient(ellipse 50% 50% at 50% 60%, rgb(255 241 220 / 0.85) 0, rgb(255 241 220 / 0.5) 35%, transparent 72%); opacity: 0; animation: vapor var(--d, 5.5s) cubic-bezier(0.3, 0.1, 0.4, 1) var(--dl, 0s) infinite; }
+  .steam i:nth-child(1) { --x: 6%; --d: 6s; }
+  .steam i:nth-child(2) { --x: 22%; --w: 24%; --d: 5.2s; --dl: -1.8s; }
+  .steam i:nth-child(3) { --x: 40%; --w: 22%; --d: 6.4s; --dl: -3.4s; }
+  .steam i:nth-child(4) { --x: 56%; --d: 5.6s; --dl: -0.9s; }
+  .steam i:nth-child(5) { --x: 72%; --w: 18%; --d: 6.2s; --dl: -4.6s; }
+  @keyframes vapor { 0% { transform: translateY(30%) scale(0.6); opacity: 0; } 30% { opacity: 0.55; } 100% { transform: translateY(-70%) scale(1.25); opacity: 0; } }
+
+  /* Platos sin foto todavía: el ícono de la marca sobre el plato */
+  .dish-base { position: absolute; inset: 16%; display: grid; place-items: center; transition: opacity 0.35s; }
+  .dish-base img { width: 100%; height: 100%; object-fit: contain; }
+  .pz.has-img .dish-base { opacity: 0; }
+  .pz.plato .spin { animation-duration: 90s; }
+
+  /* Entera o mitad y mitad */
+  .sabores { display: grid; grid-template-columns: 1fr 1fr; gap: var(--e-3); width: 100%; }
+  .sab {
+    display: grid; justify-items: center; gap: 0.3rem; padding: var(--e-3); border-radius: var(--r-3);
+    background: var(--noche); border: 1.5px solid var(--linea); color: var(--crema); transition: transform 0.15s var(--ease);
+  }
+  .sab:hover { transform: translateY(-2px); border-color: var(--linea-fuerte); }
+  .sab b { font: 400 0.95rem/1 var(--f-letrero); text-transform: uppercase; letter-spacing: 0.03em; }
+  .sab small { color: var(--texto-3); font-weight: 800; font-size: var(--t-0); }
+  .sab .ico { width: 30px; height: 30px; border-radius: 50%; border: var(--borde); position: relative; }
+  .ico1 { background: var(--mango); }
+  .ico2 { background: linear-gradient(90deg, var(--tomate) 50%, var(--mango) 0); }
+  .sab.on { background: var(--mango); color: var(--noche); border: var(--borde); box-shadow: var(--sombra); }
+  .sab.on small { color: color-mix(in srgb, var(--noche) 75%, transparent); }
+
+  /* Segmento con botones .op (tamaño y borde) */
+  .seg .op { flex: 1; display: grid; justify-items: center; gap: 2px; background: transparent; border: 0; border-radius: var(--r-pill); padding: 0.5rem 0.4rem; color: var(--crema); }
+  .seg .op em { display: none; }
+  .seg .op b { font-weight: 900; font-size: 0.9rem; }
+  .seg .op .pr { font-weight: 800; font-size: 0.72rem; color: var(--texto-3); }
+  .seg .op .pr:empty { display: none; }
+  .seg .op.on { background: var(--mango); color: var(--noche); box-shadow: 2px 3px 0 var(--uva); }
+  .seg .op.on .pr { color: color-mix(in srgb, var(--noche) 75%, transparent); }
+
+  /* ---------- Pasos ---------- */
+  .steps { display: flex; flex-direction: column; gap: var(--e-4); min-width: 0; }
+  .step { padding: var(--e-4); border-radius: var(--r-4); background: var(--sup-1); border: 1.5px solid var(--linea); }
+  .step > h3 { display: flex; align-items: center; flex-wrap: wrap; gap: 0.6rem; margin-bottom: var(--e-4); font: 400 var(--t-2)/1.1 var(--f-letrero); text-transform: uppercase; letter-spacing: 0.02em; color: var(--crema); }
+  .step > h3 > i { display: grid; place-items: center; width: 1.7em; height: 1.7em; border-radius: 50%; background: var(--mango); color: var(--noche); border: var(--borde); font-style: normal; font-size: 0.85em; }
+  .step > h3 small { font: 700 var(--t-0)/1.3 var(--f-texto); text-transform: none; letter-spacing: 0; color: var(--texto-2); }
+  .steps.custom > .step:has(.opts-base) { display: none; }
+  .steps.custom .custombar { order: 0; }
+  .steps.custom > .step:has(.tp) { order: 1; }
+  .steps.custom > .step-salsa { order: 2; }
+  .steps.custom > .add { order: 3; }
+  .custombar { display: flex; align-items: center; gap: var(--e-3); padding: var(--e-3) var(--e-4); border-radius: var(--r-3); background: var(--mango); color: var(--noche); border: var(--borde); box-shadow: var(--sombra); }
+  .custombar b { font: 400 var(--t-2)/1 var(--f-letrero); text-transform: uppercase; }
+
+  /* Opción de plato: foto redonda, nombre, una línea y precio */
+  .opts { display: grid; gap: var(--e-3); }
+  .opts-base { grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); }
+  .op { font: inherit; text-align: left; cursor: pointer; }
+  .opts-base .op {
+    position: relative; display: grid; grid-template-columns: 60px 1fr; grid-template-areas: "em tx" "em pr"; align-items: center; column-gap: var(--e-3); row-gap: 0.4rem;
+    padding: var(--e-3) var(--e-4); border-radius: var(--r-3); color: var(--crema);
+    background: var(--noche); border: 1.5px solid var(--linea); transition: transform 0.15s var(--ease), border-color 0.15s;
+  }
+  .opts-base .op:hover { transform: translateY(-2px); border-color: var(--linea-fuerte); }
+  .opts-base .op em { grid-area: em; display: grid; place-items: center; width: 60px; height: 60px; border-radius: 50%; overflow: hidden; background: var(--sup-2); font-style: normal; font-size: 28px; }
+  .opts-base .op em img { width: 100%; height: 100%; object-fit: cover; }
+  .opts-base .op em img.icono { width: 72%; height: 72%; object-fit: contain; }
+  .opts-base .tx { grid-area: tx; display: grid; gap: 3px; }
+  .opts-base .tx b { font-weight: 900; font-size: 1.02rem; line-height: 1.2; }
+  .opts-base .tx small { color: var(--texto-2); font-size: var(--t-0); line-height: 1.35; }
+  .opts-base .pr { grid-area: pr; justify-self: start; }
+  .opts-base .op.on { background: var(--mango); color: var(--noche); border: var(--borde); box-shadow: var(--sombra); }
+  .opts-base .op.on .tx small { color: color-mix(in srgb, var(--noche) 78%, transparent); }
+  .opts-base .op.on::after { content: "✓"; position: absolute; top: -9px; right: -9px; width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; background: var(--lima); color: var(--noche); font-weight: 900; font-size: 0.85rem; border: var(--borde); }
+  /* "Pizza a tu gusto": la opción destacada, de primera y a lo ancho */
+  .opts-base .op.cartel { order: -1; grid-column: 1 / -1; grid-template-columns: 76px 1fr; padding: var(--e-4); border-style: dashed; border-color: rgb(255 183 0 / 0.55); }
+  .opts-base .op.cartel em { width: 76px; height: 76px; }
+  .opts-base .op.cartel .tx b { font: 400 var(--t-2)/1.05 var(--f-letrero); text-transform: uppercase; letter-spacing: 0.02em; }
+  .opts-base .op.cartel .tag { justify-self: start; }
+  .opts-base .op.cartel.on { border-style: solid; }
+
+  /* Toppings por categoría */
+  .tp { display: grid; gap: var(--e-3); }
+  .cats { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: var(--e-3); }
+  .cat {
+    display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: var(--e-3); text-align: left;
+    padding: var(--e-4); border-radius: var(--r-3); background: var(--noche); color: var(--crema); border: 1.5px solid var(--linea);
+    border-left: 6px solid var(--n, var(--mango)); transition: transform 0.15s var(--ease);
+  }
+  .cat:hover { transform: translateY(-2px); }
+  .cat-pro { --n: var(--tomate); }
+  .cat-veg { --n: var(--lima); }
+  .cat-tx { display: grid; gap: 2px; }
+  .cat-tx b { font: 400 var(--t-2)/1 var(--f-letrero); text-transform: uppercase; }
+  .cat-tx small { color: var(--texto-2); font-size: var(--t-0); }
+  .cat .cnt:empty { display: none; }
+  .cat .cnt { min-width: 1.8em; padding: 0.2em 0.5em; border-radius: var(--r-pill); background: var(--n); color: var(--noche); font-weight: 900; text-align: center; }
+  .cat .go { font: 900 1.4rem/1 var(--f-texto); color: var(--texto-2); }
+  .cat.has { border-color: var(--linea-fuerte); }
+  .cathead { display: flex; align-items: center; gap: var(--e-3); margin-bottom: var(--e-3); }
+  .cathead b { font: 400 var(--t-2)/1 var(--f-letrero); text-transform: uppercase; color: var(--crema); }
+  .catpanel { animation: abre 0.3s var(--ease); }
+  @keyframes abre { from { opacity: 0; transform: translateY(8px); } }
+  .tp.all .cats { display: none !important; }
+  .tp.all .catpanel[hidden] { display: block !important; }
+  .tp.all .catpanel { margin-top: var(--e-3); }
+  .tp.all .back { display: none; }
+
+  /* Extra con cantidad (toppings y salsas) */
+  .opts-ex { grid-template-columns: repeat(auto-fill, minmax(min(100%, 148px), 1fr)); }
+  .opts-ex .op {
+    display: grid; justify-items: center; align-content: start; gap: 0.45rem; text-align: center;
+    padding: var(--e-3) var(--e-2) var(--e-3); border-radius: var(--r-3); color: var(--crema);
+    background: var(--noche); border: 1.5px solid var(--linea); transition: transform 0.15s var(--ease), border-color 0.15s;
+  }
+  .opts-ex .op:hover { transform: translateY(-2px); border-color: var(--linea-fuerte); }
+  .opts-ex .op em { display: grid; place-items: center; width: 58px; height: 58px; border-radius: 50%; overflow: hidden; background: var(--sup-2); font-style: normal; font-size: 28px; }
+  .opts-ex .op em img { width: 100%; height: 100%; object-fit: cover; }
+  .opts-ex .op em img.salsa { object-fit: contain; padding: 2px; }
+  .opts-ex .op em img.foto { transform: scale(1.6); }
+  .opts-ex .tx b { font-weight: 900; font-size: 0.92rem; line-height: 1.2; }
+  .opts-ex .op.on { border: 2px solid var(--mango); background: color-mix(in srgb, var(--mango) 14%, var(--noche)); }
+  .prud { display: grid; justify-items: center; gap: 0.45rem; }
+  .prud .pr { font: 900 0.78rem/1 var(--f-texto); color: var(--crema); background: var(--sup-2); border-radius: var(--r-pill); padding: 0.35rem 0.6rem; }
+  .uds { display: inline-flex; align-items: center; gap: 0.15rem; padding: 0.15rem; border-radius: var(--r-pill); border: 1.5px solid var(--linea-fuerte); }
+  .ud { display: grid; place-items: center; width: 1.9rem; height: 1.9rem; border-radius: 50%; background: var(--crema); color: var(--noche); font: 900 1rem/1 var(--f-texto); user-select: none; transition: transform 0.1s; }
+  .ud:hover { background: var(--mango); }
+  .ud:active { transform: scale(0.88); }
+  .udn { min-width: 1.6rem; text-align: center; font: 400 1rem/1 var(--f-letrero); font-style: normal; }
+
+  /* Lo que lleva (pizza a tu gusto) */
+  .picked:empty { display: none; }
+  .picked { display: flex; flex-wrap: wrap; align-items: center; gap: var(--e-2); }
+  .pk-lab { font-weight: 900; }
+  .pk-empty { color: var(--texto-2); font-size: var(--t-0); }
+  .pk { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.35rem 0.65rem; border-radius: var(--r-pill); border: 1.5px solid var(--linea-fuerte); background: transparent; color: var(--crema); font-weight: 800; font-size: var(--t-0); }
+  .pk img.ic { width: 1.1em; height: 1.1em; object-fit: contain; }
+  .pk:hover { border-color: var(--tomate); }
+  .pk-clear { background: none; border: 0; color: var(--texto-2); font-weight: 800; text-decoration: underline; }
+
+  /* ---------- Barra de agregar ---------- */
+  .add {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; display: flex; align-items: center; gap: var(--e-3);
+    padding: var(--e-3) max(var(--e-4), env(safe-area-inset-right)) calc(var(--e-3) + env(safe-area-inset-bottom, 0px)) max(var(--e-4), env(safe-area-inset-left));
+    background: color-mix(in srgb, var(--noche) 92%, transparent); backdrop-filter: blur(8px); border-top: 1.5px solid var(--linea);
+  }
+  .add .btn { flex: 1; }
+  @media (min-width: 900px) {
+    .add { position: sticky; bottom: var(--e-4); border: 1.5px solid var(--linea); border-radius: var(--r-4); padding: var(--e-3); }
+  }
+}

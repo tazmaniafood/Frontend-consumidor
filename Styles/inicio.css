@@ -1,0 +1,54 @@
+/* Pa'l Filo · Inicio. La comida manda: la pizza real gira en su plato;
+   los íconos de neón son el ambiente de la noche alrededor. */
+@layer components {
+  .portada { padding-block: var(--e-6) var(--e-7); }
+  .portada__grid { display: grid; gap: var(--e-6); align-items: center; }
+  @media (min-width: 900px) { .portada__grid { grid-template-columns: 1.1fr 1fr; } }
+  .portada__texto { display: grid; gap: var(--e-4); justify-items: start; }
+  .portada h1 { font-size: var(--t-5); }
+  .portada__lema { font: 400 var(--t-2)/1.15 var(--f-letrero); text-transform: uppercase; color: var(--crema); }
+  .portada__bajada { color: var(--texto-2); font-size: var(--t-2); max-width: 40ch; line-height: 1.45; }
+  .portada__acciones { display: flex; flex-wrap: wrap; align-items: center; gap: var(--e-4); margin-top: var(--e-2); }
+
+  .escena { position: relative; width: min(100%, 520px); aspect-ratio: 1; margin-inline: auto; display: grid; place-items: center; }
+  .escena__plato {
+    position: absolute; inset: 10%; border-radius: 50%;
+    background: radial-gradient(circle, var(--sup-2) 0 62%, var(--sup-3) 63% 70%, var(--sup-2) 71%);
+    border: 3px solid var(--linea-fuerte); box-shadow: 8px 10px 0 var(--uva), 0 0 0 12px var(--noche), 0 0 0 14px rgb(255 183 0 / 0.35), 0 0 46px 14px rgb(255 183 0 / 0.14);
+  }
+  .escena__pizza { position: relative; width: 74%; height: auto; aspect-ratio: 1; object-fit: contain; border-radius: 50%; filter: drop-shadow(4px 10px 10px rgb(13 9 25 / 0.6)); animation: gira 70s linear infinite; }
+  @keyframes gira { to { transform: rotate(360deg); } }
+  .escena__icono { position: absolute; width: 19%; animation: flota 6s ease-in-out infinite; }
+  .escena__icono--1 { top: 0; left: 6%; animation-delay: -1s; }
+  .escena__icono--2 { top: 2%; right: 4%; animation-delay: -3s; }
+  .escena__icono--3 { bottom: 4%; left: 0; animation-delay: -2s; }
+  .escena__icono--4 { bottom: 0; right: 6%; animation-delay: -4s; }
+  @keyframes flota { 50% { transform: translateY(-10px) rotate(-4deg); } }
+
+  .bloque-titulo { display: grid; gap: var(--e-3); margin-bottom: var(--e-5); }
+  .bloque-titulo h2 { font-size: var(--t-4); }
+
+  /* Categorías del menú */
+  .categorias { display: grid; gap: var(--e-4); grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); padding: 0; list-style: none; }
+  .categoria {
+    position: relative; display: grid; grid-template-columns: 84px 1fr; grid-template-areas: "ic tx" "ic pr"; align-items: center; column-gap: var(--e-4); row-gap: var(--e-2);
+    padding: var(--e-4) 2.6rem var(--e-4) var(--e-4); border-radius: var(--r-3); text-decoration: none; color: var(--crema);
+    background: var(--sup-1); border: 1.5px solid var(--linea); transition: transform 0.2s var(--ease), border-color 0.2s, box-shadow 0.2s;
+  }
+  .categoria:hover { transform: translateY(-4px); border-color: var(--mango); box-shadow: var(--sombra); }
+  .categoria__ic { grid-area: ic; width: 84px; height: 84px; border-radius: 50%; background: var(--noche); border: 1.5px solid var(--linea); display: grid; place-items: center; }
+  .categoria__ic img { width: 64px; height: 64px; }
+  .categoria__tx { grid-area: tx; display: grid; gap: 4px; }
+  .categoria__tx h3 { font-size: var(--t-3); }
+  .categoria__tx p { color: var(--texto-2); font-size: var(--t-0); }
+  .categoria .precio { grid-area: pr; justify-self: start; }
+  .categoria::after { content: "›"; position: absolute; right: var(--e-4); top: 50%; translate: 0 -50%; font: 900 1.6rem/1 var(--f-texto); color: var(--texto-3); transition: translate 0.2s var(--ease), color 0.2s; }
+  .categoria:hover::after { color: var(--mango); translate: 4px -50%; }
+
+  /* Cómo pedir: es una secuencia real, por eso va numerada */
+  .pasos-pedir { display: grid; gap: var(--e-4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); padding: 0; list-style: none; counter-reset: paso; }
+  .pasos-pedir li { counter-increment: paso; padding: var(--e-5) var(--e-4) var(--e-4); border-radius: var(--r-3); background: var(--sup-1); border: 1.5px solid var(--linea); display: grid; gap: var(--e-2); }
+  .pasos-pedir li::before { content: counter(paso); display: grid; place-items: center; width: 2.2rem; height: 2.2rem; border-radius: 50%; background: var(--mango); color: var(--noche); border: var(--borde); font: 400 1.1rem/1 var(--f-letrero); box-shadow: var(--sombra-chica); }
+  .pasos-pedir h3 { font: 900 var(--t-2)/1.2 var(--f-texto); color: var(--crema); }
+  .pasos-pedir p { color: var(--texto-2); }
+}

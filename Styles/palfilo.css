@@ -1,0 +1,276 @@
+/* =====================================================================
+   Pa'l Filo · Sistema de diseño
+   Fuente de verdad: Guía de marca (tazmaniafood.github.io/branding-TAZ)
+   Solo tokens aprobados. Las superficies se mezclan de noche + uva + crema.
+   Reglas: ninguna letra brilla; el brillo vive solo en formas e imágenes
+   de ambiente. Placas = borde noche + sombra uva en bloque.
+   ===================================================================== */
+@layer tokens, reset, base, layout, components, utilities;
+
+@layer tokens {
+  :root {
+    color-scheme: dark;
+    /* Paleta */
+    --noche: #0D0919;
+    --uva: #5B0DA8;
+    --crema: #FFF1DC;
+    --mango: #FFB700;
+    --tomate: #FF2440;
+    --cian: #00B9FF;
+    --lima: #7CFF6B;
+
+    /* Superficies y texto: mezclas de la paleta */
+    --sup-1: color-mix(in srgb, var(--uva) 14%, var(--noche));
+    --sup-2: color-mix(in srgb, var(--uva) 24%, var(--noche));
+    --sup-3: color-mix(in srgb, var(--uva) 34%, var(--noche));
+    --linea: rgb(255 241 220 / 0.14);
+    --linea-fuerte: rgb(255 241 220 / 0.32);
+    --texto: var(--crema);
+    --texto-2: color-mix(in srgb, var(--crema) 72%, var(--noche));
+    --texto-3: color-mix(in srgb, var(--crema) 52%, var(--noche));
+
+    /* Letras */
+    --f-letrero: 'Lilita One', system-ui, sans-serif;
+    --f-texto: 'Nunito', system-ui, sans-serif;
+    --t-0: clamp(0.8rem, 0.78rem + 0.1vw, 0.86rem);
+    --t-1: clamp(0.94rem, 0.9rem + 0.15vw, 1rem);
+    --t-2: clamp(1.1rem, 1rem + 0.4vw, 1.3rem);
+    --t-3: clamp(1.5rem, 1.2rem + 1.2vw, 2.1rem);
+    --t-4: clamp(2.2rem, 1.6rem + 2.6vw, 3.6rem);
+    --t-5: clamp(2.8rem, 1.8rem + 4.6vw, 5.6rem);
+
+    /* Espacios */
+    --e-1: 0.25rem; --e-2: 0.5rem; --e-3: 0.75rem; --e-4: 1rem;
+    --e-5: 1.5rem; --e-6: 2rem; --e-7: 3rem; --e-8: 4.5rem;
+
+    /* Formas */
+    --r-1: 8px; --r-2: 12px; --r-3: 16px; --r-4: 22px; --r-pill: 999px;
+    --borde: 2px solid var(--noche);
+    --sombra: 4px 5px 0 var(--uva);
+    --sombra-chica: 3px 3px 0 var(--uva);
+    --ancho: 1200px;
+    --carpa-alto: 76px;
+    --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+    --rebote: cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+}
+
+@layer reset {
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; font-synthesis: none; scroll-padding-top: calc(var(--carpa-alto) + 16px); }
+  body, h1, h2, h3, h4, p, figure, ul, ol, fieldset { margin: 0; }
+  ul[role="list"], ol[role="list"] { padding: 0; list-style: none; }
+  img, svg { display: block; max-width: 100%; height: auto; }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  fieldset { border: 0; padding: 0; min-width: 0; }
+  [hidden] { display: none !important; }
+}
+
+@layer base {
+  @view-transition { navigation: auto; }
+  body {
+    min-height: 100dvh; display: flex; flex-direction: column;
+    background: var(--noche); color: var(--texto);
+    font: 500 var(--t-1)/1.55 var(--f-texto);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  :focus-visible { outline: 3px solid var(--cian); outline-offset: 3px; border-radius: 6px; }
+  a { color: inherit; }
+  ::selection { background: var(--mango); color: var(--noche); }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+    @view-transition { navigation: none; }
+  }
+}
+
+@layer layout {
+  .envoltura { width: min(100% - 2 * var(--e-4), var(--ancho)); margin-inline: auto; }
+  main { flex: 1; }
+  .seccion { padding-block: var(--e-7); }
+  .sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+}
+
+@layer components {
+  /* ---------- Letrero de picó: títulos ----------
+     Relleno de color, contorno crema y sombra uva en bloque. Sin brillo. */
+  .letrero {
+    font-family: var(--f-letrero); font-weight: 400; text-transform: uppercase; line-height: 0.98;
+    color: var(--n, var(--mango));
+    -webkit-text-stroke: 0.07em var(--crema); paint-order: stroke fill;
+    text-shadow: 0.06em 0.06em 0 var(--uva), 0.1em 0.1em 0 var(--uva);
+    letter-spacing: 0.01em;
+  }
+  /* Lilita plana: frases, botones, etiquetas */
+  .plana { font-family: var(--f-letrero); font-weight: 400; text-transform: uppercase; letter-spacing: 0.02em; line-height: 1.05; }
+
+  /* ---------- Carpa (barra de arriba) ---------- */
+  .carpa {
+    position: sticky; top: 0; z-index: 40; isolation: isolate;
+    background: var(--noche);
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+  .carpa::before {
+    content: ""; position: absolute; inset: 0; z-index: -1; opacity: 0.2;
+    background: url("../IMG/Marca/azulejos-costenos.svg") 0 0 / 420px auto repeat;
+  }
+  .carpa::after {
+    content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 12px; pointer-events: none;
+    background: radial-gradient(circle at 14px 0, var(--noche) 11px, var(--linea-fuerte) 11px 12.5px, transparent 13px) 0 0 / 28px 12px repeat-x;
+  }
+  .carpa__fila { display: flex; align-items: center; gap: var(--e-3); min-height: var(--carpa-alto); padding-inline: max(var(--e-4), env(safe-area-inset-left)); }
+  .sello {
+    flex: none; display: block; width: 56px; height: 56px; border-radius: 50%;
+    background: var(--noche); border: 3px solid var(--crema); box-shadow: var(--sombra-chica);
+    view-transition-name: sello; transition: transform 0.2s var(--ease);
+  }
+  .sello:hover { transform: rotate(-8deg) scale(1.05); }
+  .sello img { width: 100%; height: 100%; object-fit: contain; padding: 4px; }
+  .menu { flex: 1; min-width: 0; display: flex; gap: var(--e-2); overflow-x: auto; scrollbar-width: none; padding: 6px 4px 9px; }
+  .menu::-webkit-scrollbar { display: none; }
+  .menu a {
+    flex: none; text-decoration: none; color: var(--noche);
+    font: 400 0.95rem/1 var(--f-letrero); text-transform: uppercase; letter-spacing: 0.03em;
+    padding: 0.62rem 0.95rem 0.55rem; border-radius: var(--r-2);
+    background: color-mix(in srgb, var(--crema) 92%, var(--noche)); border: var(--borde); box-shadow: var(--sombra-chica);
+    transition: transform 0.15s var(--ease), background 0.15s;
+  }
+  .menu a:hover { background: var(--crema); transform: translateY(-2px); }
+  .menu a[aria-current="page"] { background: var(--mango); }
+  .carrito-btn { flex: none; display: inline-flex; align-items: center; gap: 0.5rem; }
+  .carrito-btn img { width: 22px; height: 22px; }
+  .carrito-btn b { min-width: 1.6em; padding: 0.15em 0.4em; border-radius: var(--r-pill); background: var(--tomate); color: var(--crema); font: 900 0.8rem/1.2 var(--f-texto); text-align: center; }
+  @media (max-width: 720px) {
+    .carpa__fila { flex-wrap: wrap; row-gap: 0; padding-top: 8px; }
+    .menu { order: 3; flex-basis: 100%; margin-inline: calc(-1 * var(--e-4)); padding-inline: var(--e-4); }
+    .carrito-btn { margin-left: auto; }
+  }
+
+  /* ---------- Botones ---------- */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; text-decoration: none; text-align: center;
+    font: 400 1rem/1 var(--f-letrero); text-transform: uppercase; letter-spacing: 0.03em;
+    padding: 0.85rem 1.3rem 0.75rem; border-radius: var(--r-2); border: var(--borde); color: var(--noche);
+    box-shadow: var(--sombra); transition: translate 0.15s var(--ease), box-shadow 0.15s var(--ease);
+  }
+  .btn:hover { translate: 0 -2px; box-shadow: 5px 7px 0 var(--uva); }
+  .btn:active { translate: 3px 4px; box-shadow: 0 0 0 var(--uva); }
+  .btn--primario { background: var(--mango); }
+  .btn--secundario { background: var(--crema); }
+  .btn--whatsapp { background: var(--lima); }
+  .btn--chico { font-size: 0.85rem; padding: 0.6rem 0.9rem 0.52rem; }
+  .btn--grande { font-size: 1.15rem; padding: 1rem 1.6rem 0.9rem; }
+  .btn:disabled, .btn[aria-disabled="true"] {
+    background: color-mix(in srgb, var(--crema) 22%, var(--noche)); color: color-mix(in srgb, var(--crema) 55%, var(--noche));
+    box-shadow: none; translate: none; cursor: not-allowed;
+  }
+  .btn-texto { background: none; border: 0; padding: 0.3rem 0; color: var(--texto-2); font-weight: 800; text-decoration: underline; text-underline-offset: 3px; }
+  .btn-texto:hover { color: var(--crema); }
+
+  /* ---------- Segmento ---------- */
+  .segmento { display: flex; align-items: center; gap: 4px; padding: 5px; border-radius: var(--r-pill); background: var(--noche); border: 1.5px solid var(--linea); }
+  .segmento__label { flex: none; color: var(--texto-2); font-weight: 900; font-size: var(--t-0); padding: 0 0.5rem 0 0.6rem; }
+  .segmento__label small { display: block; font-weight: 700; color: var(--texto-3); }
+
+  /* ---------- Chips ---------- */
+  .chip {
+    display: inline-flex; align-items: center; gap: 0.4rem; font: 400 0.9rem/1 var(--f-letrero); text-transform: uppercase; letter-spacing: 0.03em;
+    padding: 0.55rem 0.9rem 0.48rem; border-radius: var(--r-pill); color: var(--crema); background: transparent;
+    border: 2px solid var(--linea-fuerte); transition: background 0.15s, color 0.15s, border-color 0.15s;
+  }
+  .chip:hover { border-color: var(--mango); color: var(--mango); }
+  .chip[aria-pressed="true"], .chip.on { background: var(--mango); color: var(--noche); border-color: var(--noche); box-shadow: var(--sombra-chica); }
+
+  /* ---------- Contador ---------- */
+  .contador { display: inline-flex; align-items: center; gap: 0.15rem; padding: 0.2rem; border-radius: var(--r-pill); border: 2px solid var(--linea-fuerte); background: var(--noche); }
+  .contador button, .contador [role="button"] {
+    display: grid; place-items: center; width: 2.2rem; height: 2.2rem; border-radius: 50%; border: 0;
+    background: var(--crema); color: var(--noche); font: 900 1.15rem/1 var(--f-texto); cursor: pointer; user-select: none;
+  }
+  .contador button:hover, .contador [role="button"]:hover { background: var(--mango); }
+  .contador > span, .contador > i, .contador > b { min-width: 2rem; text-align: center; font: 400 1.1rem/1 var(--f-letrero); font-style: normal; color: var(--crema); }
+
+  /* ---------- Precios ---------- */
+  .precio {
+    display: inline-block; font: 900 0.85rem/1 var(--f-texto); letter-spacing: 0.01em; font-variant-numeric: tabular-nums;
+    color: var(--mango); background: var(--noche); border-radius: var(--r-pill); padding: 0.38rem 0.7rem; border: 1px solid rgb(255 183 0 / 0.35);
+  }
+  .precio:empty { display: none; }
+  .precio--extra { color: var(--crema); border-color: var(--linea-fuerte); }
+  .total {
+    display: inline-flex; align-items: baseline; gap: 0.5rem; font: 400 2rem/1 var(--f-letrero); color: var(--noche);
+    background: var(--mango); border: var(--borde); border-radius: var(--r-2); padding: 0.55rem 1rem 0.45rem; box-shadow: var(--sombra);
+    font-variant-numeric: tabular-nums;
+  }
+  .total small { font: 900 0.7rem/1 var(--f-texto); text-transform: uppercase; letter-spacing: 0.08em; }
+
+  /* ---------- Etiquetas ---------- */
+  .etiqueta { display: inline-block; font: 400 0.78rem/1 var(--f-letrero); text-transform: uppercase; letter-spacing: 0.04em; padding: 0.42rem 0.6rem 0.36rem; border-radius: var(--r-1); }
+  .etiqueta--promo { background: var(--tomate); color: var(--crema); }
+  .etiqueta--suave { border: 1.5px solid var(--linea-fuerte); color: var(--crema); }
+  .etiqueta--mango { background: var(--mango); color: var(--noche); }
+
+  /* ---------- Campos ---------- */
+  .campo { display: grid; gap: 0.4rem; }
+  .campo > span { font-weight: 900; color: var(--crema); font-size: var(--t-0); }
+  .campo > span i { font-style: normal; font-weight: 600; color: var(--texto-3); }
+  .campo input, .campo select, .campo textarea {
+    width: 100%; color: var(--crema); background: var(--noche); border: 1.5px solid var(--linea-fuerte); border-radius: 10px; padding: 0.75rem 0.85rem;
+  }
+  .campo input::placeholder { color: var(--texto-3); }
+  .campo input:focus, .campo select:focus, .campo textarea:focus { outline: none; border-color: var(--cian); box-shadow: 0 0 0 3px rgb(0 185 255 / 0.25); }
+  .campo.mal input { border-color: var(--tomate); box-shadow: 0 0 0 3px rgb(255 36 64 / 0.22); }
+
+  /* ---------- Tarjeta base ---------- */
+  .tarjeta { background: var(--sup-1); border: 1.5px solid var(--linea); border-radius: var(--r-3); }
+
+  /* ---------- Cenefa: línea decorativa de sección ---------- */
+  .cenefa { display: block; height: 10px; width: 120px; background: radial-gradient(circle at 5px 5px, var(--n, var(--mango)) 3px, transparent 3.5px) 0 0 / 14px 10px repeat-x; }
+
+  /* ---------- Pie ---------- */
+  .pie { position: relative; margin-top: var(--e-8); padding: var(--e-7) 0 calc(var(--e-6) + env(safe-area-inset-bottom, 0px)); background: var(--noche); isolation: isolate; text-align: center; }
+  .pie::before { content: ""; position: absolute; inset: 0; z-index: -1; opacity: 0.14; background: url("../IMG/Marca/azulejos-costenos.svg") 0 0 / 420px auto repeat; }
+  .pie::after { content: ""; position: absolute; left: 0; right: 0; bottom: 100%; height: 12px; background: radial-gradient(circle at 14px 12px, var(--noche) 11px, var(--linea-fuerte) 11px 12.5px, transparent 13px) 0 0 / 28px 12px repeat-x; }
+  .pie__logo { width: min(280px, 70vw); margin: 0 auto var(--e-3); }
+  .pie__lema { font: 400 var(--t-2)/1.1 var(--f-letrero); text-transform: uppercase; color: var(--crema); }
+  .pie__redes { display: flex; justify-content: center; gap: var(--e-3); margin: var(--e-5) 0; padding: 0; list-style: none; }
+  .pie__redes img { width: 22px; height: 22px; border-radius: 50%; }
+  .pie__meta { color: var(--texto-3); font-size: var(--t-0); }
+
+  /* ---------- Carrito (cajón) ---------- */
+  .velo { position: fixed; inset: 0; z-index: 60; background: rgb(13 9 25 / 0.72); opacity: 0; pointer-events: none; transition: opacity 0.25s; }
+  .velo.on { opacity: 1; pointer-events: auto; }
+  .cajon {
+    position: fixed; top: 0; right: 0; bottom: 0; z-index: 61; width: min(420px, 100%);
+    display: flex; flex-direction: column; background: var(--sup-1); border-left: 2px solid var(--linea-fuerte);
+    padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px);
+    transform: translateX(105%); transition: transform 0.3s var(--ease); visibility: hidden;
+  }
+  .cajon.on { transform: none; visibility: visible; }
+  .cajon__cab { display: flex; align-items: center; justify-content: space-between; gap: var(--e-3); padding: var(--e-4) var(--e-4) var(--e-3); border-bottom: 1px solid var(--linea); }
+  .cajon__cab h2 { font-size: var(--t-3); }
+  .cajon__items { flex: 1; overflow-y: auto; padding: var(--e-3) var(--e-4); display: grid; align-content: start; gap: var(--e-3); }
+  .cajon__vacio { text-align: center; color: var(--texto-2); padding: var(--e-7) var(--e-4); }
+  .cajon__vacio img { width: 84px; margin: 0 auto var(--e-3); opacity: 0.85; }
+  .linea-pedido { padding: var(--e-3) var(--e-4); border-radius: var(--r-3); background: var(--noche); border: 1.5px solid var(--linea); display: grid; gap: 0.45rem; }
+  .linea-pedido .fila { display: flex; align-items: center; justify-content: space-between; gap: var(--e-3); }
+  .linea-pedido .nm { font-weight: 900; }
+  .linea-pedido .pt { font-weight: 900; color: var(--mango); font-variant-numeric: tabular-nums; }
+  .linea-pedido .ln { color: var(--texto-2); font-size: var(--t-0); }
+  .cajon__pie { padding: var(--e-4); border-top: 1px solid var(--linea); display: grid; gap: var(--e-3); }
+  .cajon__total { display: flex; justify-content: space-between; align-items: baseline; font: 400 var(--t-3)/1 var(--f-letrero); }
+  .cajon__total span:first-child { font: 900 var(--t-0)/1 var(--f-texto); text-transform: uppercase; letter-spacing: 0.08em; color: var(--texto-2); }
+
+  /* ---------- Aviso (toast) ---------- */
+  .aviso {
+    position: fixed; left: 50%; bottom: calc(96px + env(safe-area-inset-bottom, 0px)); z-index: 70; translate: -50% 20px; opacity: 0; pointer-events: none;
+    background: var(--lima); color: var(--noche); font-weight: 900; padding: 0.7rem 1.1rem; border-radius: var(--r-pill); border: var(--borde); box-shadow: var(--sombra-chica);
+    transition: opacity 0.2s, translate 0.25s var(--rebote);
+  }
+  .aviso.on { opacity: 1; translate: -50% 0; }
+}
+
+@layer utilities {
+  .centro { text-align: center; }
+  .apilado > * + * { margin-top: var(--e-4); }
+}

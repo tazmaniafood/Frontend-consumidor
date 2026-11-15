@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160" role="img" aria-label="Mazorcada"><title>Mazorcada</title><defs><filter id="neon" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur in="SourceGraphic" stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><g fill="none" stroke="#FFF1DC" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" filter="url(#neon)">
+<path d="M24 76 H136 C136 112 112 132 80 132 C48 132 24 112 24 76 Z" stroke="#FF2440"/>
+<path d="M30 76 C34 58 50 52 62 58 C70 44 92 44 100 58 C114 52 128 60 130 76" stroke="#FFF1DC"/>
+<circle cx="50" cy="68" r="4" stroke="#FFB700"/><circle cx="62" cy="66" r="4" stroke="#FFB700"/><circle cx="76" cy="62" r="4" stroke="#FFB700"/><circle cx="90" cy="64" r="4" stroke="#FFB700"/><circle cx="104" cy="66" r="4" stroke="#FFB700"/><circle cx="116" cy="70" r="4" stroke="#FFB700"/><circle cx="70" cy="72" r="4" stroke="#FFB700"/><circle cx="96" cy="72" r="4" stroke="#FFB700"/>
+<path d="M40 60 C52 50 58 72 70 58 C82 46 90 70 102 56 C112 46 118 62 126 58" stroke="#00B9FF" stroke-width="3"/>
+<path d="M122 40 C130 30 140 30 144 40 C140 52 130 58 120 54 Z" stroke="#FFB700"/><path d="M118 52 L108 62" stroke="#7CFF6B"/></g></svg>

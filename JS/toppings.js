@@ -39,7 +39,7 @@ document.addEventListener('click',e=>{
   setTimeout(()=>{
     /* pizza por partes: si aún falta elegir el sabor de alguna parte, se queda en la lista */
     if(document.querySelector('#split .sec.vacia'))return;
-    const r=stage.getBoundingClientRect(),top=(document.querySelector('.top')?.getBoundingClientRect().bottom||0);
+    const r=stage.getBoundingClientRect(),top=(document.querySelector('.carpa')?.getBoundingClientRect().bottom||0);
     if(r.top<top||r.bottom>innerHeight)pv.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
   },120);
 });

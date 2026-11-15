@@ -148,7 +148,7 @@ function drawPicked(custom){
   const box=$('#picked'),p=P();
   if(!custom)return box.replaceChildren();
   const lab=document.createElement('span');lab.className='pk-lab';lab.textContent=s.n>1?nombre(s.act)+' lleva:':'Tu pizza lleva:';
-  if(!p.ex.length){const e=document.createElement('span');e.className='pk-empty';e.textContent='Solo masa y queso. Toca los ingredientes para ponérselos 👇';return box.replaceChildren(lab,e)}
+  if(!p.ex.length){const e=document.createElement('span');e.className='pk-empty';e.textContent='Solo masa y queso. Toca los ingredientes para ponérselos.';return box.replaceChildren(lab,e)}
   const chips=Uds.uniq(p.ex).map(i=>{const c=Uds.cnt(p.ex,i);const b=document.createElement('button');b.type='button';b.className='pk';b.dataset.pick=i;
     b.setAttribute('aria-label','Quitar '+G.ex[i].n);b.append(ico(G.ex[i].e),' '+G.ex[i].n+(c>1?' x'+c:'')+' ✕');return b});
   const clr=document.createElement('button');clr.type='button';clr.className='pk-clear';clr.dataset.clear='1';clr.textContent='Limpiar todo';
@@ -175,7 +175,7 @@ function paint(){
   /* Pizza a tu gusto (entera o en una parte): se ocultan las especialidades y queda el menú personalizado */
   const solo=custom;
   $('.steps').classList.toggle('custom',solo);$('#customBar').hidden=!solo;
-  $('#customBar b').textContent='🍕 '+(split?nombre(s.act)+' a tu gusto':'Pizza personalizada');
+  $('#customBar b').textContent=(split?nombre(s.act)+' a tu gusto':'Pizza personalizada');
   $('#espTitle').textContent=split?'Sabor '+(s.n===2?'de la mitad ':'del cuarto ')+(s.act+1):'Especialidad';
   const tpStep=$('.tp').closest('.step');
   tpStep.hidden=p.base==null;
