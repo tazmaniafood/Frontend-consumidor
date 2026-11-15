@@ -377,7 +377,7 @@ html[lang="en"] .es, html[lang="es"] .en { display: none !important; }
   display: grid; justify-items: center; gap: 0; cursor: pointer; text-align: center;
   padding: 0.55rem 1rem 0.5rem; border-radius: var(--r-3); background: var(--noche); color: var(--crema);
   border: 3px solid var(--tubo); box-shadow: 0 0 0 2px var(--noche), 0 0 14px 2px color-mix(in srgb, var(--tubo) 55%, transparent), inset 0 0 10px color-mix(in srgb, var(--tubo) 40%, transparent);
-  rotate: -2deg; transition: rotate 0.25s var(--rebote), padding 0.25s var(--ease);
+  transition: padding 0.25s var(--ease);
 }
 html[data-abierto="no"] .cartelito__caja { --tubo: var(--tomate); }
 .cartelito__estado { display: inline-flex; align-items: center; gap: 0.5rem; font: 400 0.9rem/1.1 var(--f-letrero); text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap; }
@@ -385,7 +385,7 @@ html[data-abierto="no"] .cartelito__caja { --tubo: var(--tomate); }
 @keyframes luz { 50% { opacity: 0.35; } }
 .cartelito__corto { display: none; }
 .cartelito__detalle { display: grid; justify-items: center; gap: 0.45rem; min-width: 232px; max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.3s var(--ease), opacity 0.2s, margin 0.3s var(--ease); }
-.cartelito__caja:hover, .cartelito__caja:focus-visible, .cartelito__caja[aria-expanded="true"] { rotate: 0deg; padding-bottom: 0.8rem; }
+.cartelito__caja:hover, .cartelito__caja:focus-visible, .cartelito__caja[aria-expanded="true"] { padding-bottom: 0.8rem; }
 .cartelito__caja:hover .cartelito__detalle, .cartelito__caja:focus-visible .cartelito__detalle, .cartelito__caja[aria-expanded="true"] .cartelito__detalle { max-height: 140px; opacity: 1; margin-top: 0.65rem; }
 .horario__dias { display: flex; gap: 4px; padding-top: 0.6rem; border-top: 1.5px dashed var(--linea-fuerte); }
 .horario__dia { display: grid; place-items: center; width: 27px; height: 27px; border-radius: 50%; font: 400 0.8rem/1 var(--f-letrero); color: var(--texto-3); border: 1.5px solid var(--linea); }

@@ -76,32 +76,53 @@
   .bloque-titulo h2 { font-size: var(--t-4); }
   .bloque-titulo p { color: var(--texto-2); font-size: var(--t-2); max-width: 52ch; }
 
-  /* ---------- Platos héroe: la bandera ancha, la pizza alta ---------- */
-  .heroes { display: grid; gap: var(--e-5); }
-  @media (min-width: 900px) { .heroes { grid-template-columns: minmax(0, 1.75fr) minmax(0, 1fr); align-items: stretch; } }
-  .bandera {
-    display: grid; gap: var(--e-4); align-items: center; padding: var(--e-5); border-radius: var(--r-4);
-    background: radial-gradient(rgb(255 241 220 / 0.18) 2px, transparent 2.5px) 0 0 / 16px 16px, var(--tomate);
-    color: var(--crema); border: var(--borde); box-shadow: 8px 10px 0 var(--uva);
+  /* ---------- Tablero del menú: placas de color en filas flex. La que se toca crece y
+     encoge a sus vecinas; adentro, el contenido se acomoda según el ancho real (container queries). ---------- */
+  .tablero { display: grid; gap: var(--e-5); }
+  .tablero__fila { display: flex; gap: var(--e-5); min-height: 300px; }
+  .plato {
+    --fondo: var(--sup-2); --tinta: var(--crema); --titulo: var(--mango); --ir-fondo: var(--crema); --ir-tinta: var(--noche);
+    position: relative; flex: 1 1 0; min-width: 0; container-type: inline-size; display: block; padding: var(--e-4);
+    border-radius: var(--r-4); text-decoration: none; color: var(--tinta); border: var(--borde); box-shadow: 8px 10px 0 var(--uva);
+    background: radial-gradient(color-mix(in srgb, var(--crema) 22%, transparent) 2px, transparent 2.5px) 0 0 / 16px 16px, var(--fondo);
+    transition: flex-grow 0.5s var(--ease), transform 0.2s var(--ease), box-shadow 0.2s;
   }
-  @media (min-width: 640px) { .bandera { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr); } }
-  .bandera__foto { aspect-ratio: 1; border-radius: 50%; background: var(--noche); border: var(--borde); box-shadow: 0 0 0 6px var(--crema), 6px 8px 0 6px var(--uva); display: grid; place-items: center; overflow: hidden; }
-  .bandera__foto img { width: 100%; height: 100%; object-fit: cover; }
-  .bandera__foto img.es-icono { width: 64%; height: 64%; object-fit: contain; }
-  .bandera__tx { display: grid; gap: var(--e-3); justify-items: start; }
-  .bandera .etiqueta { background: var(--noche); color: var(--mango); }
-  .bandera h3 { font-size: clamp(1.9rem, 1.2rem + 2.2vw, 2.8rem); overflow-wrap: anywhere; }
-  .bandera p { font-weight: 700; font-size: var(--t-1); max-width: 40ch; }
-  .heroes__pie { display: flex; flex-wrap: wrap; align-items: center; gap: var(--e-3); margin-top: var(--e-2); }
-  .barrio {
-    display: grid; gap: var(--e-3); align-content: start; justify-items: start; padding: var(--e-5); border-radius: var(--r-4);
-    background: var(--sup-1); border: 1.5px solid var(--linea);
+  .tablero__fila > .plato:first-child { flex-grow: 2.3; }
+  .tablero__fila:hover > .plato, .tablero__fila:focus-within > .plato { flex-grow: 1; }
+  .tablero__fila > .plato:hover, .tablero__fila > .plato:focus-visible { flex-grow: 2.3; transform: translateY(-4px); box-shadow: 10px 13px 0 var(--uva); }
+  .plato--tomate { --fondo: var(--tomate); --tinta: var(--crema); --titulo: var(--crema); }
+  .plato--mango { --fondo: var(--mango); --tinta: var(--noche); --titulo: var(--tomate); }
+  .plato--crema { --fondo: var(--crema); --tinta: var(--noche); --titulo: var(--noche); --ir-fondo: var(--noche); --ir-tinta: var(--crema); }
+  .plato--oscuro { --fondo: var(--sup-2); --tinta: var(--crema); --titulo: var(--mango); }
+  .plato--cian { --fondo: var(--cian); --tinta: var(--noche); --titulo: var(--crema); }
+  .plato--noche { --fondo: var(--noche); --tinta: var(--crema); --titulo: var(--tomate); border-color: var(--crema); }
+  .plato__in { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--e-3); text-align: center; }
+  .plato__foto { flex: none; display: grid; place-items: center; width: 132px; aspect-ratio: 1; border-radius: 50%; overflow: hidden; background: var(--noche); border: 2px solid var(--noche); box-shadow: 0 0 0 5px var(--crema), 5px 7px 0 5px var(--uva); transition: width 0.4s var(--ease); }
+  .plato__foto img { width: 100%; height: 100%; object-fit: cover; transition: rotate 0.9s var(--ease); }
+  .plato__foto img.es-icono { width: 66%; height: 66%; object-fit: contain; }
+  .plato__foto img.es-lata { width: 70%; height: 80%; object-fit: contain; }
+  .plato:hover .plato__foto img:not(.es-icono):not(.es-lata) { rotate: 40deg; }
+  .plato__tx { display: grid; justify-items: center; gap: var(--e-2); min-width: 0; }
+  .plato__tx .etiqueta { background: var(--noche); color: var(--mango); }
+  .plato h3 { --n: var(--titulo); font-size: clamp(1.05rem, 8.5cqw, 2rem); }
+  .plato__desc { display: block; max-width: 38ch; font-weight: 700; line-height: 1.4; max-height: 0; opacity: 0; overflow: hidden; transition: opacity 0.3s; }
+  .plato__pie { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: var(--e-3); }
+  .plato__ir { display: none; background: var(--ir-fondo); color: var(--ir-tinta); border: var(--borde); border-radius: var(--r-2); padding: 0.55rem 1rem 0.48rem; box-shadow: var(--sombra-chica); }
+  /* Ancha (la que crece): foto grande a la izquierda, descripción y botón */
+  @container (min-width: 470px) {
+    .plato__in { flex-direction: row; justify-content: flex-start; gap: var(--e-5); text-align: left; padding-inline: var(--e-2); }
+    .plato__foto { width: min(44cqw, 250px); }
+    .plato__tx { justify-items: start; }
+    .plato__desc { max-height: 8em; opacity: 1; }
+    .plato__pie { justify-content: flex-start; }
+    .plato__ir { display: inline-block; }
   }
-  .barrio__foto { justify-self: center; width: 78%; aspect-ratio: 1; margin-bottom: var(--e-2); border-radius: 50%; padding: 5%; background: radial-gradient(circle, var(--sup-3) 0 66%, var(--noche) 68%); box-shadow: 5px 7px 0 var(--uva); }
-  .barrio__foto img { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; transition: rotate 0.9s var(--ease); }
-  .barrio:hover .barrio__foto img { rotate: 60deg; }
-  .barrio h3 { font-size: var(--t-3); }
-  .barrio p { color: var(--texto-2); }
+  @media (max-width: 719px) {
+    .tablero__fila { flex-direction: column; min-height: 0; gap: var(--e-4); }
+    .tablero__fila > .plato, .tablero__fila > .plato:first-child { flex-grow: 0; }
+    .plato__desc { max-height: 8em; opacity: 1; }
+    .plato__ir { display: inline-block; }
+  }
 
   /* ---------- Por qué: una razón grande y dos que la acompañan, sin tarjetas ---------- */
   .razones { display: grid; gap: var(--e-5); }
@@ -109,7 +130,7 @@
   .razones__titulo { font-size: var(--t-4); }
   .razones__lista { display: grid; gap: var(--e-5) var(--e-6); padding: 0; margin: 0; list-style: none; }
   @media (min-width: 640px) { .razones__lista { grid-template-columns: 1fr 1fr; } .razon--grande { grid-column: 1 / -1; } }
-  .razon { display: grid; grid-template-columns: auto 1fr; gap: var(--e-4); align-items: start; padding-top: var(--e-4); border-top: 2px dashed var(--linea-fuerte); }
+  .razon { display: grid; grid-template-columns: auto 1fr; gap: var(--e-4); align-items: start; padding-top: var(--e-4); border-top: 2px dashed var(--mango); }
   .razon img { width: 64px; height: 64px; }
   .razon--grande img { width: 96px; height: 96px; }
   .razon h3 { font-size: var(--t-2); color: var(--crema); margin-bottom: var(--e-1); }
@@ -118,7 +139,7 @@
   .razon--grande p { font-size: var(--t-2); }
 
   /* ---------- Combos ---------- */
-  .seccion--combos { padding-block: var(--e-7); background: var(--sup-1); border-block: 1.5px solid var(--linea); }
+  .seccion--combos { padding-block: var(--e-7); background: var(--sup-1); border-block: 2px solid var(--mango); }
   /* Riel de combos: se desliza de lado, con flechas en escritorio */
   .riel { position: relative; }
   .riel__pista { display: grid; grid-auto-flow: column; grid-auto-columns: min(500px, 84%); gap: var(--e-5); overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; margin: 0 calc(-1 * var(--e-2)); padding: var(--e-3) var(--e-2) var(--e-5); list-style: none; }
@@ -182,39 +203,13 @@
   .vitrina__flecha { flex: none; display: grid; place-items: center; width: 44px; height: 44px; padding: 0 0 3px; border-radius: 50%; cursor: pointer; background: var(--crema); color: var(--noche); border: var(--borde); box-shadow: var(--sombra-chica); font: 900 1.5rem/1 var(--f-texto); }
   @media (max-width: 520px) { .vitrina__mini { width: 48px; height: 48px; } .vitrina__flecha { display: none; } }
 
-  /* ---------- Menú por categorías ---------- */
-  .categorias { display: grid; gap: var(--e-4); grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); padding: 0; margin: 0; list-style: none; }
-  .categoria {
-    position: relative; height: 100%; display: grid; grid-template-columns: 72px 1fr; grid-template-areas: "ic tx" "ic pr"; align-items: center; column-gap: var(--e-4); row-gap: var(--e-2);
-    padding: var(--e-4) 2.6rem var(--e-4) var(--e-4); border-radius: var(--r-3); text-decoration: none; color: var(--crema);
-    background: var(--sup-1); border: 1.5px solid var(--linea); transition: transform 0.2s var(--ease), border-color 0.2s, box-shadow 0.2s;
-  }
-  .categoria:hover { transform: translateY(-4px); border-color: var(--mango); box-shadow: var(--sombra); }
-  .categoria__ic { grid-area: ic; width: 72px; height: 72px; border-radius: 50%; background: var(--noche); border: 1.5px solid var(--linea); display: grid; place-items: center; }
-  .categoria__ic img { width: 52px; height: 52px; }
-  .categoria:hover .categoria__ic img { animation: menea 0.5s var(--ease); }
-  @keyframes menea { 30% { rotate: -10deg; } 70% { rotate: 8deg; } }
-  .categoria__tx { grid-area: tx; display: grid; gap: 4px; min-width: 0; }
-  .categoria__tx h3 { font-size: var(--t-2); color: var(--crema); }
-  .categoria__tx p { color: var(--texto-2); font-size: var(--t-0); }
-  .categoria .precio { grid-area: pr; justify-self: start; }
-  .categoria::after { content: "›"; position: absolute; right: var(--e-4); top: 50%; translate: 0 -50%; font: 900 1.6rem/1 var(--f-texto); color: var(--texto-3); transition: translate 0.2s var(--ease), color 0.2s; }
-  .categoria:hover::after { color: var(--mango); translate: 4px -50%; }
-
-  /* ---------- Cómo pedir: secuencia real, por eso numerada ---------- */
-  .pasos-pedir { display: grid; gap: var(--e-4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); padding: 0; margin: 0; list-style: none; counter-reset: paso; }
-  .pasos-pedir li { counter-increment: paso; padding: var(--e-5) var(--e-4) var(--e-4); border-radius: var(--r-3); background: var(--sup-1); border: 1.5px solid var(--linea); display: grid; gap: var(--e-2); }
-  .pasos-pedir li::before { content: counter(paso); display: grid; place-items: center; width: 2.2rem; height: 2.2rem; border-radius: 50%; background: var(--crema); color: var(--noche); border: var(--borde); font: 400 1.1rem/1 var(--f-letrero); box-shadow: var(--sombra-chica); }
-  .pasos-pedir h3 { font-size: var(--t-2); color: var(--crema); }
-  .pasos-pedir p { color: var(--texto-2); }
-
   /* ---------- Barra para el pulgar (celular): aparece cuando el botón de la portada se va ---------- */
   .barra-pulgar { display: none; }
   @media (max-width: 719px) {
     .barra-pulgar {
       position: fixed; left: 0; right: 0; bottom: 0; z-index: 35; display: grid; grid-template-columns: 1.6fr 1fr; gap: var(--e-2);
       padding: var(--e-3) var(--e-4) calc(var(--e-3) + env(safe-area-inset-bottom, 0px)); background: color-mix(in srgb, var(--noche) 92%, transparent);
-      backdrop-filter: blur(8px); border-top: 1.5px solid var(--linea); translate: 0 110%; transition: translate 0.3s var(--ease);
+      backdrop-filter: blur(8px); border-top: 2px solid var(--mango); translate: 0 110%; transition: translate 0.3s var(--ease);
     }
     .barra-pulgar.on { translate: 0 0; }
     .barra-pulgar .btn { padding-inline: var(--e-3); }
