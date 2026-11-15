@@ -14,10 +14,9 @@
   @media (min-width: 900px) and (min-height: 560px) { .portada { min-height: calc(100svh - var(--carpa-alto)); display: grid; align-content: center; padding-block: calc(var(--e-5) + 20px) var(--e-5); } }
   .portada__grid { display: grid; gap: var(--e-6); align-items: center; }
   @media (min-width: 900px) { .portada__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: var(--e-5); } }
-  .portada__texto { display: grid; gap: var(--e-4); justify-items: start; }
+  .portada__texto { display: grid; gap: var(--e-3); justify-items: start; }
   .portada__donde { margin: 0; }
-  .portada h1 { font-size: clamp(2.9rem, min(1.6rem + 5vw, 10.5svh), 6.2rem); line-height: 0.95; max-width: 9ch; }
-  html[lang="en"] .portada h1 { max-width: 10ch; }
+  .portada h1 { font-size: clamp(2.9rem, min(1.6rem + 5vw, 10.5svh), 6.2rem); line-height: 0.95; white-space: nowrap; }
   .portada__lema { font-size: var(--t-2); color: var(--crema); }
   .portada__bajada { color: var(--texto-2); font-size: var(--t-2); max-width: 38ch; line-height: 1.5; }
   .portada__acciones { display: flex; flex-wrap: wrap; align-items: center; gap: var(--e-3); margin-top: var(--e-2); }
@@ -35,14 +34,16 @@
   @keyframes gira { to { rotate: 360deg; } }
   /* ---------- Tablero: un círculo a mano alrededor del título y flechas a los botones.
      Se dibujan una sola vez al entrar, como tiza sobre el tablero de la esquina. ---------- */
-  /* El círculo encierra justo el título: el bloque mide lo que mide el texto y deja aire
-     alrededor para la tiza; el texto sigue alineado con el resto de la columna */
-  .portada__titulo { position: relative; justify-self: start; width: fit-content; margin: var(--e-1) 0 calc(-1 * var(--e-2)) -0.55em; padding: 0.36em 0.72em 0.52em 0.55em; font-size: clamp(2.9rem, min(1.6rem + 5vw, 10.5svh), 6.2rem); }
-  .portada__titulo h1 { font-size: 1em; white-space: nowrap; max-width: none !important; }
+  /* La tiza encierra la etiqueta de arriba y el lema; el bloque reserva su propio aire
+     para que el lazo no toque lo de al lado, y el texto sigue alineado con la columna */
+  .marca-tiza { position: relative; justify-self: start; display: inline-block; padding: 12px 22px; margin-left: -22px; }
+  .marca-tiza > p { margin: 0; }
   .tiza { position: absolute; overflow: visible; pointer-events: none; }
   .tiza path { fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: tiza 0.9s cubic-bezier(0.5, 0, 0.3, 1) forwards; }
-  .tiza--circulo { inset: -2% -4% -3% -3%; width: 107%; height: 105%; }
-  .tiza--circulo path { stroke: var(--tomate); stroke-width: 1.1; animation-delay: 0.3s; animation-duration: 1.1s; }
+  .tiza--lazo { inset: 0; width: 100%; height: 100%; }
+  .tiza--lazo path { stroke-width: 1.4; vector-effect: none; }
+  .tiza--l1 path { stroke: var(--crema); animation-delay: 0.3s; animation-duration: 0.8s; }
+  .tiza--l2 path { stroke: var(--tomate); animation-delay: 0.9s; animation-duration: 0.8s; }
   @keyframes tiza { to { stroke-dashoffset: 0; } }
   .cta { position: relative; display: inline-grid; justify-items: center; }
   .tiza--flecha { top: calc(100% + 4px); width: 64px; height: 40px; }
@@ -51,13 +52,14 @@
   .tiza--f1 { left: calc(50% - 50px); }
   .tiza--f2 { left: calc(50% - 30px); }
   .tiza--f2 path { animation-delay: 2.1s; } .tiza--f2 path + path { animation-delay: 2.65s; }
-  .cta__nota { position: absolute; top: calc(100% + 34px); white-space: nowrap; font-size: 1rem; color: var(--mango); rotate: -4deg; opacity: 0; animation: nota 0.3s var(--ease) 2.1s forwards; }
-  .cta:nth-child(1) .cta__nota { right: calc(50% + 26px); }
-  .cta:nth-child(2) .cta__nota { left: calc(50% + 26px); color: var(--crema); rotate: 3deg; animation-delay: 2.8s; }
+  .cta__nota { position: absolute; top: calc(100% + 24px); white-space: nowrap; font-size: 1rem; color: var(--mango); rotate: -4deg; opacity: 0; animation: nota 0.3s var(--ease) 2.1s forwards; }
+  .cta:nth-child(1) .cta__nota { right: calc(50% + 46px); }
+  .cta:nth-child(2) .cta__nota { left: calc(50% + 32px); color: var(--crema); rotate: 3deg; animation-delay: 2.8s; }
   @keyframes nota { from { opacity: 0; translate: 0 6px; } to { opacity: 1; translate: 0 0; } }
   .portada__acciones { margin-bottom: 64px; }
   @media (max-width: 560px) {
-    .portada__titulo { font-size: clamp(2.6rem, 14vw, 3.6rem); margin-left: -0.3em; padding: 0.42em 0.6em 0.55em 0.42em; }
+    .portada h1 { font-size: clamp(2.6rem, 14vw, 3.6rem); }
+    .marca-tiza { padding: 10px 16px; margin-left: -16px; }
     .portada__acciones { margin-bottom: 86px; }
     .cta:nth-child(1) .cta__nota { right: auto; left: calc(50% - 72px); top: calc(100% + 44px); }
     .cta:nth-child(2) .cta__nota { left: auto; right: calc(50% - 72px); top: calc(100% + 44px); }
@@ -126,18 +128,21 @@
   .razon p { color: var(--texto-2); max-width: 46ch; }
   .razon--grande p { font-size: var(--t-2); }
 
-  /* ---------- Carrusel en celular: se desliza con el pulgar ---------- */
-  .carrusel { padding: 0; list-style: none; }
-  @media (max-width: 719px) {
-    .carrusel { display: grid !important; grid-auto-flow: column; grid-auto-columns: 82%; grid-template-columns: none !important; gap: var(--e-4) !important;
-      overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin-inline: calc(-1 * var(--e-4)); padding: var(--e-2) var(--e-4) var(--e-4) !important; }
-    .carrusel::-webkit-scrollbar { display: none; }
-    .carrusel > li { scroll-snap-align: start; }
-  }
-
   /* ---------- Combos ---------- */
   .seccion--combos { padding-block: var(--e-7); background: var(--sup-1); border-block: 1.5px solid var(--linea); }
-  .combos { display: grid; gap: var(--e-5); grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); }
+  /* Riel de combos: se desliza de lado, con flechas en escritorio */
+  .riel { position: relative; }
+  .riel__pista { display: grid; grid-auto-flow: column; grid-auto-columns: min(500px, 84%); gap: var(--e-5); overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; margin: 0 calc(-1 * var(--e-2)); padding: var(--e-3) var(--e-2) var(--e-5); list-style: none; }
+  .riel__pista::-webkit-scrollbar { display: none; }
+  .riel__pista > li { scroll-snap-align: start; }
+  .riel__flecha {
+    position: absolute; top: 42%; z-index: 2; display: grid; place-items: center; width: 52px; height: 52px; padding: 0 0 4px; border-radius: 50%; cursor: pointer;
+    background: var(--crema); color: var(--noche); border: var(--borde); box-shadow: var(--sombra-chica); font: 900 1.8rem/1 var(--f-texto); transition: transform 0.15s var(--ease), opacity 0.2s;
+  }
+  .riel__flecha:hover { transform: scale(1.08); }
+  .riel__flecha:disabled { opacity: 0; pointer-events: none; }
+  .riel__flecha--prev { left: -18px; } .riel__flecha--next { right: -18px; }
+  @media (max-width: 719px) { .riel__flecha { display: none; } .riel__pista { margin-inline: calc(-1 * var(--e-4)); padding-inline: var(--e-4); } }
   .combo {
     height: 100%; display: grid; grid-template-rows: auto 1fr auto; gap: var(--e-3); padding: var(--e-4) var(--e-4) var(--e-5); border-radius: var(--r-4);
     background: var(--crema); color: var(--noche); border: var(--borde); box-shadow: 6px 8px 0 var(--uva); transition: transform 0.2s var(--ease), rotate 0.2s var(--ease);
@@ -159,43 +164,50 @@
   .combo__pie .precio { font-size: 1.15rem; }
   .combo .btn--secundario { background: var(--noche); color: var(--crema); }
 
-  /* ---------- Recomendados ---------- */
-  .recos { display: grid; gap: var(--e-4); grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); }
-  .reco {
-    position: relative; height: 100%; display: grid; grid-template-rows: auto auto auto 1fr auto; justify-items: center; gap: var(--e-2); padding: var(--e-4); text-align: center; text-decoration: none; color: var(--crema);
-    border-radius: var(--r-4); background: var(--sup-1); border: 1.5px solid var(--linea); transition: transform 0.2s var(--ease), border-color 0.2s, box-shadow 0.2s;
-  }
-  .reco:hover { transform: translateY(-5px); border-color: var(--mango); box-shadow: var(--sombra); }
-  .reco__foto { width: 74%; aspect-ratio: 1; border-radius: 50%; padding: 5%; background: radial-gradient(circle, var(--sup-3) 0 66%, var(--noche) 68%); box-shadow: 4px 6px 0 var(--uva); }
-  .reco__foto img { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; transition: rotate 0.8s var(--ease); }
-  .reco:hover .reco__foto img { rotate: 45deg; }
-  .reco__sello { position: absolute; top: var(--e-3); left: var(--e-3); rotate: -6deg; background: var(--tomate); color: var(--crema); border: var(--borde); }
-  .reco h3 { font-size: var(--t-3); margin-top: var(--e-2); }
-  .reco p { color: var(--texto-2); font-size: var(--t-0); line-height: 1.4; }
-  .reco__pie { align-self: end; display: flex; align-items: center; justify-content: space-between; gap: var(--e-2); width: 100%; margin-top: var(--e-2); }
-  .reco__ir { background: var(--crema); color: var(--noche); border: var(--borde); border-radius: var(--r-pill); padding: 0.45rem 0.9rem 0.38rem; box-shadow: var(--sombra-chica); }
+  /* ---------- Recomendados: vitrina con una pizza grande y las demás para escoger ---------- */
+  .vitrina { display: grid; gap: var(--e-4); }
+  .vitrina__slide { display: grid; gap: var(--e-5); align-items: center; padding: var(--e-5); border-radius: var(--r-4); background: var(--sup-1); border: 1.5px solid var(--linea); }
+  @media (min-width: 760px) { .vitrina__slide { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: var(--e-7); padding: var(--e-6) var(--e-7); } }
+  .vitrina__slide[hidden] { display: none; }
+  .vitrina__plato { justify-self: center; width: min(100%, 380px); aspect-ratio: 1; border-radius: 50%; padding: 5%; background: radial-gradient(circle, var(--sup-3) 0 66%, var(--noche) 68%); box-shadow: 8px 10px 0 var(--uva); }
+  .vitrina__plato img { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; }
+  .vitrina__slide.entra .vitrina__plato img { animation: llega-plato 0.6s var(--rebote); }
+  .vitrina__slide.entra .vitrina__info > * { animation: llega-info 0.4s var(--ease) both; }
+  .vitrina__slide.entra .vitrina__info > *:nth-child(2) { animation-delay: 0.05s; } .vitrina__slide.entra .vitrina__info > *:nth-child(3) { animation-delay: 0.1s; }
+  @keyframes llega-plato { from { rotate: -120deg; scale: 0.7; opacity: 0; } }
+  @keyframes llega-info { from { opacity: 0; translate: 12px 0; } }
+  .vitrina__info { display: grid; gap: var(--e-3); justify-items: start; }
+  .vitrina__info .etiqueta { background: var(--tomate); color: var(--crema); rotate: -3deg; }
+  .vitrina__info h3 { font-size: var(--t-4); }
+  .vitrina__info p { color: var(--texto-2); font-size: var(--t-2); max-width: 40ch; }
+  .vitrina__pie { display: flex; flex-wrap: wrap; align-items: center; gap: var(--e-3); margin-top: var(--e-2); }
+  .vitrina__nav { display: flex; align-items: center; justify-content: center; gap: var(--e-3); }
+  .vitrina__minis { display: flex; gap: var(--e-2); padding: var(--e-2); margin: 0; list-style: none; overflow-x: auto; scrollbar-width: none; }
+  .vitrina__mini { display: block; width: 62px; height: 62px; padding: 3px; border-radius: 50%; cursor: pointer; background: var(--noche); border: 2px solid var(--linea-fuerte); transition: transform 0.15s var(--ease), border-color 0.15s; }
+  .vitrina__mini img { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; }
+  .vitrina__mini:hover { transform: translateY(-3px); border-color: var(--crema); }
+  .vitrina__mini[aria-pressed="true"] { border: 3px solid var(--mango); transform: scale(1.12); box-shadow: 3px 4px 0 var(--uva); }
+  .vitrina__flecha { flex: none; display: grid; place-items: center; width: 44px; height: 44px; padding: 0 0 3px; border-radius: 50%; cursor: pointer; background: var(--crema); color: var(--noche); border: var(--borde); box-shadow: var(--sombra-chica); font: 900 1.5rem/1 var(--f-texto); }
+  @media (max-width: 520px) { .vitrina__mini { width: 48px; height: 48px; } .vitrina__flecha { display: none; } }
 
   /* ---------- Menú por categorías ---------- */
   .categorias { display: grid; gap: var(--e-4); grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); padding: 0; margin: 0; list-style: none; }
   .categoria {
-    position: relative; display: grid; grid-template-columns: 76px 1fr; grid-template-areas: "ic tx" "ic pr"; align-items: center; column-gap: var(--e-4); row-gap: var(--e-2);
+    position: relative; height: 100%; display: grid; grid-template-columns: 72px 1fr; grid-template-areas: "ic tx" "ic pr"; align-items: center; column-gap: var(--e-4); row-gap: var(--e-2);
     padding: var(--e-4) 2.6rem var(--e-4) var(--e-4); border-radius: var(--r-3); text-decoration: none; color: var(--crema);
-    background: var(--sup-1); border: 1.5px solid var(--linea); border-left: 6px solid var(--n, var(--mango));
-    transition: transform 0.2s var(--ease), border-color 0.2s, box-shadow 0.2s;
+    background: var(--sup-1); border: 1.5px solid var(--linea); transition: transform 0.2s var(--ease), border-color 0.2s, box-shadow 0.2s;
   }
-  .categoria:hover { transform: translateY(-4px) rotate(-0.6deg); border-color: var(--n, var(--mango)); box-shadow: var(--sombra); }
-  .categoria--pizza, .categoria--mazorcada { --n: var(--mango); } .categoria--salchipapas, .categoria--perro { --n: var(--tomate); }
-  .categoria--burger { --n: var(--crema); } .categoria--bebidas { --n: var(--cian); }
-  .categoria__ic { grid-area: ic; width: 76px; height: 76px; border-radius: 50%; background: var(--noche); border: 1.5px solid var(--linea); display: grid; place-items: center; }
-  .categoria__ic img { width: 56px; height: 56px; }
+  .categoria:hover { transform: translateY(-4px); border-color: var(--mango); box-shadow: var(--sombra); }
+  .categoria__ic { grid-area: ic; width: 72px; height: 72px; border-radius: 50%; background: var(--noche); border: 1.5px solid var(--linea); display: grid; place-items: center; }
+  .categoria__ic img { width: 52px; height: 52px; }
   .categoria:hover .categoria__ic img { animation: menea 0.5s var(--ease); }
   @keyframes menea { 30% { rotate: -10deg; } 70% { rotate: 8deg; } }
-  .categoria__tx { grid-area: tx; display: grid; gap: 4px; }
-  .categoria__tx h3 { font-size: var(--t-3); color: var(--n, var(--mango)); }
+  .categoria__tx { grid-area: tx; display: grid; gap: 4px; min-width: 0; }
+  .categoria__tx h3 { font-size: var(--t-2); color: var(--crema); }
   .categoria__tx p { color: var(--texto-2); font-size: var(--t-0); }
   .categoria .precio { grid-area: pr; justify-self: start; }
   .categoria::after { content: "›"; position: absolute; right: var(--e-4); top: 50%; translate: 0 -50%; font: 900 1.6rem/1 var(--f-texto); color: var(--texto-3); transition: translate 0.2s var(--ease), color 0.2s; }
-  .categoria:hover::after { color: var(--n, var(--mango)); translate: 4px -50%; }
+  .categoria:hover::after { color: var(--mango); translate: 4px -50%; }
 
   /* ---------- Cómo pedir: secuencia real, por eso numerada ---------- */
   .pasos-pedir { display: grid; gap: var(--e-4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); padding: 0; margin: 0; list-style: none; counter-reset: paso; }
