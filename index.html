@@ -10,17 +10,17 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="Styles/palfilo.css?v=50">
-<link rel="stylesheet" href="Styles/inicio.css?v=50">
-<link rel="stylesheet" href="Styles/checkout.css?v=50">
+<link rel="stylesheet" href="Styles/palfilo.css?v=51">
+<link rel="stylesheet" href="Styles/inicio.css?v=51">
+<link rel="stylesheet" href="Styles/checkout.css?v=51">
 </head>
 <body>
 <a class="sr" href="#contenido">Saltar al contenido</a>
 <header class="carpa">
   <div class="carpa__fila">
-    <a class="sello" href="index.html" aria-label="Pa'l Filo, ir al inicio"><img src="IMG/Logo-palfilo-icono.png" alt="" width="56" height="56"></a>
+    <a class="sello" href="index.html" aria-label="Pa'l Filo, ir al inicio"><img src="IMG/Logo-palfilo-icono.png" alt="" width="96" height="96"></a>
     <nav class="menu" aria-label="Menú"><a href="Pages/pizza.html">Pizza</a><a href="Pages/salchipapas.html">Salchicosteñas</a><a href="Pages/burger.html">Burguer</a><a href="Pages/perro.html">Perro caliente</a><a href="Pages/mazorcada.html">Mazorcada</a><a href="Pages/bebidas.html">Bebidas</a></nav>
-    <button class="btn btn--secundario btn--chico carrito-btn" id="openCart" type="button" aria-label="Abrir carrito"><span class="carrito-btn__txt">Carrito</span> <b id="cnt">0</b></button>
+    <button class="carrito-btn" id="openCart" type="button" aria-label="Abrir carrito"><svg class="carrito-btn__ic" viewBox="0 0 32 32" aria-hidden="true"><path d="M3 5h4l3.2 14.2a2 2 0 0 0 2 1.6h11.6a2 2 0 0 0 2-1.5L28 10H9" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="13" cy="26.5" r="2.4" fill="currentColor"/><circle cx="23.5" cy="26.5" r="2.4" fill="currentColor"/></svg><span class="carrito-btn__txt plana">Carrito</span><b id="cnt">0</b></button>
   </div>
 </header>
 <main id="contenido">
@@ -29,13 +29,13 @@
       <div class="portada__texto">
         <span class="etiqueta etiqueta--promo">Colombian street food</span>
         <h1 class="letrero" style="--n: var(--mango);">Arma tu antojo</h1>
-        <p class="portada__lema">Rebosao y de pura cepa</p>
+        <p class="portada__lema plana">Rebosao y de pura cepa</p>
         <p class="portada__bajada">Tú escoges, nosotros cocinamos. Mira tu pizza armarse en pantalla, ponle de todo y pídela a tu puerta en San José.</p>
-        <div class="portada__acciones"><a class="btn btn--primario btn--grande" href="#menu">Armar mi plato</a><a class="btn-texto" href="Pages/pizza.html">Ir directo a la pizza</a></div>
+        <div class="portada__acciones"><a class="btn btn--primario btn--grande" href="#menu">Armar mi plato</a><a class="btn btn--secundario btn--grande" href="#combos">Ver combos</a></div>
       </div>
       <div class="escena" aria-hidden="true">
         <span class="escena__plato"></span>
-        <img class="escena__pizza" src="IMG/Pizzas/hawaiana.webp?v=50" alt="" width="600" height="600" fetchpriority="high">
+        <img class="escena__pizza" src="IMG/Pizzas/hawaiana.webp?v=51" alt="" width="600" height="600" fetchpriority="high">
         <img class="escena__icono escena__icono--1" src="IMG/Iconos/salchipapa-neon.svg" alt="">
         <img class="escena__icono escena__icono--2" src="IMG/Iconos/burguer-neon.svg" alt="">
         <img class="escena__icono escena__icono--3" src="IMG/Iconos/perro-neon.svg" alt="">
@@ -44,24 +44,47 @@
     </div>
   </section>
 
+  <section class="seccion seccion--combos" id="combos" aria-labelledby="t-combos">
+    <div class="envoltura">
+      <div class="bloque-titulo"><h2 class="letrero" id="t-combos" style="--n: var(--mango);">Combos</h2><p>Plato y bebida en un solo toque. Se agregan directo al carrito.</p></div>
+      <ul class="combos" role="list">
+      <li><article class="combo" style="--n: var(--mango);"><div class="combo__fotos" aria-hidden="true"><img class="combo__pizza" src="IMG/Pizzas/hawaiana.webp?v=51" alt="" width="600" height="600" loading="lazy"><img class="combo__bebida" src="IMG/Bebidas/coca-cola-2.svg?v=51" alt="" loading="lazy"></div><div class="combo__tx"><span class="etiqueta">Para compartir</span><h3 class="letrero">Combo parche</h3><ul><li>Pizza Hawaiana Familiar</li><li>Coca-Cola 2 L</li></ul></div><div class="combo__pie"><span class="precio">$29.50</span><button class="btn btn--primario" type="button" data-combo="Combo parche" data-lineas="Pizza Hawaiana Familiar|Coca-Cola 2 L" data-precio="29.50">Agregar combo</button></div></article></li>
+      <li><article class="combo" style="--n: var(--cian);"><div class="combo__fotos" aria-hidden="true"><img class="combo__pizza" src="IMG/Pizzas/tropical.webp?v=51" alt="" width="600" height="600" loading="lazy"><img class="combo__bebida" src="IMG/Bebidas/pepsi.webp?v=51" alt="" loading="lazy"></div><div class="combo__tx"><span class="etiqueta">Para uno con hambre</span><h3 class="letrero">Combo parcero</h3><ul><li>Pizza Tropical Personal</li><li>Pepsi en lata</li></ul></div><div class="combo__pie"><span class="precio">$17.50</span><button class="btn btn--primario" type="button" data-combo="Combo parcero" data-lineas="Pizza Tropical Personal|Pepsi en lata" data-precio="17.50">Agregar combo</button></div></article></li>
+      <li><article class="combo" style="--n: var(--lima);"><div class="combo__fotos" aria-hidden="true"><img class="combo__pizza" src="IMG/Pizzas/ay-dios-mio.webp?v=51" alt="" width="600" height="600" loading="lazy"><img class="combo__bebida" src="IMG/Bebidas/sprite.webp?v=51" alt="" loading="lazy"></div><div class="combo__tx"><span class="etiqueta">Para dos</span><h3 class="letrero">Combo ¡ay Dios mío!</h3><ul><li>Pizza Ay Dios Mío Medium</li><li>2 Sprite en lata</li></ul></div><div class="combo__pie"><span class="precio">$27.00</span><button class="btn btn--primario" type="button" data-combo="Combo ¡ay Dios mío!" data-lineas="Pizza Ay Dios Mío Medium|2 Sprite en lata" data-precio="27.00">Agregar combo</button></div></article></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="seccion envoltura" id="recomendados" aria-labelledby="t-reco">
+    <div class="bloque-titulo"><h2 class="letrero" id="t-reco" style="--n: var(--tomate);">Te recomendamos</h2><p>Las pizzas de la casa. Toca una y ármala a tu gusto.</p></div>
+    <ul class="recos" role="list">
+      <li><a class="reco" href="Pages/pizza.html?esp=Hawaiana"><span class="reco__foto"><img src="IMG/Pizzas/hawaiana.webp?v=51" alt="Pizza Hawaiana" width="600" height="600" loading="lazy"></span><span class="reco__sello etiqueta">La clásica</span><h3 class="letrero">Hawaiana</h3><p>Piña, queso rayado, jamón (opcional cerezas)</p><span class="reco__pie"><span class="precio">Desde $13.00</span><span class="reco__ir plana">Pedir</span></span></a></li>
+      <li><a class="reco" href="Pages/pizza.html?esp=Ay Dios Mío"><span class="reco__foto"><img src="IMG/Pizzas/ay-dios-mio.webp?v=51" alt="Pizza Ay Dios Mío" width="600" height="600" loading="lazy"></span><span class="reco__sello etiqueta">De la casa</span><h3 class="letrero">Ay Dios Mío</h3><p>Pollo desmechado, champiñones, jamón, queso rayado y salsa de la casa</p><span class="reco__pie"><span class="precio">Desde $15.00</span><span class="reco__ir plana">Pedir</span></span></a></li>
+      <li><a class="reco" href="Pages/pizza.html?esp=Californiana"><span class="reco__foto"><img src="IMG/Pizzas/californiana.webp?v=51" alt="Pizza Californiana" width="600" height="600" loading="lazy"></span><span class="reco__sello etiqueta">Con camarones</span><h3 class="letrero">Californiana</h3><p>Pollo desmechado, champiñones, camarones, jamón, pimentón rojo y verde, queso rayado y salsa de la casa</p><span class="reco__pie"><span class="precio">Desde $16.00</span><span class="reco__ir plana">Pedir</span></span></a></li>
+      <li><a class="reco" href="Pages/pizza.html?esp=La 4K"><span class="reco__foto"><img src="IMG/Pizzas/la-4k.webp?v=51" alt="Pizza La 4K" width="600" height="600" loading="lazy"></span><span class="reco__sello etiqueta">Para los de buen diente</span><h3 class="letrero">La 4K</h3><p>Jamón, carne de res, pollo, chorizo, tocino y queso rayado</p><span class="reco__pie"><span class="precio">Desde $22.00</span><span class="reco__ir plana">Pedir</span></span></a></li>
+      <li><a class="reco" href="Pages/pizza.html?esp=Camarones"><span class="reco__foto"><img src="IMG/Pizzas/camarones.webp?v=51" alt="Pizza Camarones" width="600" height="600" loading="lazy"></span><span class="reco__sello etiqueta">Del mar</span><h3 class="letrero">Camarones</h3><p>Camarones, jamón, queso rayado, pimentón y salsa de la casa</p><span class="reco__pie"><span class="precio">Desde $20.00</span><span class="reco__ir plana">Pedir</span></span></a></li>
+      <li><a class="reco" href="Pages/pizza.html?esp=Tropical"><span class="reco__foto"><img src="IMG/Pizzas/tropical.webp?v=51" alt="Pizza Tropical" width="600" height="600" loading="lazy"></span><span class="reco__sello etiqueta">Dulcecita</span><h3 class="letrero">Tropical</h3><p>Piña, cereza, durazno, jamón, queso y salsa de la casa</p><span class="reco__pie"><span class="precio">Desde $15.00</span><span class="reco__ir plana">Pedir</span></span></a></li>
+    </ul>
+  </section>
+
   <section class="seccion envoltura" id="menu" aria-labelledby="t-menu">
-    <div class="bloque-titulo"><h2 class="letrero" id="t-menu" style="--n: var(--tomate);">¿Qué se te antoja hoy?</h2><span class="cenefa" style="--n: var(--tomate);" aria-hidden="true"></span></div>
+    <div class="bloque-titulo"><h2 class="letrero" id="t-menu" style="--n: var(--cian);">¿Qué se te antoja hoy?</h2></div>
     <ul class="categorias" role="list">
-      <li><a class="categoria" href="Pages/pizza.html"><span class="categoria__ic"><img src="IMG/Iconos/pizza.svg" alt="" width="64" height="64"></span><span class="categoria__tx"><h3 class="letrero" style="--n: var(--mango);">Pizza</h3><p>Tamaño, especialidad, borde y toppings</p></span><span class="precio">Desde $13.00</span></a></li>
-      <li><a class="categoria" href="Pages/salchipapas.html"><span class="categoria__ic"><img src="IMG/Iconos/salchipapa.svg" alt="" width="64" height="64"></span><span class="categoria__tx"><h3 class="letrero" style="--n: var(--mango);">Salchicosteñas</h3><p>Papas a la francesa y mucho encima</p></span><span class="precio">Desde $16.00</span></a></li>
-      <li><a class="categoria" href="Pages/burger.html"><span class="categoria__ic"><img src="IMG/Iconos/burguer.svg" alt="" width="64" height="64"></span><span class="categoria__tx"><h3 class="letrero" style="--n: var(--mango);">Burguer</h3><p>Pan artesanal y todo a tu gusto</p></span><span class="precio">Desde $10.00</span></a></li>
-      <li><a class="categoria" href="Pages/perro.html"><span class="categoria__ic"><img src="IMG/Iconos/perro.svg" alt="" width="64" height="64"></span><span class="categoria__tx"><h3 class="letrero" style="--n: var(--mango);">Perro caliente</h3><p>Perro salvaje con pan horneado</p></span><span class="precio">Desde $10.00</span></a></li>
-      <li><a class="categoria" href="Pages/mazorcada.html"><span class="categoria__ic"><img src="IMG/Iconos/mazorcada.svg" alt="" width="64" height="64"></span><span class="categoria__tx"><h3 class="letrero" style="--n: var(--mango);">Mazorcada</h3><p>Maíz con todo, servida en plato</p></span><span class="precio">Desde $16.00</span></a></li>
-      <li><a class="categoria" href="Pages/bebidas.html"><span class="categoria__ic"><img src="IMG/Iconos/bebida.svg" alt="" width="64" height="64"></span><span class="categoria__tx"><h3 class="letrero" style="--n: var(--mango);">Bebidas</h3><p>Lata, 1.5 L o 2 L, bien frías</p></span><span class="precio">Desde $2.50</span></a></li>
+      <li><a class="categoria categoria--pizza" href="Pages/pizza.html"><span class="categoria__ic"><img src="IMG/Iconos/pizza.svg" alt="" width="64" height="64"></span><span class="categoria__tx"><h3 class="plana">Pizza</h3><p>Tamaño, especialidad, borde y toppings</p></span><span class="precio">Desde $13.00</span></a></li>
+      <li><a class="categoria categoria--salchipapas" href="Pages/salchipapas.html"><span class="categoria__ic"><img src="IMG/Iconos/salchipapa.svg" alt="" width="64" height="64"></span><span class="categoria__tx"><h3 class="plana">Salchicosteñas</h3><p>Papas a la francesa y mucho encima</p></span><span class="precio">Desde $16.00</span></a></li>
+      <li><a class="categoria categoria--burger" href="Pages/burger.html"><span class="categoria__ic"><img src="IMG/Iconos/burguer.svg" alt="" width="64" height="64"></span><span class="categoria__tx"><h3 class="plana">Burguer</h3><p>Pan artesanal y todo a tu gusto</p></span><span class="precio">Desde $10.00</span></a></li>
+      <li><a class="categoria categoria--perro" href="Pages/perro.html"><span class="categoria__ic"><img src="IMG/Iconos/perro.svg" alt="" width="64" height="64"></span><span class="categoria__tx"><h3 class="plana">Perro caliente</h3><p>Perro salvaje con pan horneado</p></span><span class="precio">Desde $10.00</span></a></li>
+      <li><a class="categoria categoria--mazorcada" href="Pages/mazorcada.html"><span class="categoria__ic"><img src="IMG/Iconos/mazorcada.svg" alt="" width="64" height="64"></span><span class="categoria__tx"><h3 class="plana">Mazorcada</h3><p>Maíz con todo, servida en plato</p></span><span class="precio">Desde $16.00</span></a></li>
+      <li><a class="categoria categoria--bebidas" href="Pages/bebidas.html"><span class="categoria__ic"><img src="IMG/Iconos/bebida.svg" alt="" width="64" height="64"></span><span class="categoria__tx"><h3 class="plana">Bebidas</h3><p>Lata, 1.5 L o 2 L, bien frías</p></span><span class="precio">Desde $2.50</span></a></li>
     </ul>
   </section>
 
   <section class="seccion envoltura" aria-labelledby="t-pasos">
-    <div class="bloque-titulo"><h2 class="letrero" id="t-pasos" style="--n: var(--cian);">Así de fácil</h2><span class="cenefa" style="--n: var(--cian);" aria-hidden="true"></span></div>
+    <div class="bloque-titulo"><h2 class="letrero" id="t-pasos" style="--n: var(--lima);">Así de fácil</h2></div>
     <ol class="pasos-pedir" role="list">
-      <li><h3>Escoge tu favorito</h3><p>Pizza, salchicosteña, burguer, perro o mazorcada.</p></li>
-      <li><h3>Ponle de todo</h3><p>Toca los ingredientes y mira cómo caen y se acomodan en tu plato.</p></li>
-      <li><h3>Pídelo a tu puerta</h3><p>Envía tu pedido por WhatsApp y te lo llevamos, o pasa a recogerlo.</p></li>
+      <li><h3 class="plana">Escoge tu favorito</h3><p>Pizza, salchicosteña, burguer, perro o mazorcada.</p></li>
+      <li><h3 class="plana">Ponle de todo</h3><p>Toca los ingredientes y mira cómo se acomodan en tu plato.</p></li>
+      <li><h3 class="plana">Pídelo a tu puerta</h3><p>Envía tu pedido por WhatsApp y te lo llevamos, o pasa a recogerlo.</p></li>
     </ol>
   </section>
 </main>
@@ -84,7 +107,8 @@
 </aside>
 <template id="tpl-item"><div class="linea-pedido"><div class="fila"><b class="nm"></b><span class="pt"></span></div><p class="ln"></p><div class="fila"><div class="contador"><button type="button" data-c="-1" aria-label="Uno menos">−</button><span class="qn"></span><button type="button" data-c="1" aria-label="Uno más">+</button></div><button class="btn-texto" type="button" data-c="del">Quitar</button></div></div></template>
 <div class="aviso" id="toast" role="status">Agregado al carrito</div>
-<script src="JS/cart.js?v=50"></script>
-<script src="JS/checkout.js?v=50"></script>
+<script src="JS/cart.js?v=51"></script>
+<script src="JS/inicio.js?v=51"></script>
+<script src="JS/checkout.js?v=51"></script>
 </body>
 </html>

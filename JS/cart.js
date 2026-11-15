@@ -10,7 +10,7 @@ const save=()=>{try{localStorage.setItem('palfilo-cart',JSON.stringify(cart))}ca
 const tpl=$('#tpl-item'),items=$('#items'),empty=$('#empty');
 function draw(){
   const n=cart.reduce((t,i)=>t+i.q,0),tot=cart.reduce((t,i)=>t+i.q*i.unit,0);
-  $('#cnt').textContent=n;$('#ctot').textContent=fmt(tot);$('#send').disabled=!n;
+  const btn=$('#openCart'),antes=+($('#cnt').textContent||0);$('#cnt').textContent=n;btn.classList.toggle('lleno',n>0);if(n>antes&&draw.listo){btn.classList.remove('brinca');void btn.offsetWidth;btn.classList.add('brinca')}draw.listo=1;$('#ctot').textContent=fmt(tot);$('#send').disabled=!n;
   items.replaceChildren(...(n?cart.map((it,i)=>{
     const c=tpl.content.firstElementChild.cloneNode(true);
     c.querySelector('.nm').textContent=it.name;c.querySelector('.pt').textContent=fmt(it.unit*it.q);

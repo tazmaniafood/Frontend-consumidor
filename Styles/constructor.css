@@ -47,20 +47,17 @@
     position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain;
     transform: rotate(var(--r, 0deg)) scaleX(var(--f, 1)) scale(var(--s, 1.03));
     filter: drop-shadow(1px 3px 2px rgb(13 9 25 / 0.45));
-    animation: cae 0.55s var(--rebote) both;
+    animation: capa 0.35s ease-out;
   }
-  @keyframes cae {
-    0% { opacity: 0; transform: translateY(-28%) rotate(calc(var(--r, 0deg) - 25deg)) scaleX(var(--f, 1)) scale(calc(var(--s, 1.03) * 1.25)); }
-    60% { opacity: 1; }
-  }
+  @keyframes capa { from { opacity: 0; transform: rotate(var(--r, 0deg)) scaleX(var(--f, 1)) scale(1.1); } }
   /* Pizza a tu gusto: ingredientes regados en espiral */
   .tops { position: absolute; inset: 0; border-radius: 50%; pointer-events: none; }
   .pz:not(.custom) .tops { display: none; }
-  .tops i, .sec i { position: absolute; font-style: normal; line-height: 1; transform: translate(-50%, -50%); filter: drop-shadow(1px 2px 0 rgb(13 9 25 / 0.5)); animation: pica 0.35s var(--rebote) both; }
+  .tops i, .sec i { position: absolute; font-style: normal; line-height: 1; transform: translate(-50%, -50%); filter: drop-shadow(1px 2px 0 rgb(13 9 25 / 0.5)); animation: pica 0.3s ease-out; }
   .tops i { font-size: clamp(18px, 3.4vw, 28px); }
   .sec i { font-size: clamp(15px, 2.6vw, 24px); }
   .tops i img.ic, .sec i img.ic { width: 1.2em; height: 1.2em; object-fit: contain; }
-  @keyframes pica { from { transform: translate(-50%, -120%) scale(0.4); opacity: 0; } }
+  @keyframes pica { from { transform: translate(-50%, -50%) scale(0); opacity: 0; } }
 
   /* Borde relleno de toda la pizza */
   .pz::after { content: ""; position: absolute; inset: -1.5%; border-radius: 50%; border: 0 solid transparent; pointer-events: none; transition: border-width 0.25s var(--rebote); }
@@ -130,6 +127,33 @@
   .seg .op .pr:empty { display: none; }
   .seg .op.on { background: var(--mango); color: var(--noche); box-shadow: 2px 3px 0 var(--uva); }
   .seg .op.on .pr { color: color-mix(in srgb, var(--noche) 75%, transparent); }
+  .opts-size .op { grid-template-columns: auto auto; grid-template-areas: "em tx"; align-items: center; justify-content: center; gap: 0 0.45rem; }
+  .opts-size .op em { display: block; grid-area: em; border-radius: 50%; background: url("../IMG/Pizzas/base-queso.webp") center / cover; border: 2px solid var(--noche); box-shadow: 0 0 0 1.5px var(--linea-fuerte); }
+  .opts-size .op:nth-of-type(1) em { width: 16px; height: 16px; }
+  .opts-size .op:nth-of-type(2) em { width: 21px; height: 21px; }
+  .opts-size .op:nth-of-type(3) em { width: 26px; height: 26px; }
+  .opts-size .op.on em { box-shadow: 0 0 0 1.5px var(--noche); }
+  @media (max-width: 440px) { .opts-size .op em { display: none; } .opts-size .op { grid-template-columns: auto; grid-template-areas: "tx"; } }
+
+  .bordes { width: 100%; display: grid; gap: var(--e-2); text-align: left; }
+  .bordes__label { color: var(--texto-2); font-size: 0.9rem; }
+  .bordes__ops { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--e-2); }
+  .bordes .op {
+    position: relative; display: grid; grid-template-columns: auto 1fr; grid-template-areas: "em tx" "em pr"; align-items: center; gap: 0 0.55rem;
+    padding: 0.6rem 0.7rem; border-radius: var(--r-3); background: transparent; color: var(--crema);
+    border: 1.5px dashed var(--linea-fuerte); transition: transform 0.15s var(--ease), border-color 0.15s;
+  }
+  .bordes .op:hover { transform: translateY(-2px); border-color: var(--crema); }
+  .bordes .op em { grid-area: em; width: 30px; height: 30px; border-radius: 50%; background: url("../IMG/Pizzas/base-queso.webp") center / cover; border: 5px solid var(--aro, #C9803A); box-shadow: 0 0 0 2px var(--noche); }
+  .bordes .op:nth-child(2) em { --aro: var(--tomate); }
+  .bordes .op:nth-child(3) em { --aro: var(--mango); }
+  .bordes .op .tx b { font-weight: 900; font-size: 0.88rem; }
+  .bordes .op .pr { grid-area: pr; font-weight: 800; font-size: 0.72rem; color: var(--texto-3); }
+  .bordes .op .pr:empty { display: none; }
+  .bordes .op:has(.pr:empty) { grid-template-areas: "em tx" "em tx"; }
+  .bordes .op.on { background: var(--crema); color: var(--noche); border: var(--borde); box-shadow: var(--sombra-chica); }
+  .bordes .op.on .pr { color: color-mix(in srgb, var(--noche) 70%, transparent); }
+  @media (max-width: 420px) { .bordes .op { grid-template-columns: 1fr; grid-template-areas: "em" "tx" "pr"; justify-items: center; text-align: center; gap: 4px; } }
 
   /* ---------- Pasos ---------- */
   .steps { display: flex; flex-direction: column; gap: var(--e-4); min-width: 0; }
@@ -176,28 +200,56 @@
   .tp { display: grid; gap: var(--e-3); }
   .cats { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: var(--e-3); }
   .cat {
-    display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: var(--e-3); text-align: left;
-    padding: var(--e-4); border-radius: var(--r-3); background: var(--noche); color: var(--crema); border: 1.5px solid var(--linea);
-    border-left: 6px solid var(--n, var(--mango)); transition: transform 0.15s var(--ease);
+    position: relative; display: flex; align-items: center; gap: var(--e-3); min-height: 88px; text-align: left; cursor: pointer;
+    padding: var(--e-3) var(--e-4); border-radius: var(--r-4); color: var(--noche); border: var(--borde); box-shadow: var(--sombra);
+    background: radial-gradient(rgb(255 241 220 / 0.3) 2px, transparent 2.5px) 0 0 / 14px 14px, var(--n, var(--mango));
+    transition: transform 0.15s var(--ease), box-shadow 0.15s;
   }
-  .cat:hover { transform: translateY(-2px); }
-  .cat-pro { --n: var(--tomate); }
+  .cat:hover { transform: translateY(-3px) rotate(-0.8deg); }
+  .cat:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--uva); }
+  .cat-pro { --n: var(--tomate); color: var(--crema); }
   .cat-veg { --n: var(--lima); }
-  .cat-tx { display: grid; gap: 2px; }
-  .cat-tx b { font: 400 var(--t-2)/1 var(--f-letrero); text-transform: uppercase; }
-  .cat-tx small { color: var(--texto-2); font-size: var(--t-0); }
+  .cat-em { flex: none; display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; background: var(--crema); border: var(--borde); font-size: 28px; line-height: 1; box-shadow: 2px 3px 0 var(--uva); transition: rotate 0.3s var(--rebote); }
+  .cat:hover .cat-em { rotate: -12deg; }
+  .cat-tx { flex: 1; min-width: 0; display: grid; gap: 2px; }
+  .cat-tx b { font: 400 var(--t-3)/1 var(--f-letrero); text-transform: uppercase; letter-spacing: 0.02em; }
+  .cat-tx small { font-size: var(--t-0); font-weight: 800; opacity: 0.85; }
   .cat .cnt:empty { display: none; }
-  .cat .cnt { min-width: 1.8em; padding: 0.2em 0.5em; border-radius: var(--r-pill); background: var(--n); color: var(--noche); font-weight: 900; text-align: center; }
-  .cat .go { font: 900 1.4rem/1 var(--f-texto); color: var(--texto-2); }
-  .cat.has { border-color: var(--linea-fuerte); }
+  .cat .cnt { position: absolute; top: -12px; right: -10px; display: grid; place-items: center; min-width: 30px; height: 30px; padding: 0 6px; border-radius: var(--r-pill); background: var(--noche); color: var(--crema); border: 2px solid var(--crema); font: 400 1rem/1 var(--f-letrero); }
+  .cat .go { flex: none; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--noche); color: var(--crema); font: 900 1.3rem/1 var(--f-texto); transition: translate 0.15s var(--ease); }
+  .cat:hover .go { translate: 4px 0; }
+  @media (max-width: 520px) { .cat { min-height: 76px; } .cat-em { width: 48px; height: 48px; font-size: 24px; } }
   .cathead { display: flex; align-items: center; gap: var(--e-3); margin-bottom: var(--e-3); }
   .cathead b { font: 400 var(--t-2)/1 var(--f-letrero); text-transform: uppercase; color: var(--crema); }
   .catpanel { animation: abre 0.3s var(--ease); }
   @keyframes abre { from { opacity: 0; transform: translateY(8px); } }
   .tp.all .cats { display: none !important; }
   .tp.all .catpanel[hidden] { display: block !important; }
-  .tp.all .catpanel { margin-top: var(--e-3); }
   .tp.all .back { display: none; }
+  .step.taller { background: radial-gradient(rgb(255 241 220 / 0.07) 2px, transparent 2.5px) 0 0 / 18px 18px, var(--sup-2); border: 2px dashed rgb(255 183 0 / 0.55); }
+  .tp.all .catpanel {
+    position: relative; margin-top: var(--e-5); padding: 46px var(--e-3) var(--e-3); animation: none;
+    border: var(--borde); border-radius: var(--r-4); box-shadow: var(--sombra);
+    background: radial-gradient(rgb(255 241 220 / 0.16) 2px, transparent 2.5px) 0 0 / 14px 14px, var(--bandeja);
+  }
+  .tp.all .catpanel[data-cat="pro"] { --bandeja: color-mix(in srgb, var(--tomate) 62%, var(--noche)); }
+  .tp.all .catpanel[data-cat="veg"] { --bandeja: color-mix(in srgb, var(--lima) 42%, var(--noche)); }
+  .tp.all .cathead { position: absolute; top: -16px; left: var(--e-4); margin: 0; }
+  .tp.all .cathead b { display: inline-block; background: var(--mango); color: var(--noche); border: var(--borde); border-radius: var(--r-2); box-shadow: var(--sombra-chica); padding: 0.45rem 0.9rem 0.38rem; rotate: -2deg; }
+  .tp.all .opts-ex { grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: var(--e-2); }
+  .tp.all .opts-ex .op { background: var(--crema); color: var(--noche); border: var(--borde); box-shadow: 2px 3px 0 var(--noche); padding: var(--e-2) var(--e-1) var(--e-2); }
+  .tp.all .opts-ex .op:hover { transform: translateY(-3px) rotate(-1.5deg); }
+  .tp.all .opts-ex .op.on { background: var(--mango); box-shadow: 2px 3px 0 var(--uva); }
+  .tp.all .opts-ex .op em { width: 50px; height: 50px; background: color-mix(in srgb, var(--crema) 80%, var(--noche)); border: 2px solid var(--noche); }
+  .tp.all .opts-ex .tx b { font-size: 0.82rem; }
+  .tp.all .prud .pr { background: var(--noche); color: var(--crema); }
+  .tp.all .uds { border-color: var(--noche); }
+  .tp.all .udn { color: var(--noche); }
+  .tp.all .picked { padding: var(--e-3) var(--e-4); background: var(--noche); border: 2px dashed var(--mango); border-radius: var(--r-3); }
+  .tp.all .pk-lab { font: 400 1.05rem/1 var(--f-letrero); text-transform: uppercase; color: var(--mango); }
+  .tp.all .pk { background: var(--crema); color: var(--noche); border: 2px solid var(--noche); }
+  .tp.all .pk:hover { background: color-mix(in srgb, var(--tomate) 25%, var(--crema)); }
+  @media (max-width: 520px) { .tp.all .opts-ex { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 
   /* Extra con cantidad (toppings y salsas) */
   .opts-ex { grid-template-columns: repeat(auto-fill, minmax(min(100%, 148px), 1fr)); }

@@ -266,3 +266,8 @@ document.addEventListener('click',e=>{
 
 paint();
 })();
+
+/* Llegar con ?esp=Nombre (desde Recomendados) deja esa especialidad elegida */
+(()=>{const n=new URLSearchParams(location.search).get('esp');if(!n)return;
+const b=[...document.querySelectorAll('.opts-base .op')].find(o=>o.querySelector('.tx b')?.textContent.trim()===n);
+if(b)b.click();})();

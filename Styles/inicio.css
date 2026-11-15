@@ -27,6 +27,7 @@
 
   .bloque-titulo { display: grid; gap: var(--e-3); margin-bottom: var(--e-5); }
   .bloque-titulo h2 { font-size: var(--t-4); }
+  .bloque-titulo p { color: var(--texto-2); font-size: var(--t-2); max-width: 52ch; }
 
   /* Categorías del menú */
   .categorias { display: grid; gap: var(--e-4); grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); padding: 0; list-style: none; }
@@ -35,11 +36,16 @@
     padding: var(--e-4) 2.6rem var(--e-4) var(--e-4); border-radius: var(--r-3); text-decoration: none; color: var(--crema);
     background: var(--sup-1); border: 1.5px solid var(--linea); transition: transform 0.2s var(--ease), border-color 0.2s, box-shadow 0.2s;
   }
-  .categoria:hover { transform: translateY(-4px); border-color: var(--mango); box-shadow: var(--sombra); }
+  .categoria { border-left: 6px solid var(--n, var(--mango)); }
+  .categoria:hover { transform: translateY(-4px) rotate(-0.6deg); border-color: var(--n, var(--mango)); box-shadow: var(--sombra); }
+  .categoria--pizza, .categoria--mazorcada { --n: var(--mango); } .categoria--salchipapas { --n: var(--tomate); }
+  .categoria--burger { --n: var(--lima); } .categoria--perro { --n: var(--tomate); } .categoria--bebidas { --n: var(--cian); }
+  .categoria:hover .categoria__ic img { animation: menea 0.5s var(--ease); }
+  @keyframes menea { 30% { rotate: -10deg; } 70% { rotate: 8deg; } }
   .categoria__ic { grid-area: ic; width: 84px; height: 84px; border-radius: 50%; background: var(--noche); border: 1.5px solid var(--linea); display: grid; place-items: center; }
   .categoria__ic img { width: 64px; height: 64px; }
   .categoria__tx { grid-area: tx; display: grid; gap: 4px; }
-  .categoria__tx h3 { font-size: var(--t-3); }
+  .categoria__tx h3 { font-size: var(--t-3); color: var(--n, var(--mango)); }
   .categoria__tx p { color: var(--texto-2); font-size: var(--t-0); }
   .categoria .precio { grid-area: pr; justify-self: start; }
   .categoria::after { content: "›"; position: absolute; right: var(--e-4); top: 50%; translate: 0 -50%; font: 900 1.6rem/1 var(--f-texto); color: var(--texto-3); transition: translate 0.2s var(--ease), color 0.2s; }
@@ -51,4 +57,44 @@
   .pasos-pedir li::before { content: counter(paso); display: grid; place-items: center; width: 2.2rem; height: 2.2rem; border-radius: 50%; background: var(--mango); color: var(--noche); border: var(--borde); font: 400 1.1rem/1 var(--f-letrero); box-shadow: var(--sombra-chica); }
   .pasos-pedir h3 { font: 900 var(--t-2)/1.2 var(--f-texto); color: var(--crema); }
   .pasos-pedir p { color: var(--texto-2); }
+
+  /* ---------- Combos: plato + bebida, de un toque al carrito ---------- */
+  .seccion--combos { padding-block: var(--e-7); background: var(--sup-1); border-block: 1.5px solid var(--linea); position: relative; isolation: isolate; }
+  .seccion--combos::before { content: ""; position: absolute; inset: 0; z-index: -1; opacity: 0.08; background: url("../IMG/Marca/azulejos-costenos.svg") 0 0 / 420px auto repeat; }
+  .combos { display: grid; gap: var(--e-5); grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); padding: 0; list-style: none; }
+  .combo {
+    height: 100%; display: grid; grid-template-rows: auto 1fr auto; gap: var(--e-3); padding: var(--e-4) var(--e-4) var(--e-5); border-radius: var(--r-4);
+    background: var(--crema); color: var(--noche); border: var(--borde); box-shadow: 6px 8px 0 var(--uva); transition: transform 0.2s var(--ease);
+  }
+  .combos li:nth-child(odd) .combo { rotate: -0.8deg; } .combos li:nth-child(even) .combo { rotate: 0.8deg; }
+  .combo:hover { transform: translateY(-6px); rotate: 0deg; }
+  .combo__fotos { position: relative; aspect-ratio: 16 / 10; border-radius: var(--r-3); border: var(--borde); overflow: hidden; background: radial-gradient(circle at 40% 55%, color-mix(in srgb, var(--n) 55%, var(--noche)) 0, var(--noche) 72%); }
+  .combo__pizza { position: absolute; left: 4%; top: 6%; width: 64%; height: auto; aspect-ratio: 1; border-radius: 50%; filter: drop-shadow(4px 10px 8px rgb(13 9 25 / 0.6)); animation: gira 60s linear infinite; }
+  .combo__bebida { position: absolute; right: 6%; bottom: 6%; height: 74%; width: auto; filter: drop-shadow(4px 8px 6px rgb(13 9 25 / 0.6)); transform-origin: 50% 90%; transition: rotate 0.3s var(--rebote); }
+  .combo:hover .combo__bebida { rotate: 8deg; }
+  .combo__tx { display: grid; align-content: start; gap: var(--e-2); }
+  .combo__tx .etiqueta { justify-self: start; background: var(--n); color: var(--noche); border: var(--borde); }
+  .combo__tx h3 { font-size: var(--t-3); --n: var(--mango); }
+  .combo__tx ul { padding: 0; list-style: none; display: grid; gap: 4px; font-weight: 800; }
+  .combo__tx li { display: flex; align-items: center; gap: var(--e-2); }
+  .combo__tx li::before { content: ""; flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--n); border: 2px solid var(--noche); }
+  .combo__pie { display: flex; align-items: center; justify-content: space-between; gap: var(--e-3); flex-wrap: wrap; }
+  .combo__pie .precio { font-size: 1.15rem; }
+
+  /* ---------- Recomendados: fotos de las pizzas de la casa ---------- */
+  .recos { display: grid; gap: var(--e-4); grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); padding: 0; list-style: none; }
+  .reco {
+    position: relative; height: 100%; display: grid; grid-template-rows: auto auto auto 1fr auto; justify-items: center; gap: var(--e-2); padding: var(--e-4); text-align: center; text-decoration: none; color: var(--crema);
+    border-radius: var(--r-4); background: var(--sup-1); border: 1.5px solid var(--linea); transition: transform 0.2s var(--ease), border-color 0.2s, box-shadow 0.2s;
+  }
+  .reco:hover { transform: translateY(-5px); border-color: var(--mango); box-shadow: var(--sombra); }
+  .reco__foto { width: 78%; aspect-ratio: 1; border-radius: 50%; padding: 5%; background: radial-gradient(circle, var(--sup-3) 0 66%, var(--noche) 68%); box-shadow: 4px 6px 0 var(--uva); }
+  .reco__foto img { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; transition: rotate 0.8s var(--ease); }
+  .reco:hover .reco__foto img { rotate: 45deg; }
+  .reco__sello { position: absolute; top: var(--e-3); left: var(--e-3); rotate: -6deg; background: var(--tomate); color: var(--crema); border: var(--borde); }
+  .reco h3 { font-size: var(--t-3); margin-top: var(--e-2); }
+  .reco p { color: var(--texto-2); font-size: var(--t-0); line-height: 1.4; }
+  .reco__pie { align-self: end; display: flex; align-items: center; justify-content: space-between; gap: var(--e-2); width: 100%; margin-top: var(--e-2); }
+  .reco__ir { background: var(--mango); color: var(--noche); border: var(--borde); border-radius: var(--r-pill); padding: 0.45rem 0.9rem 0.38rem; box-shadow: var(--sombra-chica); }
+  @media (prefers-reduced-motion: reduce) { .combo__pizza { animation: none; } }
 }
