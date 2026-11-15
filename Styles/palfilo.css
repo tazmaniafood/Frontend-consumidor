@@ -57,6 +57,9 @@
     --falda-borde-arriba: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='54' viewBox='0 0 56 54'%3E%3Cg transform='translate(0 54) scale(1 -1)'%3E%3Cpath d='M0 45 C 10 46, 24 35, 28 26 C 32 35, 46 46, 56 45' fill='none' stroke='%23FFF1DC' stroke-opacity='.28' stroke-width='1.5'/%3E%3C/g%3E%3C/svg%3E");
     --falda-forma: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='54' viewBox='0 0 56 54'%3E%3Cpath d='M0 0 H56 V45 C 46 46, 32 35, 28 26 C 24 35, 10 46, 0 45 Z' fill='%23000'/%3E%3C/svg%3E");
     --falda-forma-arriba: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='54' viewBox='0 0 56 54'%3E%3Cg transform='translate(0 54) scale(1 -1)'%3E%3Cpath d='M0 0 H56 V45 C 46 46, 32 35, 28 26 C 24 35, 10 46, 0 45 Z' fill='%23000'/%3E%3C/g%3E%3C/svg%3E");
+    /* En la carpa el faldón va más corto: mismo dibujo, sin la franja lisa de arriba */
+    --falda-forma-corta: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='34' viewBox='0 20 56 34'%3E%3Cpath d='M0 0 H56 V45 C 46 46, 32 35, 28 26 C 24 35, 10 46, 0 45 Z' fill='%23000'/%3E%3C/svg%3E");
+    --falda-borde-corta: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='34' viewBox='0 20 56 34'%3E%3Cpath d='M0 45 C 10 46, 24 35, 28 26 C 32 35, 46 46, 56 45' fill='none' stroke='%23FFF1DC' stroke-opacity='.28' stroke-width='1.5'/%3E%3C/svg%3E");
     --velo: linear-gradient(rgb(13 9 25 / 0.55), rgb(13 9 25 / 0.55));
     --baldosa: url("../IMG/Marca/azulejos-costenos.svg") 0 0 / 320px 160px, var(--noche);
   }
@@ -122,22 +125,22 @@
   }
   .carpa::before, .carpa::after, .pie::before, .pie::after { content: ""; position: absolute; left: 0; right: 0; z-index: -1; pointer-events: none; }
   .carpa::before {
-    top: 0; height: calc(100% + 54px);
+    top: 0; height: calc(100% + 34px);
     background: linear-gradient(rgb(13 9 25 / 0.55), rgb(13 9 25 / 0.15) 70%, transparent), var(--velo), var(--baldosa);
-    -webkit-mask: linear-gradient(#000, #000) 0 0 / 100% calc(100% - 54px) no-repeat, var(--falda-forma) 0 100% / 56px 54px repeat-x;
-    mask: linear-gradient(#000, #000) 0 0 / 100% calc(100% - 54px) no-repeat, var(--falda-forma) 0 100% / 56px 54px repeat-x;
+    -webkit-mask: linear-gradient(#000, #000) 0 0 / 100% calc(100% - 34px) no-repeat, var(--falda-forma-corta) 0 100% / 56px 34px repeat-x;
+    mask: linear-gradient(#000, #000) 0 0 / 100% calc(100% - 34px) no-repeat, var(--falda-forma-corta) 0 100% / 56px 34px repeat-x;
   }
-  .carpa::after { top: 100%; height: 54px; background: var(--falda-borde) 0 0 / 56px 54px repeat-x; }
+  .carpa::after { top: 100%; height: 34px; background: var(--falda-borde-corta) 0 0 / 56px 34px repeat-x; }
   .carpa__fila { display: flex; align-items: center; gap: var(--e-3); min-height: var(--carpa-alto); padding-inline: max(var(--e-4), env(safe-area-inset-left)); }
   /* el sello sobresale de la carpa y cuelga sobre el festón */
   .sello {
-    position: relative; z-index: 2; align-self: flex-start; margin: 10px 0 -46px;
+    position: relative; z-index: 2; align-self: flex-start; margin: 10px 0 -36px;
     flex: none; display: block; width: 96px; height: 96px; border-radius: 50%;
     background: var(--noche); border: 3px solid var(--crema); box-shadow: 5px 6px 0 var(--uva);
     view-transition-name: sello; transition: transform 0.2s var(--ease);
   }
   .sello:hover { transform: rotate(-8deg) scale(1.05); }
-  .sello img { width: 100%; height: 100%; object-fit: contain; padding: 8px; }
+  .sello img { width: 100%; height: 100%; object-fit: contain; padding: 5px; }
   .menu { flex: 1; min-width: 0; display: flex; gap: var(--e-2); overflow-x: auto; scrollbar-width: none; padding: 6px 4px 9px; }
   .menu::-webkit-scrollbar { display: none; }
   .menu a {
@@ -149,31 +152,43 @@
   }
   .menu a:hover { background: var(--crema); transform: translateY(-2px); }
   .menu a[aria-current="page"] { background: var(--mango); }
-  /* Carrito: canasto mango que se ladea y brinca cuando le cae algo */
+  /* Carrito: el carrito de fritos de la esquina. Lleva el total a la vista;
+     cuando le cae algo rueda un poquito, giran las ruedas y salta el +1. */
   .carrito-btn {
-    position: relative; flex: none; display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer;
-    padding: 0.55rem 1.1rem 0.5rem 0.8rem; border-radius: var(--r-pill); background: var(--mango); color: var(--noche);
-    border: var(--borde); box-shadow: 4px 5px 0 var(--uva); rotate: -3deg; transition: rotate 0.2s var(--rebote), translate 0.15s;
+    position: relative; flex: none; display: inline-flex; align-items: center; gap: 0.6rem; cursor: pointer; text-align: left;
+    padding: 0.3rem 1rem 0.3rem 0.3rem; border-radius: var(--r-pill); background: var(--mango); color: var(--noche);
+    border: var(--borde); box-shadow: 4px 5px 0 var(--uva); transition: translate 0.15s var(--ease), box-shadow 0.15s;
   }
-  .carrito-btn:hover { rotate: 3deg; translate: 0 -2px; }
+  .carrito-btn:hover { translate: 0 -2px; box-shadow: 5px 7px 0 var(--uva); }
   .carrito-btn:active { translate: 3px 4px; box-shadow: 0 0 0 var(--uva); }
-  .carrito-btn__ic { width: 28px; height: 28px; }
-  .carrito-btn__txt { font-size: 1.05rem; }
-  .carrito-btn b {
-    position: absolute; top: -12px; right: -10px; display: grid; place-items: center; min-width: 28px; height: 28px; padding: 0 6px;
-    border-radius: var(--r-pill); background: var(--tomate); color: var(--crema); border: 2px solid var(--crema); font: 400 0.95rem/1 var(--f-letrero);
+  .carrito-btn__ico { flex: none; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; background: var(--noche); border: 2px solid var(--noche); overflow: hidden; }
+  .carrito-btn__ico svg { width: 46px; height: 46px; overflow: visible; }
+  .carrito-btn__ico .rueda { transform-box: fill-box; transform-origin: center; }
+  .carrito-btn__ico .toldo { transform-box: fill-box; transform-origin: 50% 0; }
+  .carrito-btn__tx { display: grid; line-height: 1; gap: 3px; }
+  .carrito-btn__lab { font-size: 0.95rem; }
+  .carrito-btn__tot { font: 400 1.15rem/1 var(--f-letrero); }
+  .carrito-btn:not(.lleno) .carrito-btn__tot, .carrito-btn:not(.lleno) .carrito-btn__n { display: none; }
+  .carrito-btn__n {
+    position: absolute; top: -10px; left: 34px; display: grid; place-items: center; min-width: 26px; height: 26px; padding: 0 6px;
+    border-radius: var(--r-pill); background: var(--tomate); color: var(--crema); border: 2px solid var(--crema); font: 400 0.9rem/1 var(--f-letrero); rotate: -8deg;
   }
-  .carrito-btn.lleno .carrito-btn__ic { animation: canasto 2.4s ease-in-out infinite; }
-  .carrito-btn.brinca { animation: brinca 0.55s var(--rebote); }
-  .carrito-btn.brinca b { animation: globo 0.55s var(--rebote); }
-  @keyframes canasto { 0%, 80%, 100% { rotate: 0deg; } 86% { rotate: -14deg; } 93% { rotate: 10deg; } }
-  @keyframes brinca { 40% { translate: 0 -10px; rotate: 6deg; } }
+  .carrito-btn__mas { position: absolute; left: 14px; top: -6px; font: 400 1rem/1 var(--f-letrero); color: var(--mango); -webkit-text-stroke: 0.07em var(--noche); paint-order: stroke fill; opacity: 0; pointer-events: none; }
+  .carrito-btn.lleno .toldo { animation: toldo 3s ease-in-out infinite; }
+  .carrito-btn.brinca .carro { animation: rueda-carro 0.7s var(--ease); }
+  .carrito-btn.brinca .rueda { animation: gira-rueda 0.7s var(--ease); }
+  .carrito-btn.brinca .carrito-btn__mas { animation: mas-uno 0.8s var(--ease); }
+  .carrito-btn.brinca .carrito-btn__n { animation: globo 0.55s var(--rebote); }
+  @keyframes toldo { 0%, 84%, 100% { rotate: 0deg; } 90% { rotate: -6deg; } 95% { rotate: 4deg; } }
+  @keyframes rueda-carro { 35% { translate: 9px 0; } 70% { translate: -3px 0; } }
+  @keyframes gira-rueda { to { rotate: 360deg; } }
+  @keyframes mas-uno { 0% { opacity: 0; translate: 0 6px; } 25% { opacity: 1; } 100% { opacity: 0; translate: 0 -26px; } }
   @keyframes globo { 40% { scale: 1.45; } }
+  @media (max-width: 720px) { .carrito-btn { padding-right: 0.3rem; } .carrito-btn__tx { display: none; } }
   .rebota { animation: brinca 0.5s var(--rebote); }
   @media (max-width: 720px) {
     .carpa__fila { flex-wrap: wrap; row-gap: 0; padding-top: 8px; }
     .sello { width: 66px; height: 66px; margin: 4px 0; align-self: center; }
-    .carrito-btn__txt { display: none; }
     .menu { order: 3; flex-basis: 100%; margin-inline: calc(-1 * var(--e-4)); padding-inline: var(--e-4); }
     .carrito-btn { margin-left: auto; }
   }
