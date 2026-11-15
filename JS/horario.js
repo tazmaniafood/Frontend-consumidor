@@ -43,6 +43,14 @@
   const e = estado();
   document.documentElement.dataset.abierto = e.abierto ? 'si' : 'no';
   document.querySelectorAll('[data-horario]').forEach(el => { el.textContent = e.texto; });
+  document.querySelectorAll('[data-horario-corto]').forEach(el => { el.textContent = e.abierto ? (en ? 'Open' : 'Abierto') : (en ? 'Closed' : 'Cerrado'); });
+  /* El aviso de la carpa: se abre con el mouse o el foco (CSS) y con un toque en celular */
+  const hoy = ahora().dia;
+  document.querySelectorAll('.horario__dia[data-dia="' + hoy + '"]').forEach(d => d.classList.add('hoy'));
+  document.querySelectorAll('.cartelito__caja').forEach(b => {
+    b.addEventListener('click', () => b.setAttribute('aria-expanded', b.getAttribute('aria-expanded') === 'true' ? 'false' : 'true'));
+    b.addEventListener('blur', () => b.setAttribute('aria-expanded', 'false'));
+  });
 
   if (e.abierto) return;
   try { if (sessionStorage.getItem('palfilo-cartel') && !new URLSearchParams(location.search).has('cerrado')) return; } catch (_) {}

@@ -65,17 +65,6 @@
     .cta:nth-child(2) .cta__nota { left: auto; right: calc(50% - 72px); top: calc(100% + 44px); }
   }
 
-  /* Aviso de abierto / cerrado: el único neón de la pantalla. El brillo es del tubo, no de la letra */
-  .aviso-neon {
-    position: absolute; left: 0; bottom: 6%; rotate: -5deg; margin: 0;
-    padding: 0.7rem 1.1rem 0.6rem; border-radius: var(--r-3); background: var(--noche); color: var(--crema);
-    font: 400 1rem/1.1 var(--f-letrero); text-transform: uppercase; letter-spacing: 0.03em;
-    border: 3px solid var(--tubo, var(--cian)); box-shadow: 0 0 0 2px var(--noche), 0 0 16px 2px color-mix(in srgb, var(--tubo, var(--cian)) 60%, transparent), inset 0 0 10px color-mix(in srgb, var(--tubo, var(--cian)) 45%, transparent);
-  }
-  .aviso-neon:empty { display: none; }
-  html[data-abierto="no"] .aviso-neon { --tubo: var(--tomate); }
-  @media (max-width: 899px) { .aviso-neon { left: 50%; translate: -50% 0; bottom: -6px; white-space: nowrap; } }
-
   /* ---------- Chorros que separan secciones: se dibujan al aparecer ---------- */
   .chorro { display: block; width: min(100% - 2 * var(--e-4), var(--ancho)); height: 28px; margin: var(--e-5) auto; overflow: visible; }
   .chorro path { fill: none; stroke: var(--c); stroke-width: 6; stroke-linecap: round; vector-effect: non-scaling-stroke; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.4s cubic-bezier(0.5, 0, 0.3, 1); }
@@ -135,13 +124,16 @@
   .riel__pista { display: grid; grid-auto-flow: column; grid-auto-columns: min(500px, 84%); gap: var(--e-5); overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; margin: 0 calc(-1 * var(--e-2)); padding: var(--e-3) var(--e-2) var(--e-5); list-style: none; }
   .riel__pista::-webkit-scrollbar { display: none; }
   .riel__pista > li { scroll-snap-align: start; }
+  /* desvanecido a los lados: el riel no se ve cortado, se pierde en la noche */
+  .riel__pista { -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+  .riel__pista > li { scroll-snap-align: center; }
   .riel__flecha {
     position: absolute; top: 42%; z-index: 2; display: grid; place-items: center; width: 52px; height: 52px; padding: 0 0 4px; border-radius: 50%; cursor: pointer;
     background: var(--crema); color: var(--noche); border: var(--borde); box-shadow: var(--sombra-chica); font: 900 1.8rem/1 var(--f-texto); transition: transform 0.15s var(--ease), opacity 0.2s;
   }
   .riel__flecha:hover { transform: scale(1.08); }
   .riel__flecha:disabled { opacity: 0; pointer-events: none; }
-  .riel__flecha--prev { left: -18px; } .riel__flecha--next { right: -18px; }
+  .riel__flecha--prev { left: 6px; } .riel__flecha--next { right: 6px; }
   @media (max-width: 719px) { .riel__flecha { display: none; } .riel__pista { margin-inline: calc(-1 * var(--e-4)); padding-inline: var(--e-4); } }
   .combo {
     height: 100%; display: grid; grid-template-rows: auto 1fr auto; gap: var(--e-3); padding: var(--e-4) var(--e-4) var(--e-5); border-radius: var(--r-4);

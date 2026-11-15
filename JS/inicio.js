@@ -12,24 +12,40 @@
     b.classList.remove('rebota'); void b.offsetWidth; b.classList.add('rebota');
   });
 
-  /* ---- Riel de combos ---- */
+  /* ---- Riel de combos: infinito. Se clonan las tarjetas a cada lado y, al llegar a una
+     copia, el riel salta sin que se note a la tarjeta original equivalente. ---- */
   document.querySelectorAll('[data-riel]').forEach(riel => {
     const pista = riel.querySelector('.riel__pista');
-    const prev = riel.querySelector('[data-riel-paso="-1"]'), next = riel.querySelector('[data-riel-paso="1"]');
-    if (!pista) return;
-    const paso = () => (pista.querySelector('li')?.getBoundingClientRect().width || 300) + 24;
-    const estado = () => {
-      const max = pista.scrollWidth - pista.clientWidth - 4;
-      if (prev) prev.disabled = pista.scrollLeft <= 4;
-      if (next) next.disabled = pista.scrollLeft >= max;
+    if (!pista || !pista.children.length) return;
+    const reales = [...pista.children];
+    const copia = li => {
+      const c = li.cloneNode(true);
+      c.setAttribute('aria-hidden', 'true'); c.dataset.copia = '';
+      c.querySelectorAll('a, button').forEach(x => x.setAttribute('tabindex', '-1'));
+      return c;
     };
+    pista.prepend(...reales.map(copia));
+    pista.append(...reales.map(copia));
+    const inicio = () => reales[0].offsetLeft - pista.firstElementChild.offsetLeft;
+    const vuelta = () => reales[reales.length - 1].offsetLeft + reales[reales.length - 1].offsetWidth - reales[0].offsetLeft + parseFloat(getComputedStyle(pista).columnGap || 0);
+    const saltar = x => { pista.style.scrollBehavior = 'auto'; pista.scrollLeft = x; requestAnimationFrame(() => { pista.style.scrollBehavior = ''; }); };
+    const ubicar = () => saltar(inicio());
+    let t;
+    pista.addEventListener('scroll', () => {
+      clearTimeout(t);
+      t = setTimeout(() => {
+        const a = inicio(), w = vuelta(), x = pista.scrollLeft;
+        if (x < a - w / 2) saltar(x + w);
+        else if (x > a + w / 2) saltar(x - w);
+      }, 140);
+    }, { passive: true });
+    const paso = () => reales[0].getBoundingClientRect().width + parseFloat(getComputedStyle(pista).columnGap || 0);
     riel.addEventListener('click', e => {
       const b = e.target.closest('[data-riel-paso]');
       if (b) pista.scrollBy({ left: paso() * +b.dataset.rielPaso, behavior: 'smooth' });
     });
-    pista.addEventListener('scroll', estado, { passive: true });
-    addEventListener('resize', estado);
-    estado();
+    addEventListener('resize', ubicar);
+    ubicar();
   });
 
   /* ---- Vitrina de recomendados ---- */
