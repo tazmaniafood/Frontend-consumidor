@@ -384,9 +384,9 @@ html[data-abierto="no"] .cartelito__caja { --tubo: var(--tomate); }
 .cartelito__luz { width: 9px; height: 9px; border-radius: 50%; background: var(--tubo); box-shadow: 0 0 8px 1px var(--tubo); animation: luz 2.4s ease-in-out infinite; }
 @keyframes luz { 50% { opacity: 0.35; } }
 .cartelito__corto { display: none; }
-.cartelito__detalle { display: grid; justify-items: center; gap: 0.45rem; min-width: 232px; max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.3s var(--ease), opacity 0.2s, margin 0.3s var(--ease); }
+.cartelito__detalle { display: grid; justify-items: center; gap: 0.45rem; width: 0; min-width: 100%; max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.3s var(--ease), opacity 0.2s, margin 0.3s var(--ease); }
 .cartelito__caja:hover, .cartelito__caja:focus-visible, .cartelito__caja[aria-expanded="true"] { padding-bottom: 0.8rem; }
-.cartelito__caja:hover .cartelito__detalle, .cartelito__caja:focus-visible .cartelito__detalle, .cartelito__caja[aria-expanded="true"] .cartelito__detalle { max-height: 140px; opacity: 1; margin-top: 0.65rem; }
+.cartelito__caja:hover .cartelito__detalle, .cartelito__caja:focus-visible .cartelito__detalle, .cartelito__caja[aria-expanded="true"] .cartelito__detalle { width: 232px; max-height: 140px; opacity: 1; margin-top: 0.65rem; }
 .horario__dias { display: flex; gap: 4px; padding-top: 0.6rem; border-top: 1.5px dashed var(--linea-fuerte); }
 .horario__dia { display: grid; place-items: center; width: 27px; height: 27px; border-radius: 50%; font: 400 0.8rem/1 var(--f-letrero); color: var(--texto-3); border: 1.5px solid var(--linea); }
 .horario__dia.abre { color: var(--crema); border-color: var(--tubo); }
@@ -400,7 +400,7 @@ html[data-abierto="no"] .cartelito__caja { --tubo: var(--tomate); }
   .cartelito__caja { padding: 0.45rem 0.75rem 0.4rem; }
   .cartelito__largo { display: none; }
   .cartelito__corto { display: inline; }
-  .cartelito__detalle { min-width: 210px; }
+  .cartelito__caja:hover .cartelito__detalle, .cartelito__caja:focus-visible .cartelito__detalle, .cartelito__caja[aria-expanded="true"] .cartelito__detalle { width: 210px; }
 }
 @media (max-width: 1100px) and (min-width: 721px) { .cartelito__largo { display: none; } .cartelito__corto { display: inline; } }
 @media (prefers-reduced-motion: reduce) { .cartelito__luz { animation: none; } }

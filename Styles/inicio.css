@@ -240,3 +240,62 @@
     .cta__nota { opacity: 1; animation: none; }
   }
 }
+
+/* ---------- Combos en la pizarra: un combo grande y miniaturas para escoger ---------- */
+@layer components {
+  .combo-slide__escena { position: relative; justify-self: center; width: min(100%, 440px); height: 320px; }
+  .combo-slide__escena .combo__plato { width: 270px; height: 270px; top: 20px; }
+  .combo-slide__escena .combo__mas { left: 248px; top: 150px; width: 48px; height: 48px; font-size: 1.9rem; }
+  .combo-slide__escena .combo__bebida { left: 286px; bottom: 10px; height: 230px; }
+  .combo-slide__escena .combo__precio { width: 112px; height: 112px; font-size: 1.6rem; right: -6px; top: -4px; }
+  .combo-slide:hover .combo__plato img { rotate: 60deg; }
+  .combo-slide:hover .combo__bebida { rotate: 10deg; }
+  .combo-slide.entra .combo__plato img { animation: llega-plato 0.6s var(--rebote); }
+  .combo-slide .vitrina__info .etiqueta { background: var(--n); color: var(--noche); }
+  .combo-slide h3 { --n: var(--mango); }
+  .combo-slide__lista { padding: 0; margin: 0; list-style: none; display: grid; gap: 6px; font-weight: 800; font-size: var(--t-2); color: var(--crema); }
+  .combo-slide__lista li { display: flex; align-items: center; gap: var(--e-2); }
+  .combo-slide__lista li::before { content: ""; flex: none; width: 12px; height: 12px; border-radius: 50%; background: var(--n); border: 2px solid var(--noche); box-shadow: 0 0 0 2px var(--crema); }
+  @media (max-width: 520px) {
+    .combo-slide__escena { height: 240px; }
+    .combo-slide__escena .combo__plato { width: 190px; height: 190px; top: 16px; }
+    .combo-slide__escena .combo__mas { left: 172px; top: 104px; width: 40px; height: 40px; font-size: 1.5rem; }
+    .combo-slide__escena .combo__bebida { left: 200px; height: 170px; }
+    .combo-slide__escena .combo__precio { width: 88px; height: 88px; font-size: 1.2rem; }
+  }
+
+  /* ---------- Lo que trajimos de la Costa: galería de fotos, cuadros de distintos tamaños ---------- */
+  .galeria__cab { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: var(--e-3) var(--e-5); margin-bottom: var(--e-5); }
+  .galeria__cab .bloque-titulo { margin: 0; }
+  .galeria__ig { gap: var(--e-2); }
+  .galeria__ig img { width: 22px; height: 22px; }
+  .galeria { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 230px; grid-auto-flow: dense; gap: var(--e-4); padding: 0; margin: 0; list-style: none; }
+  .foto { --fondo: var(--sup-2); position: relative; border-radius: var(--r-4); overflow: hidden; border: var(--borde); box-shadow: 6px 8px 0 var(--uva);
+    background: radial-gradient(color-mix(in srgb, var(--crema) 22%, transparent) 2px, transparent 2.5px) 0 0 / 16px 16px, var(--fondo); transition: transform 0.25s var(--ease), box-shadow 0.25s; }
+  .foto:hover { transform: translateY(-5px) rotate(-1deg); box-shadow: 8px 12px 0 var(--uva); }
+  .foto--grande { grid-column: span 2; grid-row: span 2; }
+  .foto--alta { grid-row: span 2; }
+  .foto--ancha { grid-column: span 2; }
+  .foto--mango { --fondo: var(--mango); } .foto--tomate { --fondo: var(--tomate); } .foto--cian { --fondo: var(--cian); }
+  .foto--crema { --fondo: var(--crema); } .foto--oscuro { --fondo: var(--sup-2); }
+  .foto a { position: absolute; inset: 0; display: grid; place-items: center; text-decoration: none; color: var(--crema); }
+  .foto__img { position: absolute; inset: 0; margin: auto; width: 82%; height: 82%; object-fit: contain; filter: drop-shadow(6px 12px 10px rgb(13 9 25 / 0.55)); transition: rotate 0.9s var(--ease), scale 0.4s var(--ease); }
+  .foto__img.es-lata { width: 60%; height: 80%; }
+  .foto:hover .foto__img { rotate: 30deg; scale: 1.05; }
+  .foto:hover .foto__img.es-lata { rotate: 8deg; }
+  .foto__img.completa { inset: 0; width: 100%; height: 100%; object-fit: cover; filter: none; }
+  .foto__pie {
+    position: absolute; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: space-between; gap: var(--e-2);
+    padding: var(--e-5) var(--e-4) var(--e-3); background: linear-gradient(transparent, rgb(13 9 25 / 0.92) 55%);
+    translate: 0 100%; transition: translate 0.3s var(--ease);
+  }
+  .foto:hover .foto__pie, .foto a:focus-visible .foto__pie { translate: 0 0; }
+  .foto__pie b { font-size: var(--t-2); --n: var(--crema); }
+  .foto__pie .plana { background: var(--mango); color: var(--noche); border: var(--borde); border-radius: var(--r-pill); padding: 0.35rem 0.8rem 0.3rem; font-size: 0.85rem; }
+  .foto--grande .foto__pie b { font-size: var(--t-3); }
+  @media (max-width: 760px) {
+    .galeria { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 170px; gap: var(--e-3); }
+    .foto__pie { translate: 0 0; padding: var(--e-4) var(--e-3) var(--e-2); }
+    .foto__pie .plana { display: none; }
+  }
+}
