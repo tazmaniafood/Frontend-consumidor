@@ -80,7 +80,7 @@
 }
 
 @layer base {
-  @view-transition { navigation: auto; }
+  /* el cambio de página lo hace el telón (telon.js) */
   body {
     min-height: 100dvh; display: flex; flex-direction: column;
     background: var(--noche); color: var(--texto);
@@ -404,3 +404,15 @@ html[data-abierto="no"] .cartelito__caja { --tubo: var(--tomate); }
 }
 @media (max-width: 1100px) and (min-width: 721px) { .cartelito__largo { display: none; } .cartelito__corto { display: inline; } }
 @media (prefers-reduced-motion: reduce) { .cartelito__luz { animation: none; } }
+
+/* ---------- Telón entre páginas: la carpa baja con su faldón, cubre todo y vuelve a subir ---------- */
+html.telon body::after, html.telon-baja body::after {
+  content: ""; position: fixed; left: 0; right: 0; top: 0; height: calc(100vh + 54px); z-index: 9999; pointer-events: none;
+  background: url("../IMG/Marca/logo-horizontal.png") center calc(50% - 27px) / min(320px, 70vw) auto no-repeat, var(--velo), var(--baldosa);
+  -webkit-mask: linear-gradient(#000, #000) 0 0 / 100% calc(100% - 54px) no-repeat, var(--falda-forma) 0 100% / 56px 54px repeat-x;
+  mask: linear-gradient(#000, #000) 0 0 / 100% calc(100% - 54px) no-repeat, var(--falda-forma) 0 100% / 56px 54px repeat-x;
+}
+html.telon-baja body::after { animation: telon-baja 0.48s cubic-bezier(0.6, 0, 0.4, 1) both; }
+html.telon.telon-sube body::after { animation: telon-sube 0.6s cubic-bezier(0.6, 0, 0.3, 1) forwards; }
+@keyframes telon-baja { from { translate: 0 -100%; } }
+@keyframes telon-sube { to { translate: 0 -100%; } }

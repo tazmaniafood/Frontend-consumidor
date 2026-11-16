@@ -74,5 +74,7 @@
     if (ev.target === dlg || ev.target.closest('[data-action="explorar"]')) dlg.close();
   });
   dlg.addEventListener('close', () => { try { sessionStorage.setItem('palfilo-cartel', '1'); } catch (_) {} });
-  if (typeof dlg.showModal === 'function') dlg.showModal(); else dlg.setAttribute('open', '');
+  const abrir = () => { if (typeof dlg.showModal === 'function') dlg.showModal(); else dlg.setAttribute('open', ''); };
+  /* si el telón está subiendo, el cartel sale cuando termine */
+  if (document.documentElement.classList.contains('telon')) setTimeout(abrir, 900); else abrir();
 })();

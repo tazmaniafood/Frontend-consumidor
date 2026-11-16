@@ -4,11 +4,20 @@
    - Los chorros de salsa se dibujan cuando entran en pantalla.
    - En celular, la barra para el pulgar aparece cuando el botón de la portada sale de vista. */
 (() => {
+  /* ---- Cantidad de cada combo: − n + y el total se recalcula ---- */
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-cq]'); if (!b) return;
+    const panel = b.closest('.combo-panel'), n = panel.querySelector('[data-cq-n]');
+    const q = Math.max(1, Math.min(20, +n.textContent + +b.dataset.cq)); n.textContent = q;
+    panel.querySelectorAll('[data-total]').forEach(t => { t.textContent = '$' + (q * +panel.dataset.precio).toFixed(2); });
+  });
+
   /* ---- Combos al carrito ---- */
   document.addEventListener('click', e => {
     const b = e.target.closest('[data-combo]');
     if (!b || !window.Cart) return;
-    Cart.add({ name: b.dataset.combo, lines: b.dataset.lineas.split('|'), unit: +b.dataset.precio, q: 1 });
+    const panel = b.closest('.combo-panel'), q = panel ? +panel.querySelector('[data-cq-n]').textContent : 1;
+    Cart.add({ name: b.dataset.combo, lines: b.dataset.lineas.split('|'), unit: +b.dataset.precio, q });
     b.classList.remove('rebota'); void b.offsetWidth; b.classList.add('rebota');
   });
 
