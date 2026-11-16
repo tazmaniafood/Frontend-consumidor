@@ -330,3 +330,10 @@
   .tamanos { width: 100%; display: grid; gap: var(--e-2); text-align: left; }
   .tamanos .segmento { width: 100%; justify-content: space-between; }
 }
+/* v71: sin el aro del plato; la pizza más grande */
+@layer components {
+  .stage::before { display: none; }
+  .stage { width: min(100%, 440px); }
+  .pz { width: 100%; }
+  .opts-ex .op em { font-size: 30px; }
+}
