@@ -345,3 +345,40 @@
   .opts-ex .tx b { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.25; }
   .opts-ex .prud { align-self: end; }
 }
+/* v73: toppings y salsas en fila que se arrastra (no infinita), tres a la vista en celular */
+@layer components {
+  .opts-ex, .tp.all .opts-ex {
+    --vis: 3; display: grid !important; grid-auto-flow: column; grid-template-columns: none !important;
+    grid-auto-columns: calc((100% - (var(--vis) - 1) * var(--e-3)) / var(--vis)); gap: var(--e-3) !important;
+    overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none; padding: 4px 2px var(--e-3);
+  }
+  .opts-ex::-webkit-scrollbar { display: none; }
+  .opts-ex > .op { scroll-snap-align: start; }
+  @media (min-width: 640px) { .opts-ex, .tp.all .opts-ex { --vis: 4; } }
+  @media (min-width: 1200px) { .opts-ex, .tp.all .opts-ex { --vis: 5; } }
+  /* el borde por donde sigue se desvanece; al llegar al final se quita */
+  .opts-ex.desliza:not(.al-final) { -webkit-mask-image: linear-gradient(90deg, #000 82%, transparent); mask-image: linear-gradient(90deg, #000 82%, transparent); }
+  .opts-ex.desliza:not(.al-inicio):not(.al-final) { -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 85%, transparent); mask-image: linear-gradient(90deg, transparent, #000 10%, #000 85%, transparent); }
+  .opts-ex.desliza.al-final:not(.al-inicio) { -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%); mask-image: linear-gradient(90deg, transparent, #000 14%); }
+  /* pista "desliza" con una manito que va y viene */
+  .opts-ex.desliza.al-inicio + .pista-desliza, .pista-desliza { display: none; }
+  .opts-ex.desliza.al-inicio + .pista-desliza { display: flex; }
+  .pista-desliza { align-items: center; justify-content: flex-end; gap: 6px; margin: -4px 4px 4px 0; font: 800 0.78rem/1 var(--f-texto); color: var(--mango); }
+  .pista-desliza::after { content: "→"; font-weight: 900; animation: pista 1.2s ease-in-out infinite; }
+  @keyframes pista { 50% { translate: 6px 0; } }
+}
+/* el botón fijo de agregar no tapa el pie en celular */
+@media (max-width: 899px) { body:has(.add) .pie { padding-bottom: calc(var(--e-6) + 90px + env(safe-area-inset-bottom, 0px)); } }
+/* que la fila que se arrastra no ensanche la página */
+@layer components {
+  .armador__grid { grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 900px) { .armador__grid { grid-template-columns: minmax(340px, 460px) minmax(0, 1fr); } }
+  .steps, .step, .tp, .catpanel { min-width: 0; max-width: 100%; }
+  .tp { grid-template-columns: minmax(0, 1fr); }
+  .opts-ex { width: 100%; min-width: 0; }
+}
+@layer components {
+  .add { box-sizing: border-box; max-width: 100vw; }
+  .add .btn { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  @media (max-width: 520px) { .add .btn { font-size: clamp(0.72rem, 3.5vw, 1rem); letter-spacing: 0; padding-inline: 0.6rem; justify-content: center; } .add .contador button { width: 34px; height: 34px; } }
+}
