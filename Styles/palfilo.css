@@ -408,11 +408,12 @@ html[data-abierto="no"] .cartelito__caja { --tubo: var(--tomate); }
 /* ---------- Telón entre páginas: la carpa baja con su faldón, cubre todo y vuelve a subir ---------- */
 html.telon body::after, html.telon-baja body::after {
   content: ""; position: fixed; left: 0; right: 0; top: 0; height: calc(100vh + 54px); z-index: 9999; pointer-events: none;
-  background: url("../IMG/Marca/logo-horizontal.png") center calc(50% - 27px) / min(320px, 70vw) auto no-repeat, var(--velo), var(--baldosa);
+  background: url("../IMG/Marca/logo-principal.png") center calc(50% - 27px) / min(360px, 72vw) auto no-repeat, var(--velo), var(--baldosa);
   -webkit-mask: linear-gradient(#000, #000) 0 0 / 100% calc(100% - 54px) no-repeat, var(--falda-forma) 0 100% / 56px 54px repeat-x;
   mask: linear-gradient(#000, #000) 0 0 / 100% calc(100% - 54px) no-repeat, var(--falda-forma) 0 100% / 56px 54px repeat-x;
+  translate: 0 0; will-change: translate;
 }
-html.telon-baja body::after { animation: telon-baja 0.48s cubic-bezier(0.6, 0, 0.4, 1) both; }
-html.telon.telon-sube body::after { animation: telon-sube 0.6s cubic-bezier(0.6, 0, 0.3, 1) forwards; }
-@keyframes telon-baja { from { translate: 0 -100%; } }
-@keyframes telon-sube { to { translate: 0 -100%; } }
+html.telon-baja body::after { animation: telon-baja 0.9s cubic-bezier(0.65, 0, 0.35, 1) both; }
+html.telon.telon-sube body::after { animation: telon-sube 1.1s cubic-bezier(0.65, 0, 0.35, 1) both; }
+@keyframes telon-baja { from { translate: 0 -100%; } to { translate: 0 0; } }
+@keyframes telon-sube { from { translate: 0 0; } to { translate: 0 -100%; } }

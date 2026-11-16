@@ -134,7 +134,7 @@
     border: 3px dashed var(--crema); box-shadow: 0 0 0 6px var(--noche), 0 0 0 9px var(--tomate);
   }
   .pizarra__cab { position: absolute; top: 0; left: var(--e-5); translate: 0 -50%; display: flex; flex-wrap: wrap; align-items: center; gap: var(--e-2) var(--e-4); }
-  .pizarra__titulo { font-size: var(--t-4); --n: var(--tomate); rotate: -2deg; background: var(--noche); padding: 0 0.3em; }
+  .pizarra__titulo { font-size: clamp(2.8rem, 1.8rem + 4vw, 5rem); --n: var(--tomate); rotate: -2deg; background: var(--noche); padding: 0 0.3em; }
   .pizarra__nota { font-size: 1rem; color: var(--mango); background: var(--noche); padding: 0.2rem 0.5rem; }
   .pizarra .vitrina__slide { background: none; border: 0; padding-inline: var(--e-4); }
   @media (max-width: 720px) { .pizarra { padding: var(--e-8) var(--e-3) var(--e-4); } .pizarra__cab { left: var(--e-3); right: var(--e-3); } }
@@ -384,7 +384,7 @@
     opacity: clamp(0, calc(3.6 - abs(var(--off, 0))), 1);
     transition: scale 0.3s var(--ease);
   }
-  .carta:hover, .carta:focus-within { --lift: -26px; --recto: 0; scale: 1.06; z-index: 200 !important; }
+  .carta:hover, .carta:focus-within { --lift: -26px; scale: 1.06; z-index: 200 !important; }
   .arco__nav { display: flex; justify-content: center; gap: var(--e-3); margin-top: calc(-1 * var(--e-6)); position: relative; z-index: 300; }
   @media (max-width: 719px) { .arco { --paso: 118px; --carta: 200px; } .baraja { height: 520px; } .carta__ir { opacity: 1; translate: none; } }
   .carta a {

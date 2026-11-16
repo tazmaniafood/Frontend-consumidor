@@ -92,10 +92,13 @@
       else if (!pausa && !quieto) p += dt * VEL;
       pintar(); requestAnimationFrame(cuadro);
     };
-    arco.addEventListener('mouseenter', () => { pausa = true; });
-    arco.addEventListener('mouseleave', () => { pausa = false; });
-    arco.addEventListener('focusin', () => { pausa = true; });
-    arco.addEventListener('focusout', () => { pausa = false; });
+    /* se detiene solo mientras el mouse o el foco están sobre una carta */
+    cartas.forEach(c => {
+      c.addEventListener('mouseenter', () => { pausa = true; });
+      c.addEventListener('mouseleave', () => { pausa = false; });
+      c.addEventListener('focusin', () => { pausa = true; });
+      c.addEventListener('focusout', () => { pausa = false; });
+    });
     arco.addEventListener('click', e => {
       const b = e.target.closest('[data-arco-paso]');
       if (b) meta = Math.round(meta ?? p) + +b.dataset.arcoPaso;
