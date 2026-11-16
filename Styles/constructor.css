@@ -294,3 +294,39 @@
     .add { position: sticky; bottom: var(--e-4); border: 1.5px solid var(--linea); border-radius: var(--r-4); padding: var(--e-3); }
   }
 }
+
+/* ===== v70: menos vivo, todo en la paleta ===== */
+@layer components {
+  /* Categorías de toppings: placa oscura con su color en el borde y el título */
+  .cat { background: radial-gradient(color-mix(in srgb, var(--n) 22%, transparent) 1.5px, transparent 2px) 0 0 / 14px 14px, color-mix(in srgb, var(--n) 16%, var(--sup-1)); color: var(--crema); border: 2px solid var(--n); box-shadow: 4px 5px 0 var(--uva); }
+  .cat-pro, .cat-veg { color: var(--crema); }
+  .cat-tx b { color: var(--n); }
+  .cat-tx small { color: var(--texto-2); opacity: 1; }
+  .cat-em { background: var(--noche); border: 2px solid var(--n); box-shadow: none; }
+  .cat .go { background: var(--n); color: var(--noche); }
+  .cat .cnt { background: var(--n); color: var(--noche); border-color: var(--noche); }
+
+  /* Bandejas de la pizza a tu gusto: fondo de la marca con el borde de su color */
+  .tp.all .catpanel { background: radial-gradient(rgb(255 241 220 / 0.06) 1.5px, transparent 2px) 0 0 / 14px 14px, var(--sup-1); border: 2px dashed var(--n, var(--mango)); box-shadow: none; }
+  .tp.all .catpanel[data-cat="pro"] { --n: var(--tomate); }
+  .tp.all .catpanel[data-cat="veg"] { --n: var(--lima); }
+  .tp.all .cathead b { background: var(--noche); color: var(--n); border: 2px solid var(--n); box-shadow: none; }
+  /* Fichas de ingredientes: oscuras; la escogida se enciende en mango */
+  .tp.all .opts-ex .op { background: var(--sup-2); color: var(--crema); border: 1.5px solid var(--linea-fuerte); box-shadow: none; }
+  .tp.all .opts-ex .op:hover { border-color: var(--crema); }
+  .tp.all .opts-ex .op.on { background: color-mix(in srgb, var(--mango) 22%, var(--sup-2)); border: 2px solid var(--mango); box-shadow: none; }
+  .tp.all .opts-ex .op em { background: var(--noche); border: 0; }
+  .tp.all .prud .pr { background: var(--noche); color: var(--mango); }
+  .tp.all .uds { border-color: var(--linea-fuerte); }
+  .tp.all .udn { color: var(--crema); }
+
+  /* Salsas en dos grupos */
+  .salsas__grupo { display: flex; align-items: center; gap: var(--e-3); margin: var(--e-2) 0 var(--e-3); font-size: 0.95rem; color: var(--crema); }
+  .salsas__grupo::after { content: ""; flex: 1; height: 2px; border-radius: 2px; background: var(--mango); }
+  .opts-sa + .salsas__grupo { margin-top: var(--e-5); }
+
+  /* Tamaño y borde: etiqueta arriba, en crema */
+  .bordes__label { color: var(--crema); }
+  .tamanos { width: 100%; display: grid; gap: var(--e-2); text-align: left; }
+  .tamanos .segmento { width: 100%; justify-content: space-between; }
+}

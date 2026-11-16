@@ -66,7 +66,8 @@
       slides.forEach((s, k) => { s.hidden = k !== i; s.classList.remove('entra'); });
       void slides[i].offsetWidth; slides[i].classList.add('entra');
       minis.forEach((m, k) => m.setAttribute('aria-pressed', k === i ? 'true' : 'false'));
-      minis[i]?.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
+      /* mueve solo la fila de miniaturas, nunca la página */
+      const fila = minis[i]?.closest('.vitrina__minis'); if (fila) fila.scrollTo({ left: minis[i].offsetLeft - fila.clientWidth / 2 + minis[i].offsetWidth / 2, behavior: 'smooth' });
     };
     let ultimo = Date.now();
     v.addEventListener('click', e => {
