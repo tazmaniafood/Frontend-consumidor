@@ -68,10 +68,21 @@
       minis.forEach((m, k) => m.setAttribute('aria-pressed', k === i ? 'true' : 'false'));
       minis[i]?.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
     };
+    let ultimo = Date.now();
     v.addEventListener('click', e => {
-      const m = e.target.closest('[data-slide]'); if (m) return mostrar(+m.dataset.slide);
-      const f = e.target.closest('[data-paso]'); if (f) mostrar(i + +f.dataset.paso);
+      const m = e.target.closest('[data-slide]'); if (m) { ultimo = Date.now(); return mostrar(+m.dataset.slide); }
+      const f = e.target.closest('[data-paso]'); if (f) { ultimo = Date.now(); mostrar(i + +f.dataset.paso); }
     });
+    /* data-auto: pasa solo y sin fin, despacio; se detiene con el mouse encima o tras tocarlo */
+    const cada = +v.dataset.auto;
+    if (cada && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      let encima = false;
+      v.addEventListener('mouseenter', () => { encima = true; });
+      v.addEventListener('mouseleave', () => { encima = false; });
+      v.addEventListener('focusin', () => { encima = true; });
+      v.addEventListener('focusout', () => { encima = false; });
+      setInterval(() => { if (!encima && Date.now() - ultimo > cada) mostrar(i + 1); }, cada);
+    }
   });
 
   /* ---- Te recomendamos: media luna que gira sola y sin fin.
@@ -83,7 +94,7 @@
     if (!N) return;
     const quieto = matchMedia('(prefers-reduced-motion: reduce)').matches;
     let p = 0, meta = null, encima = false, quietoHasta = 0, antes = performance.now();
-    const VEL = 0.3, ESPERA = 5000;
+    const VEL = 0.22, ESPERA = 5000;
     const offDe = i => { let o = ((i - p) % N + N) % N; if (o > N / 2) o -= N; return o; };
     const pintar = () => cartas.forEach((c, i) => {
       const off = offDe(i);
@@ -137,13 +148,8 @@
 
   /* ---- Chorros y barra para el pulgar ---- */
   if (!('IntersectionObserver' in window)) {
-    document.querySelectorAll('.chorro').forEach(c => c.classList.add('visto'));
     return;
   }
-  const io = new IntersectionObserver(es => es.forEach(en => {
-    if (en.isIntersecting) { en.target.classList.add('visto'); io.unobserve(en.target); }
-  }), { threshold: 0.6 });
-  document.querySelectorAll('.chorro').forEach(c => io.observe(c));
 
   const cta = document.getElementById('pedirPortada'), barra = document.getElementById('barraPulgar');
   if (cta && barra) {
