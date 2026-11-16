@@ -52,7 +52,7 @@
     b.addEventListener('blur', () => b.setAttribute('aria-expanded', 'false'));
   });
 
-  if (e.abierto || document.documentElement.hasAttribute('data-sin-cartel')) return;
+  if (e.abierto) return;
   try { if (sessionStorage.getItem('palfilo-cartel') && !new URLSearchParams(location.search).has('cerrado')) return; } catch (_) {}
 
   const dlg = document.createElement('dialog');
