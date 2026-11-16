@@ -23,7 +23,8 @@
 
   /* El plato protagonista: grande, se sale un poco del borde en escritorio */
   .portada__plato { position: relative; display: grid; justify-items: center; }
-  @media (min-width: 900px) { .portada__plato { margin-right: calc(-1 * var(--e-7)); } }
+  @media (min-width: 1360px) { .portada__plato { margin-right: calc(-1 * var(--e-7)); } }
+  @media (max-width: 899px) { .plato-hero { width: min(100%, 440px); } }
   .plato-hero {
     position: relative; width: min(100%, 620px, calc(100svh - var(--carpa-alto) - 120px)); aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center;
     background: radial-gradient(circle, var(--sup-2) 0 64%, var(--sup-3) 65% 71%, var(--sup-2) 72%);
@@ -60,6 +61,8 @@
   @media (max-width: 560px) {
     .portada h1 { font-size: clamp(2.6rem, 14vw, 3.6rem); }
     .marca-tiza { padding: 10px 16px; margin-left: -16px; }
+  }
+  @media (max-width: 1279px) {
     .portada__acciones { margin-bottom: 86px; }
     .cta:nth-child(1) .cta__nota { right: auto; left: calc(50% - 72px); top: calc(100% + 44px); }
     .cta:nth-child(2) .cta__nota { left: auto; right: calc(50% - 72px); top: calc(100% + 44px); }
@@ -129,15 +132,15 @@
   .subtitulo { display: flex; align-items: center; gap: var(--e-3); margin: 0 0 var(--e-4); font-size: var(--t-2); color: var(--crema); }
   .subtitulo::after { content: ""; flex: 1; height: 3px; border-radius: 2px; background: var(--mango); }
   .pizarra {
-    position: relative; margin-top: var(--e-8); padding: var(--e-7) var(--e-5) var(--e-5); border-radius: var(--r-4);
+    position: relative; padding: var(--e-6) var(--e-5) var(--e-5); border-radius: var(--r-4);
     background: radial-gradient(color-mix(in srgb, var(--crema) 6%, transparent) 2px, transparent 2.5px) 0 0 / 18px 18px, var(--sup-1);
     border: 3px dashed var(--crema); box-shadow: 0 0 0 6px var(--noche), 0 0 0 9px var(--tomate);
   }
   .pizarra__cab { position: absolute; top: 0; left: var(--e-5); translate: 0 -50%; display: flex; flex-wrap: wrap; align-items: center; gap: var(--e-2) var(--e-4); }
-  .pizarra__titulo { font-size: clamp(2.8rem, 1.8rem + 4vw, 5rem); --n: var(--tomate); rotate: -2deg; background: var(--noche); padding: 0 0.3em; }
+  .pizarra__titulo { font-size: clamp(2.8rem, 1.8rem + 4vw, 5rem); }
   .pizarra__nota { font-size: 1rem; color: var(--mango); background: var(--noche); padding: 0.2rem 0.5rem; }
   .pizarra .vitrina__slide { background: none; border: 0; padding-inline: var(--e-4); }
-  @media (max-width: 720px) { .pizarra { padding: var(--e-8) var(--e-3) var(--e-4); } .pizarra__cab { left: var(--e-3); right: var(--e-3); } }
+  @media (max-width: 720px) { .pizarra { padding: var(--e-5) var(--e-3) var(--e-4); } }
 
   /* ---------- Combos ---------- */
   .seccion--combos { padding-block: var(--e-7); background: var(--sup-1); border-block: 2px solid var(--mango); }
@@ -374,7 +377,8 @@
      El JS mueve --off de cada carta (su distancia al centro); de ahí salen la posición en
      el arco, el giro y la transparencia en las puntas. Con el mouse o el foco se detiene. ---------- */
   .arco { --paso: 150px; --carta: 230px; position: relative; }
-  .baraja { position: relative; height: 580px; padding: 0; margin: 0; list-style: none; overflow: hidden; }
+  .baraja { position: relative; height: 580px; padding: 0; margin: 0; list-style: none; overflow: hidden; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+  .baraja img { -webkit-user-drag: none; }
   .baraja { -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent); mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent); }
   .carta {
     --lift: 0px; --recto: 1;
@@ -385,6 +389,8 @@
     transition: scale 0.3s var(--ease);
   }
   .carta:hover, .carta:focus-within { --lift: -26px; scale: 1.06; z-index: 200 !important; }
+  /* en pantallas táctiles la carta del centro es la escogida: sube y muestra Pedir */
+  @media (hover: none) { .carta:hover { --lift: 0px; scale: 1; } .carta.centro { --lift: -18px; } .carta.centro .carta__ir { opacity: 1; translate: none; } .carta:not(.centro) .carta__ir { opacity: 0; } }
   .arco__nav { display: flex; justify-content: center; gap: var(--e-3); margin-top: calc(-1 * var(--e-6)); position: relative; z-index: 300; }
   @media (max-width: 719px) { .arco { --paso: 118px; --carta: 200px; } .baraja { height: 520px; } .carta__ir { opacity: 1; translate: none; } }
   .carta a {
@@ -428,4 +434,9 @@
   .combo-panel__total b { font: 400 2rem/1 var(--f-letrero); }
   .combo-panel__barra { display: flex; align-items: center; gap: var(--e-3); }
   .combo-panel__barra .btn { flex: 1; }
+}
+
+@media (max-width: 899px) {
+  .combo-slide { grid-template-columns: 1fr !important; justify-items: center; }
+  .combo-panel { justify-self: stretch; width: 100%; }
 }

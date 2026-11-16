@@ -1,10 +1,12 @@
-/* Telón entre páginas: al ir a otra página de Pa'l Filo la carpa baja despacio hasta
-   cubrir la pantalla; la página nueva arranca con el telón abajo (lo marca el script del
-   <head>), espera a tener su contenido y lo sube despacio. Sin movimiento si la persona
-   lo pidió así. */
+/* Telón: la carpa baja despacio al ir a otra página de Pa'l Filo; la página nueva
+   arranca con el telón abajo (lo marca el script del <head>, y en el inicio siempre) y lo
+   sube cuando ya tiene el logo, la baldosa y su contenido listos, y nunca antes de que
+   se alcance a ver. Sin movimiento si la persona lo pidió así. */
 (() => {
   const html = document.documentElement;
-  const BAJA = 900, SUBE = 1100;
+  const BAJA = 900, SUBE = 1100, MIN = 700, MAX = 3500;
+  const raiz = new URL('..', document.currentScript ? document.currentScript.src : location.href).href;
+  const t0 = performance.now();
   let subiendo = false;
   const subir = () => {
     if (subiendo || !html.classList.contains('telon')) return;
@@ -12,8 +14,13 @@
     html.classList.add('telon-sube');
     setTimeout(() => html.classList.remove('telon', 'telon-sube'), SUBE + 80);
   };
-  const listo = () => setTimeout(subir, 250);
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', listo); else listo();
+  if (html.classList.contains('telon')) {
+    const carga = src => new Promise(r => { const im = new Image(); im.onload = im.onerror = () => r(); im.src = src; (im.decode ? im.decode().then(r, r) : 0); });
+    const dom = new Promise(r => document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', r) : r());
+    Promise.all([dom, carga(raiz + 'IMG/Marca/logo-principal.png'), carga(raiz + 'IMG/Marca/azulejos-costenos.svg')])
+      .then(() => setTimeout(subir, Math.max(0, MIN - (performance.now() - t0))));
+    setTimeout(subir, MAX);
+  }
   addEventListener('pageshow', e => { if (e.persisted) html.classList.remove('telon', 'telon-sube', 'telon-baja'); });
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   document.addEventListener('click', e => {

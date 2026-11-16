@@ -74,34 +74,63 @@
     });
   });
 
-  /* ---- Te recomendamos: media luna que gira sola y sin fin ---- */
+  /* ---- Te recomendamos: media luna que gira sola y sin fin.
+     Mouse: se detiene sobre una carta. Dedo (cel/iPad): se arrastra de lado y al soltar
+     cae en la carta más cercana; un toque a una carta de lado la trae al centro y un toque
+     a la del centro abre la pizza. Tras unos segundos sin tocar, vuelve a girar sola. ---- */
   document.querySelectorAll('[data-arco]').forEach(arco => {
-    const cartas = [...arco.querySelectorAll('.carta')], N = cartas.length;
+    const baraja = arco.querySelector('.baraja'), cartas = [...arco.querySelectorAll('.carta')], N = cartas.length;
     if (!N) return;
     const quieto = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let p = 0, meta = null, pausa = false, antes = performance.now();
-    const VEL = 0.3; /* cartas por segundo */
+    let p = 0, meta = null, encima = false, quietoHasta = 0, antes = performance.now();
+    const VEL = 0.3, ESPERA = 5000;
+    const offDe = i => { let o = ((i - p) % N + N) % N; if (o > N / 2) o -= N; return o; };
     const pintar = () => cartas.forEach((c, i) => {
-      let off = ((i - p) % N + N) % N; if (off > N / 2) off -= N;
+      const off = offDe(i);
       c.style.setProperty('--off', off.toFixed(3));
       c.style.zIndex = 100 - Math.round(Math.abs(off) * 10);
+      c.classList.toggle('centro', Math.abs(off) < 0.5);
     });
+    let arrastre = null;
     const cuadro = t => {
       const dt = Math.min(0.05, (t - antes) / 1000); antes = t;
-      if (meta !== null) { p += (meta - p) * Math.min(1, dt * 8); if (Math.abs(meta - p) < 0.002) { p = meta; meta = null; } }
-      else if (!pausa && !quieto) p += dt * VEL;
+      if (arrastre) { /* lo mueve el dedo */ }
+      else if (meta !== null) { p += (meta - p) * Math.min(1, dt * 8); if (Math.abs(meta - p) < 0.002) { p = meta; meta = null; } }
+      else if (!encima && !quieto && t > quietoHasta) p += dt * VEL;
       pintar(); requestAnimationFrame(cuadro);
     };
-    /* se detiene solo mientras el mouse o el foco están sobre una carta */
+    const esperar = () => { quietoHasta = performance.now() + ESPERA; };
     cartas.forEach(c => {
-      c.addEventListener('mouseenter', () => { pausa = true; });
-      c.addEventListener('mouseleave', () => { pausa = false; });
-      c.addEventListener('focusin', () => { pausa = true; });
-      c.addEventListener('focusout', () => { pausa = false; });
+      c.addEventListener('mouseenter', () => { encima = true; });
+      c.addEventListener('mouseleave', () => { encima = false; });
+      c.addEventListener('focusin', () => { encima = true; });
+      c.addEventListener('focusout', () => { encima = false; });
+    });
+    /* arrastre con el dedo */
+    const paso = () => parseFloat(getComputedStyle(arco).getPropertyValue('--paso')) || 150;
+    baraja.addEventListener('pointerdown', e => {
+      if (e.pointerType === 'mouse') return;
+      arrastre = { x: e.clientX, p0: p, movio: false }; meta = null; esperar();
+    });
+    baraja.addEventListener('pointermove', e => {
+      if (!arrastre) return;
+      const dx = e.clientX - arrastre.x;
+      if (Math.abs(dx) > 8) arrastre.movio = true;
+      if (arrastre.movio) p = arrastre.p0 - dx / paso();
+    });
+    const soltar = () => { if (!arrastre) return; if (arrastre.movio) { meta = Math.round(p); arco.dataset.arrastro = '1'; setTimeout(() => delete arco.dataset.arrastro, 60); } arrastre = null; esperar(); };
+    baraja.addEventListener('pointerup', soltar);
+    baraja.addEventListener('pointercancel', soltar);
+    /* toque a una carta */
+    baraja.addEventListener('click', e => {
+      const c = e.target.closest('.carta'); if (!c) return;
+      if (arco.dataset.arrastro) { e.preventDefault(); return; }
+      const off = offDe(cartas.indexOf(c));
+      if (Math.abs(off) >= 0.5) { e.preventDefault(); meta = Math.round(p + off); esperar(); }
     });
     arco.addEventListener('click', e => {
       const b = e.target.closest('[data-arco-paso]');
-      if (b) meta = Math.round(meta ?? p) + +b.dataset.arcoPaso;
+      if (b) { meta = Math.round(meta ?? p) + +b.dataset.arcoPaso; esperar(); }
     });
     pintar(); requestAnimationFrame(cuadro);
   });
