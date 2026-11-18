@@ -417,3 +417,28 @@ html.telon-baja body::after { animation: telon-baja 0.9s cubic-bezier(0.65, 0, 0
 html.telon.telon-sube body::after { animation: telon-sube 1.1s cubic-bezier(0.65, 0, 0.35, 1) both; }
 @keyframes telon-baja { from { translate: 0 -100%; } to { translate: 0 0; } }
 @keyframes telon-sube { from { translate: 0 0; } to { translate: 0 -100%; } }
+
+/* ---------- v74 ---------- */
+/* nada se sale a lo ancho (la pizza que gira no ensancha la página) */
+html, body { overflow-x: clip; }
+/* el aviso de horario: con el mouse solo en pantallas con mouse; en celular abre y cierra con el toque */
+@media not ((hover: hover) and (pointer: fine)) {
+  .cartelito__caja:hover:not([aria-expanded="true"]) { padding-bottom: 0.5rem; }
+  .cartelito__caja:hover:not([aria-expanded="true"]) .cartelito__detalle { width: 0; max-height: 0; opacity: 0; margin-top: 0; }
+}
+@media (max-width: 720px) {
+  /* la placa se queda igual y el horario baja en su propio letrero, debajo */
+  .cartelito__caja, .cartelito__caja:hover, .cartelito__caja:focus-visible, .cartelito__caja[aria-expanded="true"] { padding: 0.45rem 0.75rem 0.4rem; }
+  .cartelito__caja { position: absolute; top: 0; right: 0; min-width: 100%; }
+  .cartelito__detalle,
+  .cartelito__caja:hover .cartelito__detalle, .cartelito__caja:focus-visible .cartelito__detalle, .cartelito__caja[aria-expanded="true"] .cartelito__detalle {
+    position: absolute; top: calc(100% + 12px); right: auto; left: 50%; translate: -50% 0; width: 228px; min-width: 0; margin: 0;
+    padding: 0.2rem 0.8rem 0.8rem; border-radius: var(--r-3); background: var(--noche);
+    border: 3px solid var(--tubo); box-shadow: 0 0 0 2px var(--noche), 0 0 14px 2px color-mix(in srgb, var(--tubo) 45%, transparent), 5px 6px 0 2px var(--uva);
+    transform-origin: 50% 0; transition: opacity 0.2s, transform 0.25s var(--rebote), visibility 0.2s;
+  }
+  .cartelito__detalle { max-height: none; opacity: 0; visibility: hidden; transform: translateY(-6px) scale(0.96); pointer-events: none; }
+  .cartelito__caja[aria-expanded="true"] .cartelito__detalle { opacity: 1; visibility: visible; transform: none; pointer-events: auto; }
+  .cartelito__caja:not([aria-expanded="true"]):hover .cartelito__detalle, .cartelito__caja:not([aria-expanded="true"]):focus-visible .cartelito__detalle { opacity: 0; visibility: hidden; }
+  .horario__dias { border-top: 0; }
+}

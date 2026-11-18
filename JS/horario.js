@@ -51,6 +51,10 @@
     b.addEventListener('click', () => b.setAttribute('aria-expanded', b.getAttribute('aria-expanded') === 'true' ? 'false' : 'true'));
     b.addEventListener('blur', () => b.setAttribute('aria-expanded', 'false'));
   });
+  /* un toque afuera lo guarda (en iPhone el botón no siempre pierde el foco) */
+  document.addEventListener('click', ev => {
+    document.querySelectorAll('.cartelito__caja[aria-expanded="true"]').forEach(b => { if (!b.contains(ev.target)) b.setAttribute('aria-expanded', 'false'); });
+  });
 
   if (e.abierto) return;
   try { if (sessionStorage.getItem('palfilo-cartel') && !new URLSearchParams(location.search).has('cerrado')) return; } catch (_) {}

@@ -382,3 +382,53 @@
   .add .btn { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   @media (max-width: 520px) { .add .btn { font-size: clamp(0.72rem, 3.5vw, 1rem); letter-spacing: 0; padding-inline: 0.6rem; justify-content: center; } .add .contador button { width: 34px; height: 34px; } }
 }
+
+/* v74: en celular las especialidades van en fila que se arrastra (fichas anchas, no comprimidas) */
+@layer components {
+  @media (max-width: 899px) {
+    .opts-base {
+      display: grid; grid-auto-flow: column; grid-template-columns: none; grid-auto-columns: min(84%, 340px);
+      gap: var(--e-3); align-items: stretch; overflow-x: auto; overscroll-behavior-x: contain;
+      scroll-snap-type: x mandatory; scroll-padding-inline: 2px; scrollbar-width: none;
+      padding: 12px 14px var(--e-3) 2px; margin-top: -8px;
+    }
+    .opts-base::-webkit-scrollbar { display: none; }
+    .opts-base > .op { scroll-snap-align: start; height: 100%; align-content: center; }
+    .opts-base .op.cartel { grid-column: auto; }
+    .opts-base .op .tx small { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    .opts-base.desliza:not(.al-final) { -webkit-mask-image: linear-gradient(90deg, #000 86%, transparent); mask-image: linear-gradient(90deg, #000 86%, transparent); }
+    .opts-base.desliza:not(.al-inicio):not(.al-final) { -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 88%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 88%, transparent); }
+    .opts-base.desliza.al-final:not(.al-inicio) { -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%); mask-image: linear-gradient(90deg, transparent, #000 10%); }
+    .opts-base.desliza.al-inicio + .pista-desliza { display: flex; }
+  }
+
+  /* Tamaño y borde: letra un poco más grande */
+  .bordes__label { font-size: 1.08rem; }
+  .seg .op b { font-size: 1rem; }
+  .seg .op { padding-block: 0.6rem; }
+
+  /* Borde: siempre ficha parada (ícono arriba, nombre, precio) para que no se rompa;
+     el ícono es lo que lleva el borde: pizza, bocadillo o queso */
+  .bordes .op, .bordes .op:has(.pr:empty) {
+    grid-template-columns: minmax(0, 1fr); grid-template-areas: "em" "tx" "pr";
+    justify-items: center; text-align: center; gap: 4px; padding: 0.65rem 0.35rem; min-width: 0;
+  }
+  .bordes .op:has(.pr:empty) { grid-template-areas: "em" "tx"; align-content: center; }
+  .bordes .op em {
+    display: grid; place-items: center; width: 44px; height: 44px; background: var(--noche);
+    border: 3px solid var(--aro, #C9803A); font-style: normal; font-size: 23px; line-height: 1;
+  }
+  .bordes .op em img { width: 78%; height: 78%; object-fit: contain; }
+  .bordes .op .tx { min-width: 0; max-width: 100%; }
+  .bordes .op .tx b { font-size: 0.98rem; overflow-wrap: anywhere; }
+  .bordes .op .pr { font-size: 0.78rem; }
+
+  /* La carpa con su faldón no se monta sobre el primer recuadro en celular */
+  @media (max-width: 720px) { .armador { padding-top: calc(var(--e-5) + 30px); } }
+
+  /* Sin hueco al final en celular */
+  @media (max-width: 899px) {
+    .armador { padding-bottom: var(--e-4); }
+    body:has(.add) .pie { margin-top: calc(var(--e-6) + 54px); }
+  }
+}
