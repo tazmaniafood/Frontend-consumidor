@@ -437,40 +437,52 @@
 @layer components {
   .step > h3 small:empty { display: none; }
 
-  /* Fichas de especialidad en la fila de celular: foto, nombre y precio arriba;
-     la descripción a todo el ancho debajo, así no queda apretada */
-  @media (max-width: 899px) {
-    .opts-base > .op, .opts-base > .op.cartel {
-      grid-template-columns: 64px minmax(0, 1fr); grid-template-rows: auto auto 1fr;
-      grid-template-areas: "em b" "em pr" "sm sm"; align-content: start; align-items: center;
-      column-gap: var(--e-3); row-gap: 0.35rem; padding: var(--e-3) var(--e-4) var(--e-4);
-    }
-    .opts-base > .op.cartel { grid-template-rows: auto auto auto 1fr; grid-template-areas: "em tag" "em b" "em pr" "sm sm"; }
-    .opts-base .op .tx { display: contents; }
-    .opts-base .op em, .opts-base .op.cartel em { width: 64px; height: 64px; align-self: center; }
-    .opts-base .op .tx b { grid-area: b; align-self: end; }
-    .opts-base .op .tx .tag { grid-area: tag; justify-self: start; align-self: end; }
-    .opts-base .op .pr { grid-area: pr; align-self: start; }
-    .opts-base .op .tx small { grid-area: sm; align-self: start; margin-top: 0.25rem; -webkit-line-clamp: 3; }
-    .opts-base .op.cartel .tx b { font-size: 1.15rem; }
-  }
-
-  /* Toppings y salsas en celular: todo un poco más chico para que nada se corte */
-  @media (max-width: 520px) {
-    .opts-ex .op { padding: var(--e-2) 4px var(--e-3); gap: 0.35rem; }
-    .opts-ex .op em { width: 50px; height: 50px; font-size: 26px; }
-    .opts-ex .tx b, .tp.all .opts-ex .tx b { font-size: 0.8rem; }
-    .opts-ex .op { grid-template-rows: auto minmax(2.3em, auto) 1fr; }
-    .prud { gap: 0.35rem; }
-    .prud .pr { font-size: 0.68rem; padding: 0.3rem 0.45rem; white-space: nowrap; }
-    .uds { gap: 0; padding: 0.1rem; }
-    .ud { width: 1.55rem; height: 1.55rem; font-size: 0.9rem; }
-    .udn { min-width: 1.15rem; font-size: 0.9rem; }
-  }
-
   /* Misma distancia arriba (faldón de la carpa) y abajo (faldón del pie) */
   @media (max-width: 899px) {
     .armador { padding-top: calc(25px + var(--e-5)); padding-bottom: 0; }
     body:has(.add) .pie { margin-top: calc(45px + var(--e-5)); }
+  }
+}
+
+/* v76: fichas de especialidad en la fila de celular, paradas como tarjeta de menú:
+   foto grande arriba, nombre, descripción y el precio siempre abajo */
+@layer components {
+  @media (max-width: 899px) {
+    .opts-base { grid-auto-columns: min(62%, 230px); padding-top: 14px; }
+    .opts-base > .op, .opts-base > .op.cartel {
+      grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto 1fr auto;
+      grid-template-areas: "em" "tx" "." "pr"; justify-items: center; align-content: stretch;
+      text-align: center; gap: 0; padding: var(--e-4) var(--e-3) var(--e-4); border-radius: var(--r-4);
+    }
+    .opts-base .op em, .opts-base .op.cartel em {
+      width: 104px; height: 104px; margin-bottom: var(--e-3);
+      box-shadow: 0 0 0 4px var(--sup-2), 4px 6px 0 4px rgb(13 9 25 / 0.55);
+    }
+    .opts-base .op.on em { box-shadow: 0 0 0 4px var(--crema), 4px 6px 0 4px var(--uva); }
+    .opts-base .op em img.icono { width: 62%; height: 62%; }
+    .opts-base .tx { justify-items: center; gap: 0.3rem; }
+    .opts-base .op .tx b { font-size: 1.08rem; }
+    .opts-base .op .tx small { font-size: 0.8rem; line-height: 1.35; -webkit-line-clamp: 3; }
+    .opts-base .op .pr { justify-self: center; margin-top: var(--e-3); font-size: 0.92rem; padding: 0.45rem 0.9rem; }
+    /* Pizza a tu gusto: la etiqueta cuelga en la esquina y el nombre en letrero */
+    .opts-base .op.cartel .tag { position: absolute; top: -10px; left: 12px; rotate: -4deg; box-shadow: var(--sombra-chica); }
+    .opts-base .op.cartel .tx b { font-size: 1.12rem; }
+    .opts-base .op.on::after { top: -8px; right: -6px; }
+  }
+
+  /* Toppings y salsas: la ficha nunca baja de 104 px y todo adentro se mide por su ancho,
+     así el precio y el contador siempre caben centrados */
+  .opts-ex, .tp.all .opts-ex { grid-auto-columns: max(104px, calc((100% - (var(--vis) - 1) * var(--e-3)) / var(--vis))); }
+  @media (min-width: 900px) and (max-width: 1199px) { .opts-ex, .tp.all .opts-ex { --vis: 3; } }
+  .opts-ex .op { container-type: inline-size; min-width: 0; padding-inline: 6px; }
+  .opts-ex .op > * { max-width: 100%; }
+  @container (max-width: 130px) {
+    .opts-ex .op em { width: 48px; height: 48px; font-size: 25px; }
+    .opts-ex .tx b, .tp.all .opts-ex .tx b { font-size: 0.8rem; }
+    .prud { gap: 0.35rem; }
+    .prud .pr { font-size: 0.68rem; padding: 0.3rem 0.5rem; white-space: nowrap; }
+    .uds { gap: 0; padding: 0.1rem; }
+    .ud { width: 1.6rem; height: 1.6rem; font-size: 0.92rem; }
+    .udn { min-width: 1.2rem; font-size: 0.92rem; }
   }
 }
