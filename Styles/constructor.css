@@ -486,3 +486,27 @@
     .udn { min-width: 1.2rem; font-size: 0.92rem; }
   }
 }
+
+/* v77: "Pizza a tu gusto" fija arriba a lo ancho y debajo la fila de especialidades;
+   las categorías de toppings sin la flechita */
+@layer components {
+  .especialidades { display: flex; flex-direction: column; gap: var(--e-3); min-width: 0; }
+  .opts-cartel { order: -1; grid-template-columns: minmax(0, 1fr); }
+  .cat .go { display: none; }
+  @media (max-width: 899px) {
+    .especialidades { gap: var(--e-2); }
+    .opts-base.opts-cartel {
+      display: grid; grid-auto-flow: row; grid-template-columns: minmax(0, 1fr); overflow: visible;
+      padding: 12px 2px 0; margin: 0; -webkit-mask-image: none; mask-image: none;
+    }
+    .opts-cartel > .op.cartel {
+      grid-template-columns: 84px minmax(0, 1fr); grid-template-rows: auto; grid-template-areas: "em tx" "em pr";
+      justify-items: start; align-items: center; text-align: left; column-gap: var(--e-4); row-gap: 0.45rem;
+      padding: var(--e-4); height: auto;
+    }
+    .opts-cartel > .op.cartel .tx { display: grid; justify-items: start; gap: 0.3rem; }
+    .opts-cartel > .op.cartel em { width: 84px; height: 84px; margin: 0; }
+    .opts-cartel > .op.cartel .tx small { -webkit-line-clamp: 3; }
+    .opts-cartel > .op.cartel .pr { justify-self: start; margin-top: 0; }
+  }
+}
