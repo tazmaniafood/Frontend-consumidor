@@ -1,9 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <!-- Bocadillo de guayaba envuelto en hoja de bijao -->
-  <g stroke="#0D0919" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
-    <path d="M6 40 C 14 24, 40 14, 58 18 C 52 34, 30 50, 8 50 Z" fill="#3FA34D"/>
-    <path d="M10 46 C 24 40, 40 30, 54 21" fill="none" stroke="#1F6B2A" stroke-width="2"/>
-    <rect x="16" y="20" width="32" height="20" rx="4" fill="#C8102E" transform="rotate(-14 32 30)"/>
-    <path d="M19 23 L45 16.5" fill="none" stroke="#FF6B7D" stroke-width="2.5" transform="rotate(-0 32 30)"/>
+  <!-- Bocadillo de guayaba: el bloque rojo, centrado -->
+  <g transform="rotate(-10 32 32)" stroke="#0D0919" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+    <rect x="7" y="17" width="50" height="30" rx="6" fill="#C8102E"/>
+    <path d="M13 24 H47" fill="none" stroke="#FF7A8A" stroke-width="2.5"/>
+    <path d="M13 41 H20" fill="none" stroke="#8E0A20" stroke-width="2"/>
   </g>
 </svg>

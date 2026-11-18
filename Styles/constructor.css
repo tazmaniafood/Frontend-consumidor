@@ -510,3 +510,27 @@
     .opts-cartel > .op.cartel .pr { justify-self: start; margin-top: 0; }
   }
 }
+
+/* v78: botones − + más grandes y fáciles de tocar; se miden por el ancho de la ficha, nunca se salen */
+@layer components {
+  .opts-ex, .tp.all .opts-ex { grid-auto-columns: max(116px, calc((100% - (var(--vis) - 1) * var(--e-3)) / var(--vis))); }
+  .opts-ex .op { padding-inline: 5px; }
+  .opts-ex .op .prud { width: 100%; }
+  .opts-ex .op .uds { width: 100%; max-width: 9.5rem; justify-content: space-between; gap: 0; padding: 2px; }
+  .opts-ex .op .ud { width: clamp(32px, calc((100cqi - 34px) / 2), 42px); height: auto; aspect-ratio: 1; font-size: 1.15rem; }
+  .opts-ex .op .udn { flex: 1; min-width: 1rem; font-size: 1rem; }
+  @container (max-width: 130px) {
+    .opts-ex .op .ud { width: clamp(32px, calc((100cqi - 30px) / 2), 42px); height: auto; font-size: 1.1rem; }
+    .opts-ex .op .udn { min-width: 0.9rem; }
+  }
+
+  /* Borde: los tres íconos del mismo tamaño y centrados en su aro */
+  .bordes .op em { overflow: hidden; font-size: 24px; }
+  .bordes .op em img { width: 76%; height: 76%; object-fit: contain; }
+}
+@layer components {
+  /* las tres fichas de borde con las mismas filas: ícono, nombre y precio (Normal deja el hueco) */
+  .bordes .op, .bordes .op:has(.pr:empty) { grid-template-areas: "em" "tx" "pr"; grid-template-rows: auto auto 1.1rem; align-content: start; }
+  .bordes .op .pr:empty { display: block; visibility: hidden; }
+  .bordes .op em img { width: 92%; height: 92%; }
+}

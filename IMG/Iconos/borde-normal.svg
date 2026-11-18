@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="4 10 56 44">
+  <!-- Borde de pizza normal: el arco de la corteza dorada, centrado -->
+  <g stroke="#0D0919" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M7 43 A25 25 0 0 1 57 43 Q57 47 53 47 L47 47 Q45 47 45 45 A13 13 0 0 0 19 45 Q19 47 17 47 L11 47 Q7 47 7 43 Z" fill="#E0A04A"/>
+    <path d="M13 39 A19 19 0 0 1 51 39" fill="none" stroke="#F6C77A" stroke-width="2.5"/>
+  </g>
+  <g fill="#9A5A1E">
+    <ellipse cx="17" cy="31" rx="2.2" ry="1.4" transform="rotate(-40 17 31)"/>
+    <ellipse cx="28" cy="23.5" rx="2.4" ry="1.4" transform="rotate(-10 28 23.5)"/>
+    <ellipse cx="40" cy="24.5" rx="2" ry="1.3" transform="rotate(15 40 24.5)"/>
+    <ellipse cx="49" cy="33" rx="2.2" ry="1.4" transform="rotate(45 49 33)"/>
+  </g>
+</svg>
