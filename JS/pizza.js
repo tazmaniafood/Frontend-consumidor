@@ -183,7 +183,7 @@ function paint(){
   $('.step-salsa h3 i').textContent=solo?2:3;
   const tp=$('.tp');tp.classList.toggle('all',custom);tpStep.classList.toggle('taller',custom);
   $('#exTitle').textContent=(custom?'A la mano':'Toppings extra')+(split?' · '+nombre(s.act):'');
-  $('#exSub').textContent=custom?(split?'Ingredientes para esta parte':'Todos los ingredientes, listos para tu pizza'):(split?'Solo para esta parte':'Elige una categoría');
+  $('#exSub').textContent=custom?(split?'Ingredientes para esta parte':'Todos los ingredientes, listos para tu pizza'):(split?'Solo para esta parte':'');
   drawPicked(custom);
   /* Resumen y total */
   $('#pvSub').textContent=split

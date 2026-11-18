@@ -442,3 +442,15 @@ html, body { overflow-x: clip; }
   .cartelito__caja:not([aria-expanded="true"]):hover .cartelito__detalle, .cartelito__caja:not([aria-expanded="true"]):focus-visible .cartelito__detalle { opacity: 0; visibility: hidden; }
   .horario__dias { border-top: 0; }
 }
+
+/* v75: en celular el aviso de horario va centrado en la carpa y su letrero, parejo */
+@media (max-width: 720px) {
+  .cartelito { margin-inline: auto; }
+  .carpa .cartelito + .carrito-btn { margin-left: 0; }
+  .cartelito__detalle,
+  .cartelito__caja:hover .cartelito__detalle, .cartelito__caja:focus-visible .cartelito__detalle, .cartelito__caja[aria-expanded="true"] .cartelito__detalle {
+    width: max-content; max-width: calc(100vw - 24px); padding: 0.75rem 0.85rem; gap: 0.5rem;
+  }
+  .horario__dias { padding-top: 0; justify-content: center; }
+  .horario__zona { max-width: 26ch; }
+}

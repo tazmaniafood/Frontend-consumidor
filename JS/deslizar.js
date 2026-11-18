@@ -36,14 +36,15 @@
   /* mostrar la pizza con tiempo de gracia */
   const stage = document.getElementById('stage');
   if (!stage) return;
+  const GRACIA = 1540; /* 30 % menos que antes (2200 ms) */
   let t = null;
   const visible = () => { const r = stage.getBoundingClientRect(); return r.bottom > 80 && r.top < innerHeight - 120; };
-  const esperar = () => { if (t) { clearTimeout(t); t = setTimeout(mostrar, 2200); } };
+  const esperar = () => { if (t) { clearTimeout(t); t = setTimeout(mostrar, GRACIA); } };
   const mostrar = () => { t = null; if (!visible()) stage.scrollIntoView({ behavior: quieto ? 'auto' : 'smooth', block: 'center' }); };
   document.addEventListener('click', e => {
     const op = e.target.closest('.opts-ex .op');
     if (!op || (e.target.closest('[data-step="-1"]'))) return esperar();
-    clearTimeout(t); t = setTimeout(mostrar, 2200);
+    clearTimeout(t); t = setTimeout(mostrar, GRACIA);
   });
   filas.forEach(f => { f.addEventListener('scroll', esperar, { passive: true }); f.addEventListener('pointerdown', esperar); });
   addEventListener('wheel', esperar, { passive: true });

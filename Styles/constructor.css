@@ -432,3 +432,45 @@
     body:has(.add) .pie { margin-top: calc(var(--e-6) + 54px); }
   }
 }
+
+/* v75 */
+@layer components {
+  .step > h3 small:empty { display: none; }
+
+  /* Fichas de especialidad en la fila de celular: foto, nombre y precio arriba;
+     la descripción a todo el ancho debajo, así no queda apretada */
+  @media (max-width: 899px) {
+    .opts-base > .op, .opts-base > .op.cartel {
+      grid-template-columns: 64px minmax(0, 1fr); grid-template-rows: auto auto 1fr;
+      grid-template-areas: "em b" "em pr" "sm sm"; align-content: start; align-items: center;
+      column-gap: var(--e-3); row-gap: 0.35rem; padding: var(--e-3) var(--e-4) var(--e-4);
+    }
+    .opts-base > .op.cartel { grid-template-rows: auto auto auto 1fr; grid-template-areas: "em tag" "em b" "em pr" "sm sm"; }
+    .opts-base .op .tx { display: contents; }
+    .opts-base .op em, .opts-base .op.cartel em { width: 64px; height: 64px; align-self: center; }
+    .opts-base .op .tx b { grid-area: b; align-self: end; }
+    .opts-base .op .tx .tag { grid-area: tag; justify-self: start; align-self: end; }
+    .opts-base .op .pr { grid-area: pr; align-self: start; }
+    .opts-base .op .tx small { grid-area: sm; align-self: start; margin-top: 0.25rem; -webkit-line-clamp: 3; }
+    .opts-base .op.cartel .tx b { font-size: 1.15rem; }
+  }
+
+  /* Toppings y salsas en celular: todo un poco más chico para que nada se corte */
+  @media (max-width: 520px) {
+    .opts-ex .op { padding: var(--e-2) 4px var(--e-3); gap: 0.35rem; }
+    .opts-ex .op em { width: 50px; height: 50px; font-size: 26px; }
+    .opts-ex .tx b, .tp.all .opts-ex .tx b { font-size: 0.8rem; }
+    .opts-ex .op { grid-template-rows: auto minmax(2.3em, auto) 1fr; }
+    .prud { gap: 0.35rem; }
+    .prud .pr { font-size: 0.68rem; padding: 0.3rem 0.45rem; white-space: nowrap; }
+    .uds { gap: 0; padding: 0.1rem; }
+    .ud { width: 1.55rem; height: 1.55rem; font-size: 0.9rem; }
+    .udn { min-width: 1.15rem; font-size: 0.9rem; }
+  }
+
+  /* Misma distancia arriba (faldón de la carpa) y abajo (faldón del pie) */
+  @media (max-width: 899px) {
+    .armador { padding-top: calc(25px + var(--e-5)); padding-bottom: 0; }
+    body:has(.add) .pie { margin-top: calc(45px + var(--e-5)); }
+  }
+}
