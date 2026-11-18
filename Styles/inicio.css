@@ -603,3 +603,178 @@
   .vitrina { grid-template-columns: minmax(0, 1fr); }
   .vitrina__nav, .vitrina__minis { min-width: 0; }
 }
+
+/* =====================================================================
+   v81 · Landing según el manual de marca + reglas anti-plantilla
+   - Portada editorial: el letrero manda a todo el ancho, la pizza se sale del borde
+     y se mete bajo el título; un solo botón mango; datos como notas sin cajas.
+   - Te recomendamos: una protagonista grande y las demás como renglones de la carta
+     de la esquina (sin tarjetas), con puntos hasta el precio.
+   - Combos: franja mango a todo el ancho con el chorro de salsa (faldón) arriba y abajo;
+     índice tipográfico 01·02·03 y la cuenta como recibo.
+   La galería no se toca.
+   ===================================================================== */
+@layer components {
+  /* ---------- Portada ---------- */
+  .portada { min-height: 0; display: block; padding-block: calc(var(--e-5) + 26px) var(--e-7); }
+  .portada__marco {
+    display: grid; grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "donde" "titulo" "plato" "texto"; column-gap: var(--e-7);
+  }
+  .portada__donde { grid-area: donde; display: flex; align-items: center; gap: var(--e-3); margin: 0 0 var(--e-4); font-size: 0.95rem; color: var(--crema); }
+  .portada__donde::before { content: ""; width: 34px; height: 3px; border-radius: 2px; background: var(--tomate); }
+  .portada__titulo { grid-area: titulo; position: relative; z-index: 2; font-size: clamp(3.2rem, 13.5vw, 9.6rem); line-height: 0.9; white-space: normal; }
+  .portada__plato { grid-area: plato; position: relative; z-index: 1; margin: -9vw -18vw 0 auto; width: min(96vw, 520px); }
+  .portada__plato img { position: relative; z-index: 1; width: 100%; height: auto; aspect-ratio: 1; object-fit: contain; filter: drop-shadow(0 22px 22px rgb(13 9 25 / 0.7)); animation: gira 120s linear infinite; }
+  /* el chorro de salsa: el mismo faldón de la carpa, cruzando detrás del plato */
+  .portada__plato::before {
+    content: ""; position: absolute; left: -30%; right: -40%; top: 50%; height: 54px; translate: 0 -50%;
+    background: var(--mango); -webkit-mask: var(--falda-forma) 0 0 / 56px 54px repeat-x; mask: var(--falda-forma) 0 0 / 56px 54px repeat-x;
+  }
+  .portada__foto-pie { position: absolute; z-index: 2; left: 4%; bottom: 6%; display: grid; gap: 2px; padding-left: var(--e-3); border-left: 3px solid var(--mango); }
+  .portada__foto-pie b { font-size: 1.15rem; color: var(--crema); }
+  .portada__foto-pie span { font: 800 0.8rem/1.2 var(--f-texto); color: var(--texto-2); }
+  .portada__texto { grid-area: texto; display: grid; justify-items: start; gap: var(--e-4); margin-top: var(--e-4); max-width: 34rem; }
+  .portada__lema { margin: 0; font-size: var(--t-2); color: var(--mango); }
+  .portada__bajada { margin: 0; color: var(--texto-2); font-size: var(--t-2); line-height: 1.5; max-width: 36ch; }
+  .portada__acciones { display: flex; flex-wrap: wrap; align-items: center; gap: var(--e-3) var(--e-5); margin: var(--e-2) 0 0; }
+  .portada__enlace { color: var(--crema); font-size: 1rem; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 6px; text-decoration-color: var(--mango); }
+  .portada__enlace:hover { color: var(--mango); }
+  .portada__notas { display: grid; width: 100%; max-width: 26rem; padding: 0; margin: var(--e-3) 0 0; list-style: none; }
+  .portada__notas li { display: flex; align-items: center; gap: var(--e-2); padding: var(--e-2) 0; border-top: 1.5px solid var(--linea); font: 800 0.88rem/1.3 var(--f-texto); color: var(--texto-2); }
+  .portada__notas li:has([data-horario]:empty) { display: none; }
+  .portada__luz { flex: none; width: 9px; height: 9px; border-radius: 50%; background: var(--cian); box-shadow: 0 0 8px 1px var(--cian); }
+  html[data-abierto="no"] .portada__luz { background: var(--tomate); box-shadow: 0 0 8px 1px var(--tomate); }
+  @media (min-width: 900px) {
+    .portada { padding-block: calc(var(--e-6) + 30px) var(--e-8); }
+    .portada__marco { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); grid-template-areas: "donde donde" "titulo titulo" "texto plato"; }
+    .portada__titulo { font-size: clamp(4.6rem, 8.6vw, 9.6rem); }
+    .portada__plato { width: min(52vw, 700px); margin: -11vw calc(-1 * max(var(--e-4), (100vw - var(--ancho)) / 2) - 6vw) 0 auto; }
+    .portada__texto { align-self: start; margin-top: var(--e-6); }
+  }
+  @media (prefers-reduced-motion: reduce) { .portada__plato img { animation: none; } }
+
+  /* ---------- Te recomendamos ---------- */
+  .recomendados__cab { display: grid; gap: var(--e-2); margin-bottom: var(--e-6); }
+  .recomendados__cab h2 { font-size: var(--t-4); }
+  .recomendados__cab p { color: var(--texto-2); font-size: var(--t-2); max-width: 44ch; }
+  .recomendados__grid { display: grid; gap: var(--e-6); }
+  .estrella { position: relative; display: grid; text-decoration: none; color: var(--crema); }
+  .estrella__foto { display: block; width: min(100%, 440px); aspect-ratio: 1; }
+  .estrella__foto img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 18px 18px rgb(13 9 25 / 0.7)); transition: rotate 0.9s var(--ease); }
+  .estrella:hover .estrella__foto img { rotate: 40deg; }
+  .estrella__tx { position: relative; z-index: 1; display: grid; justify-items: start; gap: var(--e-3); margin-top: -3.4rem; }
+  .estrella__tx .etiqueta { rotate: -3deg; border: var(--borde); }
+  .estrella__nombre { font-size: clamp(2.8rem, 2rem + 4vw, 5rem); --n: var(--mango); }
+  .estrella__desc { color: var(--texto-2); font-size: var(--t-2); line-height: 1.45; max-width: 32ch; }
+  .estrella__pie { display: flex; flex-wrap: wrap; align-items: center; gap: var(--e-3) var(--e-4); margin-top: var(--e-1); }
+  .estrella__ir { color: var(--crema); font-size: 1rem; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 6px; text-decoration-color: var(--mango); }
+  .estrella:hover .estrella__ir { color: var(--mango); }
+  .carta-menu { padding: 0; margin: 0; list-style: none; border-top: 2px solid var(--crema); }
+  .carta-menu > li { border-bottom: 1.5px dashed var(--linea-fuerte); }
+  .renglon { display: grid; grid-template-columns: 2.2rem 64px minmax(0, 1fr); align-items: center; gap: var(--e-3); padding: var(--e-4) 0; text-decoration: none; color: var(--crema); }
+  .renglon__n { font-size: 1rem; color: var(--texto-3); }
+  .renglon__foto { width: 64px; aspect-ratio: 1; }
+  .renglon__foto img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 6px 6px rgb(13 9 25 / 0.6)); transition: rotate 0.9s var(--ease); }
+  .renglon__tx { display: grid; gap: 4px; min-width: 0; }
+  .renglon__linea { display: flex; align-items: baseline; gap: var(--e-2); min-width: 0; }
+  .renglon__linea b { font-size: 1.3rem; transition: color 0.15s; }
+  .renglon__linea i { flex: 1; min-width: 12px; border-bottom: 2.5px dotted var(--linea-fuerte); translate: 0 -5px; }
+  .renglon__precio { font: 400 1.25rem/1 var(--f-letrero); color: var(--mango); font-variant-numeric: tabular-nums; }
+  .renglon small { color: var(--texto-2); font-size: var(--t-0); line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .renglon:hover .renglon__linea b, .renglon:focus-visible .renglon__linea b { color: var(--mango); }
+  .renglon:hover .renglon__foto img { rotate: 40deg; }
+  @media (min-width: 900px) {
+    .recomendados__cab { grid-template-columns: auto minmax(0, 1fr); align-items: end; column-gap: var(--e-6); }
+    .recomendados__cab p { justify-self: end; text-align: right; max-width: 34ch; }
+    .recomendados__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--e-8); align-items: center; }
+    .renglon { grid-template-columns: 2.6rem 84px minmax(0, 1fr); gap: var(--e-4); padding: var(--e-4) 0; }
+    .renglon__foto { width: 84px; }
+    .renglon__linea b { font-size: 1.55rem; }
+    .renglon__precio { font-size: 1.45rem; }
+    .renglon small { -webkit-line-clamp: 1; font-size: var(--t-1); }
+  }
+
+  /* ---------- Combos: franja mango con el chorro de salsa arriba y abajo ---------- */
+  .combos { position: relative; margin-block: calc(var(--e-6) + 54px); background: var(--mango); color: var(--noche); isolation: isolate; }
+  .combos::before, .combos::after { content: ""; position: absolute; left: 0; right: 0; height: 54px; background: var(--mango); pointer-events: none; }
+  .combos::before { bottom: calc(100% - 1px); -webkit-mask: var(--falda-forma-arriba) 0 0 / 56px 54px repeat-x; mask: var(--falda-forma-arriba) 0 0 / 56px 54px repeat-x; }
+  .combos::after { top: calc(100% - 1px); -webkit-mask: var(--falda-forma) 0 0 / 56px 54px repeat-x; mask: var(--falda-forma) 0 0 / 56px 54px repeat-x; }
+  .combos__in { display: grid; gap: var(--e-6); padding-block: var(--e-5) var(--e-6); }
+  .combos__cab { display: grid; gap: var(--e-3); align-content: start; }
+  .combos__cab h2 { font-size: clamp(3rem, 2rem + 4vw, 5.2rem); }
+  .combos__bajada { font: 800 var(--t-2)/1.35 var(--f-texto); max-width: 28ch; }
+  .vitrina__minis.cmb-tabs { display: grid; gap: 0; padding: 0; margin: var(--e-3) 0 0; overflow: visible; list-style: none; border-top: 2px solid var(--noche); }
+  .cmb-tabs > li { border-bottom: 2px solid var(--noche); }
+  .cmb-tabs .cmb-tab, .cmb-tabs .cmb-tab[aria-pressed="true"], .cmb-tabs .cmb-tab:hover {
+    display: grid; grid-template-columns: 2.4rem minmax(0, 1fr) auto; align-items: center; gap: var(--e-3); width: 100%; height: auto;
+    padding: var(--e-3) var(--e-3); margin: 0; border: 0; border-radius: 0; background: transparent; color: var(--noche);
+    box-shadow: none; transform: none; text-align: left; cursor: pointer; white-space: normal; transition: background 0.15s, color 0.15s;
+  }
+  .cmb-tab__n { font-size: 1rem; opacity: 0.6; }
+  .cmb-tab__tx { display: grid; gap: 2px; min-width: 0; }
+  .cmb-tab__tx b { font-size: 1.5rem; line-height: 1; }
+  .cmb-tab__tx small { font: 800 0.8rem/1.2 var(--f-texto); opacity: 0.75; }
+  .cmb-tab__precio { font: 900 1rem/1 var(--f-texto); font-variant-numeric: tabular-nums; }
+  .cmb-tabs .cmb-tab:hover { background: color-mix(in srgb, var(--noche) 8%, transparent); }
+  .cmb-tabs .cmb-tab[aria-pressed="true"] { background: var(--noche); color: var(--mango); }
+  .cmb-tabs .cmb-tab[aria-pressed="true"] .cmb-tab__n, .cmb-tabs .cmb-tab[aria-pressed="true"] small { color: var(--crema); opacity: 1; }
+  .cmb-tabs .cmb-tab[aria-pressed="true"] .cmb-tab__precio { color: var(--crema); }
+  .combos__escena { min-width: 0; }
+  .vitrina__slide.cmb { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--e-5); align-items: center; padding: 0; background: none; border: 0; border-radius: 0; }
+  .vitrina__slide.cmb[hidden] { display: none; }
+  .cmb.entra .cmb__plato { animation: llega-plato 0.5s var(--ease); }
+  .cmb__foto { position: relative; width: min(100%, 420px); aspect-ratio: 1.1; justify-self: center; }
+  .cmb__plato { position: absolute; left: 0; top: 0; width: 86%; aspect-ratio: 1; object-fit: contain; filter: drop-shadow(0 16px 16px rgb(13 9 25 / 0.45)); }
+  .cmb__bebida { position: absolute; right: 0; bottom: 0; height: 64%; width: auto; filter: drop-shadow(6px 10px 8px rgb(13 9 25 / 0.4)); }
+  .cmb__cuenta.combo-panel { width: 100%; justify-self: stretch; display: grid; gap: var(--e-3); }
+  .cmb__nombre { font-size: clamp(2rem, 1.5rem + 2vw, 3rem); --n: var(--noche); }
+  .cmb__lineas { display: grid; gap: var(--e-2); padding: 0; margin: 0; list-style: none; font-weight: 800; font-size: var(--t-1); }
+  .cmb__lineas li { display: flex; align-items: baseline; gap: var(--e-2); }
+  .cmb__lineas i { flex: 1; min-width: 12px; border-bottom: 2.5px dotted color-mix(in srgb, var(--noche) 45%, transparent); translate: 0 -4px; }
+  .cmb__lineas b { font-weight: 900; font-variant-numeric: tabular-nums; }
+  .cmb__total { display: flex; align-items: baseline; justify-content: space-between; padding-top: var(--e-3); border-top: 2px solid var(--noche); }
+  .cmb__total .plana { font-size: var(--t-2); }
+  .cmb__total b { font: 400 clamp(2.2rem, 1.8rem + 1.6vw, 3rem)/1 var(--f-letrero); font-variant-numeric: tabular-nums; }
+  .cmb__barra { display: flex; align-items: center; gap: var(--e-3); margin-top: var(--e-2); }
+  .cmb__barra .contador { border-color: var(--noche); }
+  .cmb__agregar { flex: 1; background: var(--noche); color: var(--crema); }
+  .cmb__agregar:hover { box-shadow: 5px 7px 0 var(--uva); }
+  @media (min-width: 760px) {
+    .vitrina__slide.cmb { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--e-6); }
+  }
+  @media (min-width: 1100px) {
+    .combos__in { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: var(--e-7); align-items: center; padding-block: var(--e-6) var(--e-7); }
+  }
+  @media (max-width: 520px) {
+    .cmb__foto { width: min(100%, 320px); }
+    .cmb-tab__tx b { font-size: 1.3rem; }
+  }
+}
+@layer components {
+  .portada__donde { box-shadow: none; border: 0; background: none; padding: 0; }
+  .portada__plato::before { display: none; }
+  @media (min-width: 900px) { .portada__plato { width: min(46vw, 640px); } }
+  @media (min-width: 900px) {
+    .recomendados__cab { grid-template-columns: minmax(0, 1fr); }
+    .recomendados__cab p { justify-self: start; text-align: left; max-width: 44ch; }
+  }
+}
+@layer components {
+  /* pie de foto debajo del plato, nunca encima de la comida */
+  .portada__foto-pie { position: relative; left: auto; bottom: auto; margin: var(--e-2) 0 0 8%; }
+  @media (max-width: 899px) {
+    .portada__titulo { font-size: clamp(2.6rem, 10.8vw, 5.6rem); }
+    .portada__plato { margin-top: -3vw; width: min(88vw, 460px); }
+    .estrella__foto { width: min(84%, 320px); }
+  }
+  @media (max-width: 560px) {
+    .renglon { grid-template-columns: 56px minmax(0, 1fr); gap: var(--e-3); }
+    .renglon__n { display: none; }
+    .renglon__foto { width: 56px; }
+    .renglon__linea { flex-wrap: wrap; column-gap: var(--e-2); row-gap: 2px; }
+    .renglon__linea b { font-size: 1.15rem; overflow-wrap: anywhere; }
+    .renglon__linea i { min-width: 8px; }
+    .renglon__precio { font-size: 1.1rem; }
+  }
+}
