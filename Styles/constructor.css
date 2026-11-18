@@ -534,3 +534,7 @@
   .bordes .op .pr:empty { display: block; visibility: hidden; }
   .bordes .op em img { width: 92%; height: 92%; }
 }
+/* v79: pepperoni y chorizo con dibujo propio en vez de emoji, del mismo tamaño que los emojis */
+@layer components {
+  .opts-ex .op em img.dibujo { width: 60%; height: 60%; object-fit: contain; }
+}
